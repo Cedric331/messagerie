@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Auth;
 class MessageController extends Controller
 {
 
-   public function index()
+   public function index(Request $request)
    {
-      $data = Message::orderBy('id', 'DESC')->limit(5)->get();
+      $data = Message::orderBy('id', 'DESC')->limit($request->count)->get();
 
       return response()->json($data, 200);
    }
@@ -29,7 +29,7 @@ class MessageController extends Controller
 
       broadcast(new MessageSent($user, $message))->toOthers();
       
-      $data = Message::orderBy('id', 'DESC')->limit(5)->get();
+      $data =  Message::orderBy('id', 'DESC')->limit(5)->get();
       return response()->json($data, 200);
    }
 }

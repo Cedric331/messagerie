@@ -1866,24 +1866,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     post: _PostMessage__WEBPACK_IMPORTED_MODULE_0__.default
   },
-  props: ['messages'],
   data: function data() {
     return {
-      allMessages: this.messages
+      allMessages: this.messages,
+      count: 7
     };
   },
   methods: {
@@ -1899,7 +1890,9 @@ __webpack_require__.r(__webpack_exports__);
     fetchMessages: function fetchMessages() {
       var _this2 = this;
 
-      axios.get('/fetch/message').then(function (response) {
+      axios.post('/fetch/message', {
+        count: this.count
+      }).then(function (response) {
         _this2.allMessages = response.data.reverse();
       });
     }
@@ -1911,6 +1904,12 @@ __webpack_require__.r(__webpack_exports__);
     Echo["private"]('chat').listen('MessageSent', function (e) {
       _this3.fetchMessages();
     });
+  },
+  mounted: function mounted() {
+    setTimeout(function () {
+      var container = document.querySelector("#scroll");
+      container.scrollTop = 80;
+    }, 100);
   }
 });
 
@@ -1927,7 +1926,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
 //
 //
 //
@@ -43687,44 +43685,35 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container my-5 py-5 px-md-5 z-depth-1" },
+    { staticClass: "p-3" },
     [
       _c(
-        "section",
-        { staticClass: "text-center text-lg-left dark-grey-text" },
-        [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("div", { staticClass: "media d-block d-md-flex mt-4" }, [
-            _c(
-              "div",
-              {
-                staticClass: "media-body text-center text-md-left ml-md-3 ml-0"
-              },
-              _vm._l(_vm.allMessages, function(message) {
-                return _c("div", { key: message.id }, [
-                  _c("p", { staticClass: "font-weight-bold my-0" }, [
-                    _vm._v(
-                      "\n                  " +
-                        _vm._s(message.user.name) +
-                        "\n                  "
-                    ),
-                    _vm._m(1, true)
-                  ]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v(
-                      "\n                   " +
-                        _vm._s(message.message) +
-                        "\n                "
-                    )
-                  ])
+        "ul",
+        { staticClass: "chat panel-body", attrs: { id: "scroll" } },
+        _vm._l(_vm.allMessages, function(message) {
+          return _c("li", { key: message.id, staticClass: "left clearfix" }, [
+            _c("div", { staticClass: "chat-body clearfix" }, [
+              _c("div", { staticClass: "header" }, [
+                _c("strong", { staticClass: "primary-font" }, [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(message.user.name) +
+                      "\n                    "
+                  )
                 ])
-              }),
-              0
-            )
+              ]),
+              _vm._v(" "),
+              _c("p", [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(message.message) +
+                    "\n                "
+                )
+              ])
+            ])
           ])
-        ]
+        }),
+        0
       ),
       _vm._v(" "),
       _c("post", { on: { messagesent: _vm.addMessage } })
@@ -43732,25 +43721,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center font-weight-bold" }, [
-      _c("span", [_vm._v("4")]),
-      _vm._v(" comments")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "pull-right ml-1", attrs: { href: "" } }, [
-      _c("i", { staticClass: "fas fa-reply" })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -43774,9 +43745,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "form-group mt-4 container" }, [
-      _c("label", { attrs: { for: "message" } }, [_vm._v("Votre message")]),
-      _vm._v(" "),
+    _c("div", { staticClass: "form-group mt-2" }, [
       _c("textarea", {
         directives: [
           {
@@ -43786,8 +43755,8 @@ var render = function() {
             expression: "newMessage"
           }
         ],
-        staticClass: "form-control",
-        attrs: { rows: "5" },
+        staticClass: "form-control z-depth-1",
+        attrs: { rows: "3", placeholder: "Votre message..." },
         domProps: { value: _vm.newMessage },
         on: {
           input: function($event) {
@@ -43797,20 +43766,18 @@ var render = function() {
             _vm.newMessage = $event.target.value
           }
         }
-      }),
-      _vm._v(" "),
-      _c("div", { staticClass: "text-center my-4" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-info btn-sm",
-            attrs: { type: "button" },
-            on: { click: _vm.sendMessage }
-          },
-          [_vm._v("Poster")]
-        )
-      ])
-    ])
+      })
+    ]),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-primary",
+        attrs: { id: "btn-chat" },
+        on: { click: _vm.sendMessage }
+      },
+      [_vm._v("\n          Poster\n      ")]
+    )
   ])
 }
 var staticRenderFns = []

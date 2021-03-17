@@ -1,6 +1,9 @@
 @extends('layouts.app')
    
 @section('content')
-   <messagerie :messages="{{ $messages }}"></messagerie>
+   <div class="container m-auto chat">
+      <messagerie></messagerie>
+   </div>
+   
 @endsection
 

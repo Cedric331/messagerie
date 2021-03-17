@@ -21,5 +21,5 @@ Auth::routes();
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::post('/message/post', [MessageController::class, 'store']);
-Route::get('/fetch/message', [MessageController::class, 'index']);
+Route::post('/fetch/message', [MessageController::class, 'index']);
 

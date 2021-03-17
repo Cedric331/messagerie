@@ -1,13 +1,12 @@
 <template>
-<div>
-      <div class="form-group mt-4 container">
-        <label for="message">Votre message</label>
-        <textarea class="form-control" v-model="newMessage" rows="5"></textarea>
-        <div class="text-center my-4">
-          <button class="btn btn-info btn-sm" type="button" @click="sendMessage">Poster</button>
-        </div>
-      </div>
-</div>
+   <div>
+         <div class="form-group mt-2">
+           <textarea class="form-control z-depth-1" v-model="newMessage" rows="3" placeholder="Votre message..."></textarea>
+         </div>
+         <button class="btn btn-primary" id="btn-chat" @click="sendMessage">
+             Poster
+         </button>
+   </div>
 
 </template>
 

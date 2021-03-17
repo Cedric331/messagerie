@@ -4,7 +4,7 @@
 
     <section class="text-center text-lg-left dark-grey-text">
 
-        <div class="text-center font-weight-bold"><span>4</span> comments</div>
+        <div class="text-center font-weight-bold"><span>4</span> Messages</div>
 
         <div class="media d-block d-md-flex mt-4">
             <div class="media-body text-center text-md-left ml-md-3 ml-0">
@@ -30,5 +30,5 @@
     export default {
   props: ['messages'],
 
-    }
+   }
 </script>

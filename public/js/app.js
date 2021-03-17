@@ -1890,7 +1890,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Messagerie__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Messagerie */ "./resources/js/components/Messagerie.vue");
 //
 //
 //
@@ -1905,36 +1904,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['messages'],
-  components: {
-    discussion: _Messagerie__WEBPACK_IMPORTED_MODULE_0__.default
-  },
   data: function data() {
     return {
-      name: '',
-      message: '',
-      allMessages: this.messages.reverse()
+      newMessage: ''
     };
   },
   methods: {
-    post: function post() {
-      var _this = this;
-
-      axios.post('/message/post', {
-        name: this.name,
-        message: this.message
-      }).then(function (res) {
-        _this.name = '';
-        _this.message = '';
-        _this.allMessages = res.data.reverse();
-        console.log(_this.allMessages);
-      })["catch"](function (err) {});
+    sendMessage: function sendMessage() {
+      this.$emit('messagesent', {
+        message: this.newMessage
+      });
+      this.newMessage = '';
     }
   }
 });
@@ -1953,7 +1934,39 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js"
 Vue.component('messagerie', __webpack_require__(/*! ./components/Messagerie.vue */ "./resources/js/components/Messagerie.vue").default);
 Vue.component('post-message', __webpack_require__(/*! ./components/PostMessage.vue */ "./resources/js/components/PostMessage.vue").default);
 var app = new Vue({
-  el: '#app'
+  el: '#app',
+  data: {
+    messages: []
+  },
+  created: function created() {
+    var _this = this;
+
+    this.fetchMessages();
+    Echo["private"]('chat').listen('MessageSent', function (e) {
+      _this.messages.push({
+        message: e.message.message
+      });
+    });
+  },
+  methods: {
+    fetchMessages: function fetchMessages() {
+      var _this2 = this;
+
+      axios.get('/fetch/message').then(function (response) {
+        _this2.messages = response.data.reverse();
+      });
+    },
+    addMessage: function addMessage(message) {
+      var _this3 = this;
+
+      axios.post('/message/post', {
+        message: message.message
+      }).then(function (res) {
+        console.log(_this3.messages);
+        _this3.messages = res.data.reverse();
+      })["catch"](function (err) {});
+    }
+  }
 });
 
 /***/ }),
@@ -1999,8 +2012,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__.default({
   broadcaster: 'pusher',
-  key: "",
-  cluster: "mt1",
+  key: "059a8478ce9f43145887",
+  cluster: "eu",
   forceTLS: true
 });
 
@@ -43708,7 +43721,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "text-center font-weight-bold" }, [
       _c("span", [_vm._v("4")]),
-      _vm._v(" comments")
+      _vm._v(" Messages")
     ])
   },
   function() {
@@ -43742,75 +43755,45 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("discussion", { attrs: { messages: _vm.allMessages } }),
+  return _c("div", [
+    _c("div", { staticClass: "form-group mt-4 container" }, [
+      _c("label", { attrs: { for: "message" } }, [_vm._v("Votre message")]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group mt-4 container" }, [
-        _c("label", { attrs: { for: "name" } }, [_vm._v("Votre nom")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.name,
-              expression: "name"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { type: "text", id: "name" },
-          domProps: { value: _vm.name },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.name = $event.target.value
-            }
+      _c("textarea", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.newMessage,
+            expression: "newMessage"
           }
-        }),
-        _vm._v(" "),
-        _c("label", { attrs: { for: "message" } }, [_vm._v("Votre message")]),
-        _vm._v(" "),
-        _c("textarea", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.message,
-              expression: "message"
+        ],
+        staticClass: "form-control",
+        attrs: { rows: "5" },
+        domProps: { value: _vm.newMessage },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
             }
-          ],
-          staticClass: "form-control",
-          attrs: { rows: "5" },
-          domProps: { value: _vm.message },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.message = $event.target.value
-            }
+            _vm.newMessage = $event.target.value
           }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "text-center my-4" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-info btn-sm",
-              attrs: { type: "button" },
-              on: { click: _vm.post }
-            },
-            [_vm._v("Poster")]
-          )
-        ])
+        }
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "text-center my-4" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-info btn-sm",
+            attrs: { type: "button" },
+            on: { click: _vm.sendMessage }
+          },
+          [_vm._v("Poster")]
+        )
       ])
-    ],
-    1
-  )
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

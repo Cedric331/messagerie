@@ -1,6 +1,7 @@
 @extends('layouts.app')
    
 @section('content')
-   <post-message :messages="{{ $messages }}"></post-message>
+   <messagerie :messages="{{ $messages }}"></messagerie>
+   <post-message v-on:messagesent="addMessage"></post-message>
 @endsection
 

@@ -1957,13 +1957,10 @@ var app = new Vue({
       });
     },
     addMessage: function addMessage(message) {
-      var _this3 = this;
-
+      this.messages.push(message);
       axios.post('/message/post', {
         message: message.message
-      }).then(function (res) {
-        console.log(_this3.messages);
-        _this3.messages = res.data.reverse();
+      }).then(function (res) {// this.messages = res.data.reverse()
       })["catch"](function (err) {});
     }
   }

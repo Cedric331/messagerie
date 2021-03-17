@@ -28,8 +28,5 @@ class MessageController extends Controller
       $message->save();
 
       broadcast(new MessageSent($user, $message))->toOthers();
-      
-      $data = Message::orderBy('id', 'DESC')->limit(5)->get();
-      return response()->json($data, 200);
    }
 }

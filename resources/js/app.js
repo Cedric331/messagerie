@@ -17,9 +17,9 @@ const app = new Vue({
       this.fetchMessages();
       Echo.private('chat')
       .listen('MessageSent', (e) => {
-    this.messages.push({
-      message: e.message.message,
-         });
+         this.messages.push({
+            message: e.message.message,
+          });
       });
   },
 
@@ -31,11 +31,11 @@ const app = new Vue({
       },
 
       addMessage(message) {
+         this.messages.push(message);
           axios.post('/message/post',{
             message: message.message,
          }).then(res => {
-            console.log(this.messages)
-            this.messages = res.data.reverse()
+            // this.messages = res.data.reverse()
          }).catch(err => {
  
          })

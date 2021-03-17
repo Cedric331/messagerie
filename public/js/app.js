@@ -1845,6 +1845,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _PostMessage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PostMessage */ "./resources/js/components/PostMessage.vue");
 //
 //
 //
@@ -1873,8 +1874,44 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['messages']
+  components: {
+    post: _PostMessage__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  data: function data() {
+    return {
+      allMessages: this.messages
+    };
+  },
+  methods: {
+    addMessage: function addMessage(message) {
+      var _this = this;
+
+      axios.post('/message/post', {
+        message: message.message
+      }).then(function (res) {
+        _this.allMessages = res.data.reverse();
+      })["catch"](function (err) {});
+    },
+    fetchMessages: function fetchMessages() {
+      var _this2 = this;
+
+      axios.get('/fetch/message').then(function (response) {
+        _this2.allMessages = response.data.reverse();
+      });
+    }
+  },
+  props: ['messages'],
+  created: function created() {
+    var _this3 = this;
+
+    this.fetchMessages();
+    Echo["private"]('chat').listen('MessageSent', function (e) {
+      _this3.fetchMessages();
+    });
+  }
 });
 
 /***/ }),
@@ -1934,38 +1971,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js"
 Vue.component('messagerie', __webpack_require__(/*! ./components/Messagerie.vue */ "./resources/js/components/Messagerie.vue").default);
 Vue.component('post-message', __webpack_require__(/*! ./components/PostMessage.vue */ "./resources/js/components/PostMessage.vue").default);
 var app = new Vue({
-  el: '#app',
-  data: {
-    messages: []
-  },
-  created: function created() {
-    var _this = this;
-
-    this.fetchMessages();
-    Echo["private"]('chat').listen('MessageSent', function (e) {
-      _this.messages.push({
-        message: e.message.message
-      });
-    });
-  },
-  methods: {
-    fetchMessages: function fetchMessages() {
-      var _this2 = this;
-
-      axios.get('/fetch/message').then(function (response) {
-        _this2.messages = response.data.reverse();
-      });
-    },
-    addMessage: function addMessage(message) {
-      var _this3 = this;
-
-      axios.post('/message/post', {
-        message: message.message
-      }).then(function (res) {
-        _this3.messages = res.data.reverse();
-      })["catch"](function (err) {});
-    }
-  }
+  el: '#app'
 });
 
 /***/ }),
@@ -43679,39 +43685,52 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container my-5 py-5 px-md-5 z-depth-1" }, [
-    _c("section", { staticClass: "text-center text-lg-left dark-grey-text" }, [
-      _vm._m(0),
+  return _c(
+    "div",
+    { staticClass: "container my-5 py-5 px-md-5 z-depth-1" },
+    [
+      _c(
+        "section",
+        { staticClass: "text-center text-lg-left dark-grey-text" },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "media d-block d-md-flex mt-4" }, [
+            _c(
+              "div",
+              {
+                staticClass: "media-body text-center text-md-left ml-md-3 ml-0"
+              },
+              _vm._l(_vm.allMessages, function(message) {
+                return _c("div", { key: message.id }, [
+                  _c("p", { staticClass: "font-weight-bold my-0" }, [
+                    _vm._v(
+                      "\n                  " +
+                        _vm._s(message.name) +
+                        "\n                  "
+                    ),
+                    _vm._m(1, true)
+                  ]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v(
+                      "\n                   " +
+                        _vm._s(message.message) +
+                        "\n                "
+                    )
+                  ])
+                ])
+              }),
+              0
+            )
+          ])
+        ]
+      ),
       _vm._v(" "),
-      _c("div", { staticClass: "media d-block d-md-flex mt-4" }, [
-        _c(
-          "div",
-          { staticClass: "media-body text-center text-md-left ml-md-3 ml-0" },
-          _vm._l(_vm.messages, function(message) {
-            return _c("div", { key: message.id }, [
-              _c("p", { staticClass: "font-weight-bold my-0" }, [
-                _vm._v(
-                  "\n                  " +
-                    _vm._s(message.name) +
-                    "\n                  "
-                ),
-                _vm._m(1, true)
-              ]),
-              _vm._v(" "),
-              _c("p", [
-                _vm._v(
-                  "\n                   " +
-                    _vm._s(message.message) +
-                    "\n                "
-                )
-              ])
-            ])
-          }),
-          0
-        )
-      ])
-    ])
-  ])
+      _c("post", { on: { messagesent: _vm.addMessage } })
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {

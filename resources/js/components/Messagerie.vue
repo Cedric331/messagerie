@@ -8,7 +8,7 @@
 
         <div class="media d-block d-md-flex mt-4">
             <div class="media-body text-center text-md-left ml-md-3 ml-0">
-               <div v-for="message in messages" :key="message.id">
+               <div v-for="message in allMessages" :key="message.id">
                   <p class="font-weight-bold my-0">
                     {{ message.name }}
                     <a href="" class="pull-right ml-1">
@@ -23,11 +23,46 @@
             </div>
         </div>
     </section>
+    <post v-on:messagesent="addMessage"></post>
   </div>
 </template>
 
 <script>
+import post from './PostMessage'
     export default {
+      components: {
+          post
+       },
+  data () {
+    return {
+       allMessages: this.messages
+    }
+  },
+  methods: {
+         addMessage(message) {
+          axios.post('/message/post',{
+            message: message.message,
+         }).then(res => {
+            this.allMessages = res.data.reverse()
+         }).catch(err => {
+ 
+         })
+   },
+         fetchMessages() {
+          axios.get('/fetch/message').then(response => {
+              this.allMessages = response.data.reverse();
+          });
+      },
+  },
   props: ['messages'],
+
+    created() {
+      this.fetchMessages();
+      Echo.private('chat')
+      .listen('MessageSent', (e) => {
+         this.fetchMessages();
+      });
+  },
+
    }
 </script>

@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Message extends Model
+class ChannelUser extends Model
 {
     use HasFactory;
+
+    protected $table = ['channel_user'];
 
       /**
      * The attributes that are mass assignable.
@@ -15,9 +17,7 @@ class Message extends Model
      * @var array
      */
     protected $fillable = [
-      'message',
-      'read_at',
       'user_id',
-      'channel_id'
+      'channel_id',
   ];
 }

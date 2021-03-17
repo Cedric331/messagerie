@@ -10,7 +10,7 @@
             <div class="media-body text-center text-md-left ml-md-3 ml-0">
                <div v-for="message in allMessages" :key="message.id">
                   <p class="font-weight-bold my-0">
-                    {{ message.name }}
+                    {{ message.user.name }}
                     <a href="" class="pull-right ml-1">
                       <i class="fas fa-reply"></i>
                     </a>
@@ -33,6 +33,7 @@ import post from './PostMessage'
       components: {
           post
        },
+   props: ['messages'],
   data () {
     return {
        allMessages: this.messages
@@ -54,7 +55,6 @@ import post from './PostMessage'
           });
       },
   },
-  props: ['messages'],
 
     created() {
       this.fetchMessages();

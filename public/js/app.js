@@ -1880,6 +1880,7 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     post: _PostMessage__WEBPACK_IMPORTED_MODULE_0__.default
   },
+  props: ['messages'],
   data: function data() {
     return {
       allMessages: this.messages
@@ -1903,7 +1904,6 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  props: ['messages'],
   created: function created() {
     var _this3 = this;
 
@@ -43706,7 +43706,7 @@ var render = function() {
                   _c("p", { staticClass: "font-weight-bold my-0" }, [
                     _vm._v(
                       "\n                  " +
-                        _vm._s(message.name) +
+                        _vm._s(message.user.name) +
                         "\n                  "
                     ),
                     _vm._m(1, true)

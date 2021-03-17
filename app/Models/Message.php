@@ -9,6 +9,8 @@ class Message extends Model
 {
     use HasFactory;
 
+    protected $with = ['user'];
+
       /**
      * The attributes that are mass assignable.
      *
@@ -20,4 +22,9 @@ class Message extends Model
       'user_id',
       'channel_id'
   ];
+
+  public function user()
+  {
+     return $this->belongsTo(User::class);
+  }
 }

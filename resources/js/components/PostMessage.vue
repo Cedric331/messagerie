@@ -27,7 +27,7 @@ export default {
     return {
        name: '',
        message: '',
-       allMessages: this.messages
+       allMessages: this.messages.reverse()
     }
   },
   methods: {
@@ -38,7 +38,7 @@ export default {
         }).then(res => {
            this.name = ''
            this.message = ''
-           this.allMessages = res.data
+           this.allMessages = res.data.reverse()
            console.log(this.allMessages)
         }).catch(err => {
 

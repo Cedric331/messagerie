@@ -14,7 +14,7 @@ class MessageController extends Controller
        $message->message = $request->message;
        $message->save();
 
-       $data = Message::all();
+       $data = Message::orderBy('id', 'DESC')->limit(5)->get();
 
        return response()->json($data, 200);
     }

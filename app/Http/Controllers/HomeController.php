@@ -14,7 +14,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-      $messages = Message::all();
+      $messages = Message::orderBy('id', 'DESC')->limit(5)->get();
 
         return view('welcome',[
            'messages' => json_encode($messages)

@@ -1919,7 +1919,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       name: '',
       message: '',
-      allMessages: this.messages
+      allMessages: this.messages.reverse()
     };
   },
   methods: {
@@ -1930,7 +1930,9 @@ __webpack_require__.r(__webpack_exports__);
         name: this.name,
         message: this.message
       }).then(function (res) {
-        _this.allMessages = res.data;
+        _this.name = '';
+        _this.message = '';
+        _this.allMessages = res.data.reverse();
         console.log(_this.allMessages);
       })["catch"](function (err) {});
     }

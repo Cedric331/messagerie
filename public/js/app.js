@@ -1866,6 +1866,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -1874,7 +1875,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       allMessages: this.messages,
-      count: 7
+      count: 10
     };
   },
   methods: {
@@ -1895,6 +1896,10 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this2.allMessages = response.data.reverse();
       });
+    },
+    moreMessage: function moreMessage() {
+      this.count += 10;
+      this.fetchMessages();
     }
   },
   created: function created() {
@@ -1907,8 +1912,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     setTimeout(function () {
-      var container = document.querySelector("#scroll");
-      container.scrollTop = 80;
+      this.container = document.querySelector("#scroll");
+      container.scrollTop = 800;
+      this.height = container.scrollTop;
     }, 100);
   }
 });
@@ -43690,30 +43696,41 @@ var render = function() {
       _c(
         "ul",
         { staticClass: "chat panel-body", attrs: { id: "scroll" } },
-        _vm._l(_vm.allMessages, function(message) {
-          return _c("li", { key: message.id, staticClass: "left clearfix" }, [
-            _c("div", { staticClass: "chat-body clearfix" }, [
-              _c("div", { staticClass: "header" }, [
-                _c("strong", { staticClass: "primary-font" }, [
+        [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-outline-dark m-auto",
+              on: { click: _vm.moreMessage }
+            },
+            [_vm._v("Afficher plus de message")]
+          ),
+          _vm._v(" "),
+          _vm._l(_vm.allMessages, function(message) {
+            return _c("li", { key: message.id, staticClass: "left clearfix" }, [
+              _c("div", { staticClass: "chat-body clearfix" }, [
+                _c("div", { staticClass: "header" }, [
+                  _c("strong", { staticClass: "primary-font" }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(message.user.name) +
+                        "\n                    "
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("p", [
                   _vm._v(
-                    "\n                        " +
-                      _vm._s(message.user.name) +
-                      "\n                    "
+                    "\n                    " +
+                      _vm._s(message.message) +
+                      "\n                "
                   )
                 ])
-              ]),
-              _vm._v(" "),
-              _c("p", [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(message.message) +
-                    "\n                "
-                )
               ])
             ])
-          ])
-        }),
-        0
+          })
+        ],
+        2
       ),
       _vm._v(" "),
       _c("post", { on: { messagesent: _vm.addMessage } })

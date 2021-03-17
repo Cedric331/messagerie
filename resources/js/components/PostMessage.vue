@@ -24,7 +24,6 @@ export default {
                 this.$emit('messagesent', {
                     message: this.newMessage
                 });
-
                 this.newMessage = ''
             }
         }  

@@ -1957,10 +1957,12 @@ var app = new Vue({
       });
     },
     addMessage: function addMessage(message) {
-      this.messages.push(message);
+      var _this3 = this;
+
       axios.post('/message/post', {
         message: message.message
-      }).then(function (res) {// this.messages = res.data.reverse()
+      }).then(function (res) {
+        _this3.messages = res.data.reverse();
       })["catch"](function (err) {});
     }
   }
@@ -43718,7 +43720,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "text-center font-weight-bold" }, [
       _c("span", [_vm._v("4")]),
-      _vm._v(" Messages")
+      _vm._v(" comments")
     ])
   },
   function() {

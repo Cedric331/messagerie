@@ -31,11 +31,10 @@ const app = new Vue({
       },
 
       addMessage(message) {
-         this.messages.push(message);
           axios.post('/message/post',{
             message: message.message,
          }).then(res => {
-            // this.messages = res.data.reverse()
+            this.messages = res.data.reverse()
          }).catch(err => {
  
          })

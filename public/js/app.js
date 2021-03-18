@@ -1868,6 +1868,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['channel'],
@@ -43693,56 +43713,94 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "p-3" },
-    [
-      _c("h1", [_vm._v(_vm._s(_vm.channel.name))]),
-      _vm._v(" "),
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col-md-4 col-12" }, [
       _c(
         "ul",
-        { staticClass: "chat panel-body", attrs: { id: "scroll" } },
         [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-outline-dark m-auto",
-              on: { click: _vm.moreMessage }
-            },
-            [_vm._v("Afficher plus de message")]
-          ),
+          _c("h3", [_vm._v("Membres")]),
           _vm._v(" "),
-          _vm._l(_vm.allMessages, function(message) {
-            return _c("li", { key: message.id, staticClass: "left clearfix" }, [
-              _c("div", { staticClass: "chat-body clearfix" }, [
+          _vm._l(_vm.channel.user, function(user) {
+            return _c("li", { key: user.id }, [
+              _c("div", [
                 _c("div", { staticClass: "header" }, [
                   _c("strong", { staticClass: "primary-font" }, [
                     _vm._v(
-                      "\n                        " +
-                        _vm._s(message.user.name) +
-                        "\n                    "
+                      "\n                           " +
+                        _vm._s(user.name) +
+                        "\n                       "
                     )
                   ])
-                ]),
-                _vm._v(" "),
-                _c("p", [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(message.message) +
-                      "\n                "
-                  )
                 ])
               ])
             ])
           })
         ],
         2
-      ),
-      _vm._v(" "),
-      _c("post", { on: { messagesent: _vm.addMessage } })
-    ],
-    1
-  )
+      )
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "p-3 chat col-12 col-md-8" },
+      [
+        _c("h1", { staticClass: "text-center" }, [
+          _vm._v(_vm._s(_vm.channel.name))
+        ]),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _c(
+          "ul",
+          { staticClass: "panel-body", attrs: { id: "scroll" } },
+          [
+            _c("div", { staticClass: "text-center" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-outline-dark m-auto",
+                  on: { click: _vm.moreMessage }
+                },
+                [_vm._v("Afficher plus de message")]
+              )
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.allMessages, function(message) {
+              return _c(
+                "li",
+                { key: message.id, staticClass: "left clearfix" },
+                [
+                  _c("div", { staticClass: "chat-body clearfix" }, [
+                    _c("div", { staticClass: "header" }, [
+                      _c("strong", { staticClass: "primary-font" }, [
+                        _vm._v(
+                          "\n                           " +
+                            _vm._s(message.user.name) +
+                            "\n                       "
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm._v(
+                        "\n                       " +
+                          _vm._s(message.message) +
+                          "\n                   "
+                      )
+                    ])
+                  ])
+                ]
+              )
+            })
+          ],
+          2
+        ),
+        _vm._v(" "),
+        _c("post", { on: { messagesent: _vm.addMessage } })
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

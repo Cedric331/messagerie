@@ -1,7 +1,7 @@
 @extends('layouts.app')
    
 @section('content')
-   <div class="container m-auto chat">
+   <div class="container-fluid m-auto">
       <messagerie :channel="{{ $channel }}"></messagerie>
    </div>
    

@@ -1909,6 +1909,11 @@ __webpack_require__.r(__webpack_exports__);
         channel: this.channel.id
       }).then(function (res) {
         _this.allMessages = res.data.reverse();
+        setTimeout(function () {
+          this.container = document.querySelector("#scroll");
+          container.scrollTop = 800;
+          this.height = container.scrollTop;
+        }, 10);
       })["catch"](function (err) {});
     },
     fetchMessages: function fetchMessages() {
@@ -1939,7 +1944,7 @@ __webpack_require__.r(__webpack_exports__);
       this.container = document.querySelector("#scroll");
       container.scrollTop = 800;
       this.height = container.scrollTop;
-    }, 100);
+    }, 500);
   }
 });
 
@@ -43714,7 +43719,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-md-4 col-12" }, [
+    _c("div", { staticClass: "col-md-3 col-12" }, [
       _c(
         "ul",
         [
@@ -43742,7 +43747,7 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
-      { staticClass: "p-3 chat col-12 col-md-8" },
+      { staticClass: "p-3 chat col-12 col-md-9" },
       [
         _c("h1", { staticClass: "text-center" }, [
           _vm._v(_vm._s(_vm.channel.name))
@@ -43755,14 +43760,16 @@ var render = function() {
           { staticClass: "panel-body", attrs: { id: "scroll" } },
           [
             _c("div", { staticClass: "text-center" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-outline-dark m-auto",
-                  on: { click: _vm.moreMessage }
-                },
-                [_vm._v("Afficher plus de message")]
-              )
+              _vm.channel.messages.length > _vm.count
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-outline-dark m-auto",
+                      on: { click: _vm.moreMessage }
+                    },
+                    [_vm._v("Afficher plus de message")]
+                  )
+                : _vm._e()
             ]),
             _vm._v(" "),
             _vm._l(_vm.allMessages, function(message) {

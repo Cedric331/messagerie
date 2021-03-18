@@ -16,9 +16,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-
-        return view('welcome',[
-           'channels' => Auth::user()->channel
-        ]);
+      if (Auth::check()) {
+         return view('welcome',[
+            'channels' => Auth::user()->channel
+         ]);
+      }
+      return view('welcome');
     }
 }

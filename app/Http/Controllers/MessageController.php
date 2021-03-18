@@ -14,7 +14,7 @@ class MessageController extends Controller
 
    public function index($name)
    {
-      $channel = Channel::where('name', $name)->with('user')->first();
+      $channel = Channel::where('name', $name)->with(['user','messages'])->first();
 
       if (!Gate::check('channel-member', $channel)) {
          abort(403);

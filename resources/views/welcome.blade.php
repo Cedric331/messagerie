@@ -1,6 +1,7 @@
 @extends('layouts.app')
    
 @section('content')
+   @auth
    <div class="container">
       <ul>
          @foreach ($channels as $channel)
@@ -10,5 +11,6 @@
          @endforeach
       </ul>
    </div>
+   @endauth
 @endsection
 

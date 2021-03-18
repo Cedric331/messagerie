@@ -1,6 +1,6 @@
 <template>
 <div class="row">
-   <div class="col-md-4 col-12">
+   <div class="col-md-3 col-12">
       <ul>
          <h3>Membres</h3>
            <li v-for="user in channel.user" :key="user.id">
@@ -14,12 +14,12 @@
            </li>
        </ul>
    </div>
-   <div class="p-3 chat col-12 col-md-8">
+   <div class="p-3 chat col-12 col-md-9">
       <h1 class="text-center">{{channel.name}}</h1>
       <hr>
        <ul class="panel-body" id="scroll">
           <div class="text-center">
-              <button @click="moreMessage" class="btn btn-outline-dark m-auto">Afficher plus de message</button> 
+              <button v-if="channel.messages.length > count" @click="moreMessage" class="btn btn-outline-dark m-auto">Afficher plus de message</button> 
           </div>
            <li class="left clearfix" v-for="message in allMessages" :key="message.id">
                <div class="chat-body clearfix">
@@ -61,6 +61,11 @@ import post from './PostMessage'
             channel: this.channel.id
          }).then(res => {
             this.allMessages = res.data.reverse()
+               setTimeout(function() {
+                  this.container = document.querySelector("#scroll");
+                  container.scrollTop = 800;
+                  this.height = container.scrollTop
+                  }, 10);
          }).catch(err => {
  
          })
@@ -91,7 +96,7 @@ import post from './PostMessage'
       this.container = document.querySelector("#scroll");
       container.scrollTop = 800;
       this.height = container.scrollTop
-      }, 100);
+      }, 500);
   }
 
    }

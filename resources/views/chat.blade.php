@@ -1,6 +1,8 @@
 @extends('layouts.app')
    
 @section('content')
-   <messagerie :channel="{{ $channel }}" :messages="messages"></messagerie>
-   <post-message v-on:messagesent="addMessage" :channel="{{ $channel }}"></post-message>
+   <div class="container m-auto chat">
+      <messagerie :channel="{{ $channel }}"></messagerie>
+   </div>
+   
 @endsection

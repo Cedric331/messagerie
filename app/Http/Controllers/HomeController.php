@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Channel;
 use App\Models\Message;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,8 @@ class HomeController extends Controller
     public function index()
     {
 
-        return view('welcome');
+        return view('welcome',[
+           'channels' => Channel::all()
+        ]);
     }
 }

@@ -1867,8 +1867,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['channel'],
   components: {
     post: _PostMessage__WEBPACK_IMPORTED_MODULE_0__.default
   },
@@ -1883,7 +1885,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.post('/message/post', {
-        message: message.message
+        message: message.message,
+        channel: this.channel.id
       }).then(function (res) {
         _this.allMessages = res.data.reverse();
       })["catch"](function (err) {});
@@ -1892,7 +1895,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       axios.post('/fetch/message', {
-        count: this.count
+        count: this.count,
+        channel: this.channel.id
       }).then(function (response) {
         _this2.allMessages = response.data.reverse();
       });
@@ -43693,6 +43697,8 @@ var render = function() {
     "div",
     { staticClass: "p-3" },
     [
+      _c("h1", [_vm._v(_vm._s(_vm.channel.name))]),
+      _vm._v(" "),
       _c(
         "ul",
         { staticClass: "chat panel-body", attrs: { id: "scroll" } },

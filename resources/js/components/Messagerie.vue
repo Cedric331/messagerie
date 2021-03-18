@@ -1,5 +1,6 @@
 <template>
 <div class="p-3">
+   <h1>{{channel.name}}</h1>
     <ul class="chat panel-body" id="scroll">
          <button @click="moreMessage" class="btn btn-outline-dark m-auto">Afficher plus de message</button>
         <li class="left clearfix" v-for="message in allMessages" :key="message.id">
@@ -22,6 +23,8 @@
 <script>
 import post from './PostMessage'
     export default {
+  props: ['channel'],
+
       components: {
           post
        },
@@ -35,6 +38,7 @@ import post from './PostMessage'
          addMessage(message) {
           axios.post('/message/post',{
             message: message.message,
+            channel: this.channel.id
          }).then(res => {
             this.allMessages = res.data.reverse()
          }).catch(err => {
@@ -43,7 +47,8 @@ import post from './PostMessage'
    },
          fetchMessages() {
           axios.post('/fetch/message',{
-             count: this.count
+             count: this.count,
+             channel: this.channel.id
           }).then(response => {
               this.allMessages = response.data.reverse();
           });

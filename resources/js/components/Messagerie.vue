@@ -1,21 +1,10 @@
 <template>
-<div class="row">
-   <div class="col-md-3 col-12">
-      <ul>
-         <h3>Membres</h3>
-           <li v-for="user in channel.user" :key="user.id">
-               <div>
-                   <div class="header">
-                       <strong class="primary-font">
-                           {{ user.name }}
-                       </strong>
-                   </div>
-               </div>
-           </li>
-       </ul>
-   </div>
+<div>
+<search></search>
+   <div class="row">
+   <member :users="channel.user"></member>
    <div class="p-3 chat col-12 col-md-9">
-      <h1 class="text-center">{{channel.name}}</h1>
+      <h3 class="text-center">{{channel.name}}</h3>
       <hr>
        <ul class="panel-body" id="scroll">
           <div class="text-center">
@@ -37,16 +26,21 @@
 
        <post v-on:messagesent="addMessage"></post>
      </div>
+   </div>
 </div>
 </template>
 
 <script>
 import post from './PostMessage'
+import member from './MemberChat'
+import search from './SearchMember'
     export default {
   props: ['channel'],
 
       components: {
-          post
+          post,
+          member,
+          search
        },
   data () {
     return {

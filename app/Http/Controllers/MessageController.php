@@ -17,7 +17,7 @@ class MessageController extends Controller
       $channel = Channel::where('name', $name)->with(['user','messages'])->first();
 
       if (!Gate::check('channel-member', $channel)) {
-         abort(403);
+         return redirect()->route('home');
      }
 
       return view('chat',[
@@ -30,7 +30,7 @@ class MessageController extends Controller
       $channel = Channel::find($request->channel);
 
       if (!Gate::check('channel-member', $channel)) {
-         abort(403);
+         return redirect()->route('home');
      }
      
       $data = Message::where('channel_id',$request->channel )
@@ -47,7 +47,7 @@ class MessageController extends Controller
       $channel = Channel::find($request->channel);
 
       if (!Gate::check('channel-member', $channel)) {
-         abort(403);
+         return redirect()->route('home');
      }
 
       $message = new Message;

@@ -23,4 +23,9 @@ class Channel extends Model
   {
       return $this->hasMany(Message::class);
   }
+
+  public function user()
+  {
+      return $this->belongsToMany(User::class, 'channel_user');
+  }
 }

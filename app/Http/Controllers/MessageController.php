@@ -6,6 +6,7 @@ use App\Models\Channel;
 use App\Models\Message;
 use App\Events\MessageSent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
@@ -15,6 +16,10 @@ class MessageController extends Controller
    {
       $channel = Channel::where('name', $name)->first();
 
+      if (!Gate::check('channel-member', $channel)) {
+         abort(403);
+     }
+
       return view('chat',[
          'channel' => json_encode($channel)
       ]);
@@ -22,6 +27,12 @@ class MessageController extends Controller
 
    public function messages(Request $request)
    {
+      $channel = Channel::find($request->channel);
+
+      if (!Gate::check('channel-member', $channel)) {
+         abort(403);
+     }
+     
       $data = Message::where('channel_id',$request->channel )
                      ->orderBy('id', 'DESC')
                      ->limit($request->count)
@@ -33,15 +44,19 @@ class MessageController extends Controller
 
    public function store(Request $request)
    {
-      $user = Auth::user();
+      $channel = Channel::find($request->channel);
+
+      if (!Gate::check('channel-member', $channel)) {
+         abort(403);
+     }
 
       $message = new Message;
-      $message->user_id = $user->id;
-      $message->channel_id = $request->channel;
+      $message->user_id = Auth::user()->id;
+      $message->channel_id = $channel->id;
       $message->message = $request->message;
       $message->save();
 
-      broadcast(new MessageSent($user, $message))->toOthers();
+      broadcast(new MessageSent(Auth::user(), $message))->toOthers();
       
       $data = Message::where('channel_id',$request->channel )
       ->orderBy('id', 'DESC')

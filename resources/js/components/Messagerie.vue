@@ -1,8 +1,7 @@
 <template>
 <div>
-<search></search>
    <div class="row">
-   <member :users="channel.user"></member>
+   <member :channel="channel"></member>
    <div class="p-3 chat col-12 col-md-9">
       <h3 class="text-center">{{channel.name}}</h3>
       <hr>
@@ -33,14 +32,12 @@
 <script>
 import post from './PostMessage'
 import member from './MemberChat'
-import search from './SearchMember'
     export default {
   props: ['channel'],
 
       components: {
           post,
-          member,
-          search
+          member
        },
   data () {
     return {

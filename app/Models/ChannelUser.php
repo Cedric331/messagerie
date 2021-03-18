@@ -9,8 +9,6 @@ class ChannelUser extends Model
 {
     use HasFactory;
 
-    protected $table = ['channel_user'];
-
       /**
      * The attributes that are mass assignable.
      *

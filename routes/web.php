@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\MessageController;
 
 /*
@@ -24,3 +25,5 @@ Route::get('/chat/{channel}', [MessageController::class, 'index'])->name('chat')
 Route::post('/message/post', [MessageController::class, 'store']);
 Route::post('/fetch/message', [MessageController::class, 'messages']);
 
+Route::post('/member/search', [ChannelController::class, 'member']);
+Route::post('/member/add', [ChannelController::class, 'addMember']);

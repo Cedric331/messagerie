@@ -13,10 +13,10 @@ class CreateChannelUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('channel_user', function (Blueprint $table) {
+        Schema::create('channel_users', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('channel_id');
-            $table->foreign('channel_id')->references('id')->on('channels')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('channel_id')->references('id')->on('channels')->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
@@ -30,6 +30,6 @@ class CreateChannelUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('channel_user');
+        Schema::dropIfExists('channel_users');
     }
 }

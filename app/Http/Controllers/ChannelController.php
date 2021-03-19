@@ -17,7 +17,7 @@ class ChannelController extends Controller
 
    public function member(Request $request)
    {
-      $members = User::where('name', 'like', '%'.$request->search.'%')
+      $members = User::where('name', 'like', $request->search.'%')
       ->limit(5)
       ->get();
 

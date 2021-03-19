@@ -1,6 +1,6 @@
 <template>
 <div class="mt-5">
-   <div class="col-8 m-auto">
+   <div class="col-md-8 col-sm-12 m-auto">
          <div v-if="!save" class="card">
              <h1 class="card-header text-center">Création Discussion</h1>
              <div class="card-body">

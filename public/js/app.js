@@ -2217,6 +2217,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2228,11 +2233,15 @@ __webpack_require__.r(__webpack_exports__);
     searchMember: function searchMember() {
       var _this = this;
 
-      axios.post('/member/search', {
-        search: this.search
-      }).then(function (res) {
-        _this.users = res.data;
-      })["catch"](function (err) {});
+      this.search = this.search.replace(/ /g, "");
+
+      if (this.search != '') {
+        axios.post('/member/search', {
+          search: this.search
+        }).then(function (res) {
+          _this.users = res.data;
+        })["catch"](function (err) {});
+      }
     },
     addMember: function addMember(user) {
       this.$emit('adduser', {
@@ -44263,7 +44272,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "mt-5" }, [
-    _c("div", { staticClass: "col-8 m-auto" }, [
+    _c("div", { staticClass: "col-md-8 col-sm-12 m-auto" }, [
       !_vm.save
         ? _c("div", { staticClass: "card" }, [
             _c("h1", { staticClass: "card-header text-center" }, [
@@ -44549,7 +44558,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "col-md-3 col-12 p-3" },
+    { staticClass: "col-md-3 col-12 p-3 bg-light" },
     [
       _c("search", { staticClass: "mb-2", on: { adduser: _vm.addMember } }),
       _vm._v(" "),
@@ -44605,13 +44614,13 @@ var render = function() {
   return _c("div", [
     _c(
       "div",
-      { staticClass: "row" },
+      { staticClass: "row mt-3 d-flex justify-content-around" },
       [
         _c("member", { attrs: { channel: _vm.channel } }),
         _vm._v(" "),
         _c(
           "div",
-          { staticClass: "p-3 chat col-12 col-md-9" },
+          { staticClass: "p-3 chat col-12 col-md-8 bg-light" },
           [
             _c("h3", { staticClass: "text-center" }, [
               _vm._v(_vm._s(_vm.channel.name))
@@ -44782,6 +44791,32 @@ var render = function() {
       }
     }),
     _vm._v(" "),
+    _vm.search != "" && _vm.users.length > 0
+      ? _c(
+          "div",
+          { staticClass: "dropdown-list" },
+          _vm._l(_vm.users, function(user) {
+            return _c("div", { key: user.id, staticClass: "dropdown-item" }, [
+              _vm._v("\n         " + _vm._s(user.name) + " - "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary btn-sm",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      return _vm.addMember(user.id)
+                    }
+                  }
+                },
+                [_vm._v("Inviter")]
+              )
+            ])
+          }),
+          0
+        )
+      : _vm._e(),
+    _vm._v(" "),
     _c(
       "div",
       {
@@ -44789,31 +44824,17 @@ var render = function() {
           {
             name: "show",
             rawName: "v-show",
-            value: _vm.search != "" && _vm.users.length > 0,
-            expression: "search != '' && users.length > 0"
+            value: _vm.search != "" && _vm.users.length == 0,
+            expression: "search != '' && users.length == 0"
           }
         ],
         staticClass: "dropdown-list"
       },
-      _vm._l(_vm.users, function(user) {
-        return _c("div", { key: user.id, staticClass: "dropdown-item" }, [
-          _vm._v("\n         " + _vm._s(user.name) + " - "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-primary btn-sm",
-              attrs: { type: "button" },
-              on: {
-                click: function($event) {
-                  return _vm.addMember(user.id)
-                }
-              }
-            },
-            [_vm._v("Inviter")]
-          )
+      [
+        _c("div", { staticClass: "dropdown-item" }, [
+          _vm._v("\n          Aucun utilisateur trouvé\n      ")
         ])
-      }),
-      0
+      ]
     )
   ])
 }

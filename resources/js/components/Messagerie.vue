@@ -1,8 +1,8 @@
 <template>
 <div>
-   <div class="row">
+   <div class="row mt-3 d-flex justify-content-around">
    <member :channel="channel"></member>
-   <div class="p-3 chat col-12 col-md-9">
+   <div class="p-3 chat col-12 col-md-8 bg-light">
       <h3 class="text-center">{{channel.name}}</h3>
       <hr>
        <ul class="panel-body" id="scroll">

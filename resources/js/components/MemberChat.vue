@@ -1,5 +1,5 @@
 <template>
-   <div class="col-md-3 col-12 p-3">
+   <div class="col-md-3 col-12 p-3 bg-light">
       <search class="mb-2" v-on:adduser="addMember"></search>
       <h3>Membres du {{channel.name}}</h3>
       <hr>

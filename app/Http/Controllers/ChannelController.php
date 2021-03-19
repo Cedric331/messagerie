@@ -50,6 +50,11 @@ class ChannelController extends Controller
       $channel->user_id = Auth::user()->id;
       $channel->save();
 
+      ChannelUser::create([
+         'user_id' => Auth::user()->id,
+         'channel_id' => $channel->id,
+     ]);
+
       return response()->json(null, 200);
    }
 }

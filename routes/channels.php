@@ -18,5 +18,7 @@ use Illuminate\Support\Facades\Broadcast;
 
 
 Broadcast::channel('chat.{channel}', function ($user, Channel $channel) {
-   return Auth::check() && $channel->user->contains($user->id);
+    if(Auth::check() && $channel->user->contains($user->id)){
+      return ['id' => $user->id, 'name' => $user->name];
+    };
  });

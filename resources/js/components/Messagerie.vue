@@ -1,7 +1,7 @@
 <template>
 <div>
    <div class="row mt-3 d-flex justify-content-around">
-   <member :channel="channel"></member>
+   <member :members="members" :channel="channel" :key="members.length"></member>
    <div class="p-3 chat col-12 col-md-8 bg-light">
       <h3 class="text-center">{{channel.name}}</h3>
       <hr>
@@ -42,7 +42,8 @@ import member from './MemberChat'
   data () {
     return {
        allMessages: this.messages,
-       count: 10
+       count: 10,
+       members: []
     }
   },
   methods: {
@@ -80,6 +81,24 @@ import member from './MemberChat'
       .listen('MessageSent', (e) => {
          this.fetchMessages();
       });
+      Echo.join('chat.'+this.channel.id)
+    .here((users) => {
+       this.members = users
+    })
+    .joining((user) => {
+
+          for(let i=0;i<=this.members.length;i++){
+                 if (this.members[i] == user) {
+                    return;
+                 }
+              }
+              this.members.push(user)
+    })
+    .leaving((user) => {
+         this.members = this.members.filter(function(item) { 
+             return item !== user
+         })
+    });
   },
 
   mounted(){

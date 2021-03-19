@@ -8,12 +8,28 @@
                <div>
                    <div class="header">
                        <strong class="primary-font">
-                           {{ user.name }}<em v-if="channel.user_id == user.id"> - admin</em>
+                           {{ user.name }}
+                           <em v-if="channel.user_id == user.id"> - admin</em>
                        </strong>
                    </div>
                </div>
            </li>
        </ul>
+
+      <h3>Membres connecté</h3>
+      <hr>
+      <ul>
+           <li v-for="user in members" :key="user.id">
+               <div>
+                   <div class="header">
+                       <strong class="primary-font">
+                           {{ user.name }}
+                       </strong>
+                   </div>
+               </div>
+           </li>
+       </ul>
+
    </div>
 </template>
 
@@ -35,13 +51,14 @@ export default {
   },
   data () {
     return {
-       users: this.channel.user
+       users: this.channel.user,
+       connection: this.members
     }
   },
    components: {
       search
    },
-  props: ['channel'],
+  props: ['channel','members'],
    
 }
 </script>

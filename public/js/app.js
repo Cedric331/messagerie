@@ -2015,6 +2015,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
@@ -2033,13 +2049,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      users: this.channel.user
+      users: this.channel.user,
+      connection: this.members
     };
   },
   components: {
     search: _SearchMember__WEBPACK_IMPORTED_MODULE_0__.default
   },
-  props: ['channel']
+  props: ['channel', 'members']
 });
 
 /***/ }),
@@ -2099,7 +2116,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       allMessages: this.messages,
-      count: 10
+      count: 10,
+      members: []
     };
   },
   methods: {
@@ -2139,6 +2157,21 @@ __webpack_require__.r(__webpack_exports__);
     this.fetchMessages();
     Echo["private"]('chat.' + this.channel.id).listen('MessageSent', function (e) {
       _this3.fetchMessages();
+    });
+    Echo.join('chat.' + this.channel.id).here(function (users) {
+      _this3.members = users;
+    }).joining(function (user) {
+      for (var i = 0; i <= _this3.members.length; i++) {
+        if (_this3.members[i] == user) {
+          return;
+        }
+      }
+
+      _this3.members.push(user);
+    }).leaving(function (user) {
+      _this3.members = _this3.members.filter(function (item) {
+        return item !== user;
+      });
     });
   },
   mounted: function mounted() {
@@ -44573,10 +44606,38 @@ var render = function() {
             _c("div", [
               _c("div", { staticClass: "header" }, [
                 _c("strong", { staticClass: "primary-font" }, [
-                  _vm._v("\n                        " + _vm._s(user.name)),
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(user.name) +
+                      "\n                        "
+                  ),
                   _vm.channel.user_id == user.id
                     ? _c("em", [_vm._v(" - admin")])
                     : _vm._e()
+                ])
+              ])
+            ])
+          ])
+        }),
+        0
+      ),
+      _vm._v(" "),
+      _c("h3", [_vm._v("Membres connecté")]),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c(
+        "ul",
+        _vm._l(_vm.members, function(user) {
+          return _c("li", { key: user.id }, [
+            _c("div", [
+              _c("div", { staticClass: "header" }, [
+                _c("strong", { staticClass: "primary-font" }, [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(user.name) +
+                      "\n                    "
+                  )
                 ])
               ])
             ])
@@ -44616,7 +44677,10 @@ var render = function() {
       "div",
       { staticClass: "row mt-3 d-flex justify-content-around" },
       [
-        _c("member", { attrs: { channel: _vm.channel } }),
+        _c("member", {
+          key: _vm.members.length,
+          attrs: { members: _vm.members, channel: _vm.channel }
+        }),
         _vm._v(" "),
         _c(
           "div",

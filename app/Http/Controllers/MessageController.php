@@ -47,7 +47,7 @@ class MessageController extends Controller
       $channel = Channel::find($request->channel);
 
       if (!Gate::check('channel-member', $channel)) {
-         return redirect()->route('home');
+         return response()->json('Action non autorisé', 401);
      }
 
       $message = new Message;
@@ -56,7 +56,7 @@ class MessageController extends Controller
       $message->message = $request->message;
       $message->save();
 
-      broadcast(new MessageSent(Auth::user(), $message))->toOthers();
+      broadcast(new MessageSent(Auth::user(), $message, $channel))->toOthers();
       
       $data = Message::where('channel_id',$request->channel )
       ->orderBy('id', 'DESC')

@@ -76,7 +76,7 @@ import member from './MemberChat'
   },
     created() {
       this.fetchMessages();
-      Echo.private('chat')
+      Echo.private('chat.'+this.channel.id)
       .listen('MessageSent', (e) => {
          this.fetchMessages();
       });

@@ -2137,7 +2137,7 @@ __webpack_require__.r(__webpack_exports__);
     var _this3 = this;
 
     this.fetchMessages();
-    Echo["private"]('chat').listen('MessageSent', function (e) {
+    Echo["private"]('chat.' + this.channel.id).listen('MessageSent', function (e) {
       _this3.fetchMessages();
     });
   },

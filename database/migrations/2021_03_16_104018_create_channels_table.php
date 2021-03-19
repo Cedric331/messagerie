@@ -16,7 +16,7 @@ class CreateChannelsTable extends Migration
         Schema::create('channels', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->boolean('statut')->default(true);
+            $table->boolean('private')->default(true);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

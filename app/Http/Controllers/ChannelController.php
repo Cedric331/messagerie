@@ -6,9 +6,15 @@ use App\Models\User;
 use App\Models\Channel;
 use App\Models\ChannelUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ChannelController extends Controller
 {
+   public function create()
+   {
+      return view('create-chat');
+   }
+
    public function member(Request $request)
    {
       $members = User::where('name', 'like', '%'.$request->search.'%')
@@ -34,5 +40,16 @@ class ChannelController extends Controller
      $channel->refresh();
          
      return response()->json($channel->user, 200);
+   }
+
+   public function store(Request $request)
+   {
+      $channel = new Channel;
+      $channel->name = $request->name;
+      $channel->private = $request->checked;
+      $channel->user_id = Auth::user()->id;
+      $channel->save();
+
+      return response()->json(null, 200);
    }
 }

@@ -22,7 +22,7 @@
                 <div class="col-md-6 col-xl-5 mb-4">
                     <div class="card">
                         <h1 class="card-header text-center">{{ __('Register') }}</h1>
-                        <div class="card-body" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="card-body">
                             <form method="POST" action="{{ route('register') }}">
                                 @csrf
                                 <div class="md-form">

@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div class="container mt-5">
    <div class="row">
       <div class="col-md-6">
             <div class="card bg-light">
@@ -15,6 +15,22 @@
                </div>
             </div>
       </div>
+
+            <div class="col-md-6">
+            <div class="card bg-light">
+               <div class="card-body">
+                 <h4 class="card-title text-center">Menu</h4>
+                  <hr>
+                   <ul class="cart-content">
+                      <li>
+                         <a href="/create" class="btn btn-primary">Créer un groupe de discussion</a>
+                      </li>
+                   </ul>
+
+               </div>
+            </div>
+      </div>
+
    </div>
 </div>
 </template>

@@ -45,7 +45,7 @@ export default {
         }).then(res => {
           this.users = res.data
         }).catch(err => {
-           console.log(err)
+           
         })
      }
   },

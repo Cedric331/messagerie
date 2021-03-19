@@ -29,7 +29,7 @@ class ChannelController extends Controller
       $channel = Channel::find($request->channel);
       
       if($channel->user->contains($request->user)){
-         return response()->json('utilisateur déjà présent', 401);
+         return response()->json('utilisateur déjà présent', 403);
       };
 
       ChannelUser::create([

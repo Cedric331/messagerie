@@ -2042,9 +2042,7 @@ __webpack_require__.r(__webpack_exports__);
         channel: this.channel.id
       }).then(function (res) {
         _this.users = res.data;
-      })["catch"](function (err) {
-        console.log(err);
-      });
+      })["catch"](function (err) {});
     }
   },
   data: function data() {
@@ -2161,12 +2159,11 @@ __webpack_require__.r(__webpack_exports__);
     Echo.join('chat.' + this.channel.id).here(function (users) {
       _this3.members = users;
     }).joining(function (user) {
-      for (var i = 0; i <= _this3.members.length; i++) {
-        if (_this3.members[i] == user) {
-          return;
-        }
-      }
-
+      //  for(let i=0;i<=this.members.length;i++){
+      //         if (this.members[i] == user) {
+      //            return;
+      //         }
+      //      }
       _this3.members.push(user);
     }).leaving(function (user) {
       _this3.members = _this3.members.filter(function (item) {

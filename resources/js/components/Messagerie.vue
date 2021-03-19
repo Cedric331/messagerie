@@ -87,11 +87,11 @@ import member from './MemberChat'
     })
     .joining((user) => {
 
-          for(let i=0;i<=this.members.length;i++){
-                 if (this.members[i] == user) {
-                    return;
-                 }
-              }
+         //  for(let i=0;i<=this.members.length;i++){
+         //         if (this.members[i] == user) {
+         //            return;
+         //         }
+         //      }
               this.members.push(user)
     })
     .leaving((user) => {

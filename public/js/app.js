@@ -1857,6 +1857,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
     linkChannel: function linkChannel(name) {
@@ -44075,28 +44084,41 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("h1", [_vm._v("Mes groupes de discussion")]),
-    _vm._v(" "),
-    _c(
-      "ul",
-      _vm._l(_vm.channels, function(channel) {
-        return _c("li", { key: channel.id }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-primary",
-              on: {
-                click: function($event) {
-                  return _vm.linkChannel(channel.name)
-                }
-              }
-            },
-            [_vm._v(_vm._s(channel.name))]
-          )
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("div", { staticClass: "card bg-light" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("h4", { staticClass: "card-title text-center" }, [
+              _vm._v("Mes groupes de discussion")
+            ]),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _c(
+              "ul",
+              { staticClass: "cart-content" },
+              _vm._l(_vm.channels, function(channel) {
+                return _c("li", { key: channel.id }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      on: {
+                        click: function($event) {
+                          return _vm.linkChannel(channel.name)
+                        }
+                      }
+                    },
+                    [_vm._v(_vm._s(channel.name))]
+                  )
+                ])
+              }),
+              0
+            )
+          ])
         ])
-      }),
-      0
-    )
+      ])
+    ])
   ])
 }
 var staticRenderFns = []
@@ -44139,11 +44161,10 @@ var render = function() {
             _c("div", [
               _c("div", { staticClass: "header" }, [
                 _c("strong", { staticClass: "primary-font" }, [
-                  _vm._v(
-                    "\n                        " +
-                      _vm._s(user.name) +
-                      "\n                    "
-                  )
+                  _vm._v("\n                        " + _vm._s(user.name)),
+                  _vm.channel.user_id == user.id
+                    ? _c("em", [_vm._v(" - admin")])
+                    : _vm._e()
                 ])
               ])
             ])

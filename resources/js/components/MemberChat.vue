@@ -8,7 +8,7 @@
                <div>
                    <div class="header">
                        <strong class="primary-font">
-                           {{ user.name }}
+                           {{ user.name }}<em v-if="channel.user_id == user.id"> - admin</em>
                        </strong>
                    </div>
                </div>

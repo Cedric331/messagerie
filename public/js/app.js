@@ -2103,10 +2103,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['channel'],
+  props: ['channel', 'user'],
   components: {
     post: _PostMessage__WEBPACK_IMPORTED_MODULE_0__.default,
     member: _MemberChat__WEBPACK_IMPORTED_MODULE_1__.default
@@ -2115,18 +2125,21 @@ __webpack_require__.r(__webpack_exports__);
     return {
       allMessages: this.messages,
       count: 10,
-      members: []
+      members: [],
+      typing: false,
+      other: ''
     };
   },
   methods: {
+    typingUser: function typingUser() {},
     addMessage: function addMessage(message) {
-      var _this = this;
+      var _this2 = this;
 
       axios.post('/message/post', {
         message: message.message,
         channel: this.channel.id
       }).then(function (res) {
-        _this.allMessages = res.data.reverse();
+        _this2.allMessages = res.data.reverse();
         setTimeout(function () {
           this.container = document.querySelector("#scroll");
           container.scrollTop = 800;
@@ -2135,13 +2148,13 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (err) {});
     },
     fetchMessages: function fetchMessages() {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.post('/fetch/message', {
         count: this.count,
         channel: this.channel.id
       }).then(function (response) {
-        _this2.allMessages = response.data.reverse();
+        _this3.allMessages = response.data.reverse();
       });
     },
     moreMessage: function moreMessage() {
@@ -2150,23 +2163,27 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    var _this3 = this;
+    var _this4 = this;
 
     this.fetchMessages();
+
+    var _this = this;
+
     Echo["private"]('chat.' + this.channel.id).listen('MessageSent', function (e) {
-      _this3.fetchMessages();
+      _this4.fetchMessages();
+    }).listenForWhisper('typing', function (e) {
+      _this4.typing = e.typing;
+      _this4.other = e.name;
+      setTimeout(function () {
+        _this.typing = false;
+      }, 1200);
     });
     Echo.join('chat.' + this.channel.id).here(function (users) {
-      _this3.members = users;
+      _this4.members = users;
     }).joining(function (user) {
-      //  for(let i=0;i<=this.members.length;i++){
-      //         if (this.members[i] == user) {
-      //            return;
-      //         }
-      //      }
-      _this3.members.push(user);
+      _this4.members.push(user);
     }).leaving(function (user) {
-      _this3.members = _this3.members.filter(function (item) {
+      _this4.members = _this4.members.filter(function (item) {
         return item !== user;
       });
     });
@@ -2207,6 +2224,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['channel', 'user'],
   data: function data() {
     return {
       newMessage: ''
@@ -2218,6 +2236,16 @@ __webpack_require__.r(__webpack_exports__);
         message: this.newMessage
       });
       this.newMessage = '';
+    },
+    isTyping: function isTyping() {
+      var _this = this;
+
+      setTimeout(function () {
+        Echo["private"]('chat.' + _this.channel.id).whisper('typing', {
+          typing: true,
+          name: _this.user.name
+        });
+      }, 600);
     }
   }
 });
@@ -44737,7 +44765,45 @@ var render = function() {
               2
             ),
             _vm._v(" "),
-            _c("post", { on: { messagesent: _vm.addMessage } })
+            _c(
+              "span",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.typing,
+                    expression: "typing"
+                  }
+                ]
+              },
+              [
+                _vm._v(
+                  "\n           " +
+                    _vm._s(_vm.other) +
+                    " écrit un message\n         "
+                ),
+                _c("div", {
+                  staticClass: "spinner-grow spinner-grow-sm",
+                  attrs: { role: "status" }
+                }),
+                _vm._v(" "),
+                _c("div", {
+                  staticClass: "spinner-grow spinner-grow-sm",
+                  attrs: { role: "status" }
+                }),
+                _vm._v(" "),
+                _c("div", {
+                  staticClass: "spinner-grow spinner-grow-sm",
+                  attrs: { role: "status" }
+                })
+              ]
+            ),
+            _vm._v(" "),
+            _c("post", {
+              attrs: { channel: _vm.channel, user: _vm.user },
+              on: { messagesent: _vm.addMessage }
+            })
           ],
           1
         )
@@ -44784,6 +44850,7 @@ var render = function() {
         attrs: { rows: "3", placeholder: "Votre message..." },
         domProps: { value: _vm.newMessage },
         on: {
+          keydown: _vm.isTyping,
           input: function($event) {
             if ($event.target.composing) {
               return

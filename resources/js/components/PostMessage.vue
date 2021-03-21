@@ -1,7 +1,7 @@
 <template>
    <div>
          <div class="form-group mt-2">
-           <textarea class="form-control z-depth-1" v-model="newMessage" rows="3" placeholder="Votre message..."></textarea>
+           <textarea class="form-control z-depth-1" @keydown="isTyping" v-model="newMessage" rows="3" placeholder="Votre message..."></textarea>
          </div>
          <button class="btn btn-primary" id="btn-chat" @click="sendMessage">
              Poster
@@ -13,9 +13,10 @@
 
 <script>
 export default {
+  props: ['channel', 'user'],
       data() {
             return {
-                newMessage: ''
+                newMessage: '',
             }
         },
         methods: {
@@ -24,7 +25,16 @@ export default {
                     message: this.newMessage
                 });
                 this.newMessage = ''
-            }
-        }  
+            },
+            isTyping() {
+                 setTimeout(() => {
+                 Echo.private('chat.'+this.channel.id)
+                 .whisper('typing', {
+                     typing: true,
+                     name: this.user.name
+                 });
+                 }, 600);
+               }
+        },
 }
 </script>

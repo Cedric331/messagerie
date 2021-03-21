@@ -22,8 +22,18 @@
                </div>
            </li>
        </ul>
+    
+        <span v-show="typing">
+           {{ other }} écrit un message
+         <div class="spinner-grow spinner-grow-sm" role="status">
+         </div>
+         <div class="spinner-grow spinner-grow-sm" role="status">
+         </div>
+         <div class="spinner-grow spinner-grow-sm" role="status">
+         </div>
+         </span>
 
-       <post v-on:messagesent="addMessage"></post>
+       <post :channel="channel" :user="user" v-on:messagesent="addMessage"></post>
      </div>
    </div>
 </div>
@@ -33,7 +43,7 @@
 import post from './PostMessage'
 import member from './MemberChat'
     export default {
-  props: ['channel'],
+  props: ['channel', 'user'],
 
       components: {
           post,
@@ -43,10 +53,15 @@ import member from './MemberChat'
     return {
        allMessages: this.messages,
        count: 10,
-       members: []
+       members: [],
+       typing: false,
+       other: ''
     }
   },
   methods: {
+     typingUser(){
+
+     },
          addMessage(message) {
           axios.post('/message/post',{
             message: message.message,
@@ -77,22 +92,26 @@ import member from './MemberChat'
   },
     created() {
       this.fetchMessages();
+       let _this = this;
       Echo.private('chat.'+this.channel.id)
       .listen('MessageSent', (e) => {
          this.fetchMessages();
-      });
-      Echo.join('chat.'+this.channel.id)
-    .here((users) => {
-       this.members = users
-    })
-    .joining((user) => {
+      })  
+      .listenForWhisper('typing', (e) => {
+        this.typing = e.typing
+        this.other = e.name
 
-         //  for(let i=0;i<=this.members.length;i++){
-         //         if (this.members[i] == user) {
-         //            return;
-         //         }
-         //      }
-              this.members.push(user)
+         setTimeout(function() {
+            _this.typing = false
+            }, 1200);
+      });
+
+      Echo.join('chat.'+this.channel.id)
+         .here((users) => {
+       this.members = users
+      })
+         .joining((user) => {
+         this.members.push(user)
     })
     .leaving((user) => {
          this.members = this.members.filter(function(item) { 

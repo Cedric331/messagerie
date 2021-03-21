@@ -1,13 +1,12 @@
 <template>
-   <div>
-         <div class="form-group mt-2">
-           <textarea class="form-control z-depth-1" @keydown="isTyping" v-model="newMessage" rows="3" placeholder="Votre message..."></textarea>
-         </div>
-         <button class="btn btn-primary" id="btn-chat" @click="sendMessage">
-             Poster
-         </button>
-   </div>
-
+   <div class="flex-grow-0 py-3 px-4 border-top">
+		<div class="input-group">
+			<input type="text" class="form-control" @keydown="isTyping" v-model="newMessage" placeholder="Votre message...">
+			   <button class="btn btn-primary" id="btn-chat" @click="sendMessage">
+                Poster
+            </button>
+		</div>
+	</div>
 </template>
 
 

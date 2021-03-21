@@ -2031,6 +2031,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
@@ -2113,6 +2120,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2131,7 +2147,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    typingUser: function typingUser() {},
     addMessage: function addMessage(message) {
       var _this2 = this;
 
@@ -2140,11 +2155,8 @@ __webpack_require__.r(__webpack_exports__);
         channel: this.channel.id
       }).then(function (res) {
         _this2.allMessages = res.data.reverse();
-        setTimeout(function () {
-          this.container = document.querySelector("#scroll");
-          container.scrollTop = 800;
-          this.height = container.scrollTop;
-        }, 10);
+
+        _this2.scroll();
       })["catch"](function (err) {});
     },
     fetchMessages: function fetchMessages() {
@@ -2160,6 +2172,12 @@ __webpack_require__.r(__webpack_exports__);
     moreMessage: function moreMessage() {
       this.count += 10;
       this.fetchMessages();
+    },
+    scroll: function scroll() {
+      setTimeout(function () {
+        this.container = document.querySelector("#scroll");
+        container.scrollTop = container.scrollHeight;
+      }, 500);
     }
   },
   created: function created() {
@@ -2189,11 +2207,7 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   mounted: function mounted() {
-    setTimeout(function () {
-      this.container = document.querySelector("#scroll");
-      container.scrollTop = 800;
-      this.height = container.scrollTop;
-    }, 500);
+    this.scroll();
   }
 });
 
@@ -2210,7 +2224,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
 //
 //
 //
@@ -2263,6 +2276,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -44616,65 +44637,125 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "col-md-3 col-12 p-3 bg-light" },
+    { staticClass: "col-12 col-lg-5 col-xl-3 border-right" },
     [
-      _c("search", { staticClass: "mb-2", on: { adduser: _vm.addMember } }),
+      _c("search", { on: { adduser: _vm.addMember } }),
       _vm._v(" "),
-      _c("h3", [_vm._v("Membres du " + _vm._s(_vm.channel.name))]),
+      _c("h3", { staticClass: "text-center" }, [_vm._v("Membres connecté")]),
       _vm._v(" "),
       _c("hr"),
       _vm._v(" "),
-      _c(
-        "ul",
-        _vm._l(_vm.users, function(user) {
-          return _c("li", { key: user.id }, [
-            _c("div", [
-              _c("div", { staticClass: "header" }, [
-                _c("strong", { staticClass: "primary-font" }, [
+      _vm._l(_vm.members, function(user) {
+        return _c("div", { key: user.id }, [
+          _c(
+            "a",
+            {
+              staticClass: "list-group-item list-group-item-action border-0",
+              attrs: { href: "#" }
+            },
+            [
+              _c("div", { staticClass: "badge bg-success float-right" }, [
+                _vm._v("5")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "d-flex align-items-start" }, [
+                _c("img", {
+                  staticClass: "rounded-circle mr-1",
+                  attrs: {
+                    src: "https://bootdey.com/img/Content/avatar/avatar5.png",
+                    alt: "Vanessa Tucker",
+                    width: "40",
+                    height: "40"
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "flex-grow-1 ml-3" }, [
                   _vm._v(
-                    "\n                        " +
+                    "\n                    " +
                       _vm._s(user.name) +
-                      "\n                        "
+                      "\n                    "
+                  ),
+                  _vm._m(0, true)
+                ])
+              ])
+            ]
+          )
+        ])
+      }),
+      _vm._v(" "),
+      _c("h3", { staticClass: "text-center" }, [
+        _vm._v("Membres de " + _vm._s(_vm.channel.name))
+      ]),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _vm._l(_vm.users, function(user) {
+        return _c("div", { key: user.name }, [
+          _c(
+            "a",
+            {
+              staticClass: "list-group-item list-group-item-action border-0",
+              attrs: { href: "#" }
+            },
+            [
+              _c("div", { staticClass: "badge bg-success float-right" }, [
+                _vm._v("5")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "d-flex align-items-start" }, [
+                _c("img", {
+                  staticClass: "rounded-circle mr-1",
+                  attrs: {
+                    src: "https://bootdey.com/img/Content/avatar/avatar5.png",
+                    alt: "Vanessa Tucker",
+                    width: "40",
+                    height: "40"
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "flex-grow-1 ml-3" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(user.name) +
+                      "\n                    "
                   ),
                   _vm.channel.user_id == user.id
                     ? _c("em", [_vm._v(" - admin")])
-                    : _vm._e()
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm._m(1, true)
                 ])
               ])
-            ])
-          ])
-        }),
-        0
-      ),
+            ]
+          )
+        ])
+      }),
       _vm._v(" "),
-      _c("h3", [_vm._v("Membres connecté")]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c(
-        "ul",
-        _vm._l(_vm.members, function(user) {
-          return _c("li", { key: user.id }, [
-            _c("div", [
-              _c("div", { staticClass: "header" }, [
-                _c("strong", { staticClass: "primary-font" }, [
-                  _vm._v(
-                    "\n                        " +
-                      _vm._s(user.name) +
-                      "\n                    "
-                  )
-                ])
-              ])
-            ])
-          ])
-        }),
-        0
-      )
+      _c("hr", { staticClass: "d-block d-lg-none mt-1 mb-0" })
     ],
-    1
+    2
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "small" }, [
+      _c("span", { staticClass: "fas fa-circle chat-online" }),
+      _vm._v(" Online")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "small" }, [
+      _c("span", { staticClass: "fas fa-circle chat-online" }),
+      _vm._v(" Online")
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -44697,122 +44778,148 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      { staticClass: "row mt-3 d-flex justify-content-around" },
-      [
-        _c("member", {
-          key: _vm.members.length,
-          attrs: { members: _vm.members, channel: _vm.channel }
-        }),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "p-3 chat col-12 col-md-8 bg-light" },
-          [
-            _c("h3", { staticClass: "text-center" }, [
-              _vm._v(_vm._s(_vm.channel.name))
-            ]),
-            _vm._v(" "),
-            _c("hr"),
-            _vm._v(" "),
-            _c(
-              "ul",
-              { staticClass: "panel-body", attrs: { id: "scroll" } },
-              [
-                _c("div", { staticClass: "text-center" }, [
-                  _vm.channel.messages.length > _vm.count
-                    ? _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-outline-dark m-auto",
-                          on: { click: _vm.moreMessage }
-                        },
-                        [_vm._v("Afficher plus de message")]
-                      )
-                    : _vm._e()
-                ]),
-                _vm._v(" "),
-                _vm._l(_vm.allMessages, function(message) {
-                  return _c(
-                    "li",
-                    { key: message.id, staticClass: "left clearfix" },
-                    [
-                      _c("div", { staticClass: "chat-body clearfix" }, [
-                        _c("div", { staticClass: "header" }, [
-                          _c("strong", { staticClass: "primary-font" }, [
-                            _vm._v(
-                              "\n                           " +
-                                _vm._s(message.user.name) +
-                                "\n                       "
+  return _c("div", { staticClass: "container p-0 my-5" }, [
+    _c("div", { staticClass: "card" }, [
+      _c(
+        "div",
+        { staticClass: "row g-0" },
+        [
+          _c("member", {
+            key: _vm.members.length,
+            attrs: { members: _vm.members, channel: _vm.channel }
+          }),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "col-12 col-lg-7 col-xl-9" },
+            [
+              _c("h1", { staticClass: "text-center" }, [
+                _vm._v(_vm._s(_vm.channel.name))
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "py-2 px-4 border-bottom d-none d-lg-block" },
+                [
+                  _c("div", { staticClass: "d-flex align-items-center py-1" }, [
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.typing,
+                            expression: "typing"
+                          }
+                        ],
+                        staticClass: "flex-grow-1 pl-3"
+                      },
+                      [
+                        _c("strong", [_vm._v(_vm._s(_vm.other))]),
+                        _vm._v(" "),
+                        _vm._m(0)
+                      ]
+                    )
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "position-relative chat-messages" },
+                [
+                  _c("div", { staticClass: "text-center mt-1" }, [
+                    _vm.channel.messages.length > _vm.count
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-outline-dark m-auto",
+                            on: { click: _vm.moreMessage }
+                          },
+                          [_vm._v("Afficher plus de message")]
+                        )
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.allMessages, function(message) {
+                    return _c("div", { key: message.id, staticClass: "p-4" }, [
+                      message.user.id == _vm.user.id
+                        ? _c(
+                            "div",
+                            { staticClass: "chat-message-right pb-4" },
+                            [
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "flex-shrink-1 bg-light rounded py-2 px-3 mr-3"
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticClass: "font-weight-bold mb-1" },
+                                    [_vm._v("Vous")]
+                                  ),
+                                  _vm._v(
+                                    "\n\t\t\t\t\t\t\t\t\t" +
+                                      _vm._s(message.message) +
+                                      "\n\t\t\t\t\t\t\t\t"
+                                  )
+                                ]
+                              )
+                            ]
+                          )
+                        : _c("div", { staticClass: "chat-message-left pb-4" }, [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "flex-shrink-1 bg-light rounded py-2 px-3 ml-3"
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  { staticClass: "font-weight-bold mb-1" },
+                                  [_vm._v(_vm._s(message.user.name))]
+                                ),
+                                _vm._v(
+                                  "\n                           " +
+                                    _vm._s(message.message) +
+                                    "\n\t\t\t\t\t\t\t\t"
+                                )
+                              ]
                             )
                           ])
-                        ]),
-                        _vm._v(" "),
-                        _c("p", [
-                          _vm._v(
-                            "\n                       " +
-                              _vm._s(message.message) +
-                              "\n                   "
-                          )
-                        ])
-                      ])
-                    ]
-                  )
-                })
-              ],
-              2
-            ),
-            _vm._v(" "),
-            _c(
-              "span",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: _vm.typing,
-                    expression: "typing"
-                  }
-                ]
-              },
-              [
-                _vm._v(
-                  "\n           " +
-                    _vm._s(_vm.other) +
-                    " écrit un message\n         "
-                ),
-                _c("div", {
-                  staticClass: "spinner-grow spinner-grow-sm",
-                  attrs: { role: "status" }
-                }),
-                _vm._v(" "),
-                _c("div", {
-                  staticClass: "spinner-grow spinner-grow-sm",
-                  attrs: { role: "status" }
-                }),
-                _vm._v(" "),
-                _c("div", {
-                  staticClass: "spinner-grow spinner-grow-sm",
-                  attrs: { role: "status" }
-                })
-              ]
-            ),
-            _vm._v(" "),
-            _c("post", {
-              attrs: { channel: _vm.channel, user: _vm.user },
-              on: { messagesent: _vm.addMessage }
-            })
-          ],
-          1
-        )
-      ],
-      1
-    )
+                    ])
+                  })
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c("post", {
+                attrs: { channel: _vm.channel, user: _vm.user },
+                on: { messagesent: _vm.addMessage }
+              })
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "text-muted small" }, [
+      _c("em", [_vm._v("écrit un message")])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -44835,9 +44942,9 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "form-group mt-2" }, [
-      _c("textarea", {
+  return _c("div", { staticClass: "flex-grow-0 py-3 px-4 border-top" }, [
+    _c("div", { staticClass: "input-group" }, [
+      _c("input", {
         directives: [
           {
             name: "model",
@@ -44846,8 +44953,8 @@ var render = function() {
             expression: "newMessage"
           }
         ],
-        staticClass: "form-control z-depth-1",
-        attrs: { rows: "3", placeholder: "Votre message..." },
+        staticClass: "form-control",
+        attrs: { type: "text", placeholder: "Votre message..." },
         domProps: { value: _vm.newMessage },
         on: {
           keydown: _vm.isTyping,
@@ -44858,18 +44965,18 @@ var render = function() {
             _vm.newMessage = $event.target.value
           }
         }
-      })
-    ]),
-    _vm._v(" "),
-    _c(
-      "button",
-      {
-        staticClass: "btn btn-primary",
-        attrs: { id: "btn-chat" },
-        on: { click: _vm.sendMessage }
-      },
-      [_vm._v("\n          Poster\n      ")]
-    )
+      }),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary",
+          attrs: { id: "btn-chat" },
+          on: { click: _vm.sendMessage }
+        },
+        [_vm._v("\n                Poster\n            ")]
+      )
+    ])
   ])
 }
 var staticRenderFns = []
@@ -44895,75 +45002,87 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("input", {
-      directives: [
-        {
-          name: "model",
-          rawName: "v-model",
-          value: _vm.search,
-          expression: "search"
-        }
-      ],
-      staticClass: "dropdown-input form-control",
-      attrs: { placeholder: "Inviter des utilisateurs..." },
-      domProps: { value: _vm.search },
-      on: {
-        keyup: _vm.searchMember,
-        input: function($event) {
-          if ($event.target.composing) {
-            return
+  return _c("div", { staticClass: "px-4 d-none d-md-block" }, [
+    _c("div", { staticClass: "d-flex align-items-center" }, [
+      _c("div", { staticClass: "flex-grow-1" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.search,
+              expression: "search"
+            }
+          ],
+          staticClass: "dropdown-input form-control my-3",
+          attrs: { placeholder: "Inviter des utilisateurs..." },
+          domProps: { value: _vm.search },
+          on: {
+            keyup: _vm.searchMember,
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.search = $event.target.value
+            }
           }
-          _vm.search = $event.target.value
-        }
-      }
-    }),
-    _vm._v(" "),
-    _vm.search != "" && _vm.users.length > 0
-      ? _c(
+        }),
+        _vm._v(" "),
+        _vm.search != "" && _vm.users.length > 0
+          ? _c(
+              "div",
+              { staticClass: "dropdown-list" },
+              _vm._l(_vm.users, function(user) {
+                return _c(
+                  "div",
+                  { key: user.id, staticClass: "dropdown-item" },
+                  [
+                    _vm._v(
+                      "\n                    " + _vm._s(user.name) + " - "
+                    ),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary btn-sm",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.addMember(user.id)
+                          }
+                        }
+                      },
+                      [_vm._v("Inviter")]
+                    )
+                  ]
+                )
+              }),
+              0
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _c(
           "div",
-          { staticClass: "dropdown-list" },
-          _vm._l(_vm.users, function(user) {
-            return _c("div", { key: user.id, staticClass: "dropdown-item" }, [
-              _vm._v("\n         " + _vm._s(user.name) + " - "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary btn-sm",
-                  attrs: { type: "button" },
-                  on: {
-                    click: function($event) {
-                      return _vm.addMember(user.id)
-                    }
-                  }
-                },
-                [_vm._v("Inviter")]
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.search != "" && _vm.users.length == 0,
+                expression: "search != '' && users.length == 0"
+              }
+            ],
+            staticClass: "dropdown-list"
+          },
+          [
+            _c("div", { staticClass: "dropdown-item" }, [
+              _vm._v(
+                "\n                    Aucun utilisateur trouvé\n                "
               )
             ])
-          }),
-          0
+          ]
         )
-      : _vm._e(),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.search != "" && _vm.users.length == 0,
-            expression: "search != '' && users.length == 0"
-          }
-        ],
-        staticClass: "dropdown-list"
-      },
-      [
-        _c("div", { staticClass: "dropdown-item" }, [
-          _vm._v("\n          Aucun utilisateur trouvé\n      ")
-        ])
-      ]
-    )
+      ])
+    ])
   ])
 }
 var staticRenderFns = []

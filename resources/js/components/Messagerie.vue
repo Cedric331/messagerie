@@ -1,42 +1,51 @@
 <template>
-<div>
-   <div class="row mt-3 d-flex justify-content-around">
-   <member :members="members" :channel="channel" :key="members.length"></member>
-   <div class="p-3 chat col-12 col-md-8 bg-light">
-      <h3 class="text-center">{{channel.name}}</h3>
-      <hr>
-       <ul class="panel-body" id="scroll">
-          <div class="text-center">
-              <button v-if="channel.messages.length > count" @click="moreMessage" class="btn btn-outline-dark m-auto">Afficher plus de message</button> 
-          </div>
-           <li class="left clearfix" v-for="message in allMessages" :key="message.id">
-               <div class="chat-body clearfix">
-                   <div class="header">
-                       <strong class="primary-font">
-                           {{ message.user.name }}
-                       </strong>
-                   </div>
-                   <p>
-                       {{ message.message }}
-                   </p>
-               </div>
-           </li>
-       </ul>
-    
-        <span v-show="typing">
-           {{ other }} écrit un message
-         <div class="spinner-grow spinner-grow-sm" role="status">
-         </div>
-         <div class="spinner-grow spinner-grow-sm" role="status">
-         </div>
-         <div class="spinner-grow spinner-grow-sm" role="status">
-         </div>
-         </span>
+   <div class="container p-0 my-5">
+		<div class="card">
+			<div class="row g-0">
+         <member :members="members" :channel="channel" :key="members.length"></member>
 
-       <post :channel="channel" :user="user" v-on:messagesent="addMessage"></post>
-     </div>
-   </div>
-</div>
+				<div class="col-12 col-lg-7 col-xl-9">
+               <h1 class="text-center">{{channel.name}}</h1>
+					<div class="py-2 px-4 border-bottom d-none d-lg-block">
+						<div class="d-flex align-items-center py-1">
+							<div class="flex-grow-1 pl-3" v-show="typing">
+								<strong>{{ other }}</strong>
+								<div class="text-muted small">
+                           <em>écrit un message</em>
+                        </div>
+							</div>
+						</div>
+					</div>
+
+					<div class="position-relative chat-messages">
+                  <div class="text-center mt-1">
+                     <button v-if="channel.messages.length > count" @click="moreMessage" class="btn btn-outline-dark m-auto">Afficher plus de message</button> 
+                  </div>
+						<div class="p-4" v-for="message in allMessages" :key="message.id">
+
+							<div v-if="message.user.id == user.id" class="chat-message-right pb-4">
+								<div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
+									<div class="font-weight-bold mb-1">Vous</div>
+									{{ message.message }}
+								</div>
+							</div>
+
+							<div v-else class="chat-message-left pb-4">
+								<div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
+									<div class="font-weight-bold mb-1">{{ message.user.name }}</div>
+                           {{ message.message }}
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+            <post :channel="channel" :user="user" v-on:messagesent="addMessage"></post>
+
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -59,20 +68,13 @@ import member from './MemberChat'
     }
   },
   methods: {
-     typingUser(){
-
-     },
          addMessage(message) {
           axios.post('/message/post',{
             message: message.message,
             channel: this.channel.id
          }).then(res => {
             this.allMessages = res.data.reverse()
-               setTimeout(function() {
-                  this.container = document.querySelector("#scroll");
-                  container.scrollTop = 800;
-                  this.height = container.scrollTop
-                  }, 10);
+            this.scroll()
          }).catch(err => {
  
          })
@@ -88,6 +90,12 @@ import member from './MemberChat'
       moreMessage(){
          this.count += 10
          this.fetchMessages();
+      },
+      scroll(){
+         setTimeout(function() {
+            this.container = document.querySelector("#scroll");
+            container.scrollTop = container.scrollHeight;
+            }, 500);
       }
   },
     created() {
@@ -121,11 +129,7 @@ import member from './MemberChat'
   },
 
   mounted(){
-   setTimeout(function() {
-      this.container = document.querySelector("#scroll");
-      container.scrollTop = 800;
-      this.height = container.scrollTop
-      }, 500);
+     this.scroll()
   }
 
    }

@@ -93,7 +93,7 @@ import member from './MemberChat'
       },
       scroll(){
          setTimeout(function() {
-            this.container = document.querySelector("#scroll");
+            this.container = document.querySelector(".chat-messages");
             container.scrollTop = container.scrollHeight;
             }, 500);
       }

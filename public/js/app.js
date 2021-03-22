@@ -2160,32 +2160,36 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.post('/message/post', {
         message: message.message,
-        channel: this.channel.id
+        channel: this.channel.id,
+        members: this.members
       }).then(function (res) {
-        _this2.allMessages = res.data.reverse();
-
-        _this2.scroll();
+        _this2.fetchMessages();
       })["catch"](function (err) {});
     },
     fetchMessages: function fetchMessages() {
       var _this3 = this;
 
+      var scroll = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
       axios.post('/fetch/message', {
         count: this.count,
         channel: this.channel.id
       }).then(function (response) {
         _this3.allMessages = response.data.reverse();
+
+        if (scroll) {
+          _this3.scroll();
+        }
       });
     },
     moreMessage: function moreMessage() {
       this.count += 10;
-      this.fetchMessages();
+      this.fetchMessages(false);
     },
     scroll: function scroll() {
-      setTimeout(function () {
-        this.container = document.querySelector(".chat-messages");
-        container.scrollTop = container.scrollHeight;
-      }, 1000);
+      var bodyChat = document.querySelector(".chat-messages");
+      this.$nextTick(function () {
+        bodyChat.scrollTop = bodyChat.scrollHeight;
+      });
     }
   },
   created: function created() {
@@ -2213,9 +2217,6 @@ __webpack_require__.r(__webpack_exports__);
         return item !== user;
       });
     });
-  },
-  mounted: function mounted() {
-    this.scroll();
   }
 });
 

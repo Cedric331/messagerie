@@ -72,32 +72,35 @@ import member from './MemberChat'
          addMessage(message) {
           axios.post('/message/post',{
             message: message.message,
-            channel: this.channel.id
+            channel: this.channel.id,
+            members: this.members
          }).then(res => {
-            this.allMessages = res.data.reverse()
-            this.scroll()
+            this.fetchMessages()
          }).catch(err => {
  
          })
    },
-         fetchMessages() {
+         fetchMessages(scroll = true) {
           axios.post('/fetch/message',{
              count: this.count,
              channel: this.channel.id
           }).then(response => {
               this.allMessages = response.data.reverse();
+              if (scroll) {
+                 this.scroll()
+              }
           });
       },
       moreMessage(){
          this.count += 10
-         this.fetchMessages();
+         this.fetchMessages(false);
       },
       scroll(){
-         setTimeout(function() {
-            this.container = document.querySelector(".chat-messages");
-            container.scrollTop = container.scrollHeight;
-            }, 1000);
-      }
+            let bodyChat = document.querySelector(".chat-messages");
+            this.$nextTick(() => {
+               bodyChat.scrollTop = bodyChat.scrollHeight;
+            })
+       }
   },
     created() {
       this.fetchMessages();
@@ -126,12 +129,7 @@ import member from './MemberChat'
          this.members = this.members.filter(function(item) { 
              return item !== user
          })
-    });
-  },
-
-  mounted(){
-     this.scroll()
-  }
-
-   }
+      });
+   },
+}
 </script>

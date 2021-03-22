@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Channel;
 use App\Models\Message;
 use App\Events\MessageSent;
@@ -18,15 +19,15 @@ class MessageController extends Controller
    {
       $channel = Channel::where('name', $name)->with(['user','messages'])->first();
 
-      foreach (Auth::user()->unreadNotifications as $notification) {
-         if ($notification->data['channel_id'] == $channel->id) {
-            $notification->delete();
-         }
-     }
-
       if (!Gate::check('channel-member', $channel)) {
          return redirect()->route('home');
      }
+
+     foreach (Auth::user()->unreadNotifications as $notification) {
+      if ($notification->data['channel_id'] == $channel->id) {
+         $notification->delete();
+      }
+      }
 
       return view('chat',[
          'channel' => json_encode($channel)
@@ -66,13 +67,22 @@ class MessageController extends Controller
 
       broadcast(new MessageSent(Auth::user(), $message, $channel))->toOthers();
 
-      $collection = collect($channel->user);
+      $members = collect([]);
+      foreach ($request->members as $value)
+      {
+          $members->push($value['id']);
+      }
 
-      $filtered = $collection->filter(function ($value, $key) {
-         return $value->id != Auth::user()->id;
-     });
+      $collection = collect([]);
+      foreach ($channel->user as $value)
+      {
+          $collection->push($value->id);
+      }
 
-      Notification::send($filtered->all(), new NewMessage($channel));
+      $diff = $collection->diff($members);
+      $users = User::find($diff->all());
+
+      Notification::send($users, new NewMessage($channel));
 
       $data = Message::where('channel_id',$request->channel )
       ->orderBy('id', 'DESC')

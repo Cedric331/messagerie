@@ -18,6 +18,12 @@ class MessageController extends Controller
    {
       $channel = Channel::where('name', $name)->with(['user','messages'])->first();
 
+      foreach (Auth::user()->unreadNotifications as $notification) {
+         if ($notification->data['channel_id'] == $channel->id) {
+            $notification->delete();
+         }
+     }
+
       if (!Gate::check('channel-member', $channel)) {
          return redirect()->route('home');
      }

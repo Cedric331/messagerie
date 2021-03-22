@@ -8,7 +8,10 @@
                   <hr>
                    <ul class="cart-content">
                       <li v-for="channel in channels" :key="channel.id">
-                         <button class="btn btn-primary" @click="linkChannel(channel.name)">{{ channel.name }}</button>
+                         <button class="btn btn-primary btn-sm my-2" @click="linkChannel(channel.name)">{{ channel.name }}</button>
+                        <span v-if="count(channel.id) != 0" class="badge rounded-pill bg-danger" style="font-size: 10px;">
+                         {{ count(channel.id) }}
+                        </span>
                       </li>
                    </ul>
 
@@ -40,9 +43,17 @@ export default {
   methods: {
      linkChannel(name){
         window.location = '/chat/'+name;
+     },
+     count(id){
+        var count = 0;
+         this.notifications.forEach(element => {
+            if (element.data.channel_id == id) {
+               count++
+            }
+         });
+        return count;
      }
   },
-  props: ['channels'],
-   
+  props: ['channels', 'notifications'],
 }
 </script>

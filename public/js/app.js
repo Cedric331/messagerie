@@ -1972,13 +1972,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
     linkChannel: function linkChannel(name) {
       window.location = '/chat/' + name;
+    },
+    count: function count(id) {
+      var count = 0;
+      this.notifications.forEach(function (element) {
+        if (element.data.channel_id == id) {
+          count++;
+        }
+      });
+      return count;
     }
   },
-  props: ['channels']
+  props: ['channels', 'notifications']
 });
 
 /***/ }),
@@ -44562,7 +44574,7 @@ var render = function() {
                   _c(
                     "button",
                     {
-                      staticClass: "btn btn-primary",
+                      staticClass: "btn btn-primary btn-sm my-2",
                       on: {
                         click: function($event) {
                           return _vm.linkChannel(channel.name)
@@ -44570,7 +44582,24 @@ var render = function() {
                       }
                     },
                     [_vm._v(_vm._s(channel.name))]
-                  )
+                  ),
+                  _vm._v(" "),
+                  _vm.count(channel.id) != 0
+                    ? _c(
+                        "span",
+                        {
+                          staticClass: "badge rounded-pill bg-danger",
+                          staticStyle: { "font-size": "10px" }
+                        },
+                        [
+                          _vm._v(
+                            "\r\n                         " +
+                              _vm._s(_vm.count(channel.id)) +
+                              "\r\n                        "
+                          )
+                        ]
+                      )
+                    : _vm._e()
                 ])
               }),
               0

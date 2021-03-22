@@ -2,7 +2,7 @@
 
 @section('content')
 @auth
-<home :channels={{ $channels }}></home>
+<home :channels="{{ $channels }}" :notifications="{{ Auth::user()->notifications }}"></home>
 @endauth
 
 @guest

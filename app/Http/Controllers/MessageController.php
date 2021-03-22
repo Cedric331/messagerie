@@ -6,8 +6,10 @@ use App\Models\Channel;
 use App\Models\Message;
 use App\Events\MessageSent;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
+use App\Notifications\NewMessage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Notification;
 
 class MessageController extends Controller
 {
@@ -57,7 +59,15 @@ class MessageController extends Controller
       $message->save();
 
       broadcast(new MessageSent(Auth::user(), $message, $channel))->toOthers();
-      
+
+      $collection = collect($channel->user);
+
+      $filtered = $collection->filter(function ($value, $key) {
+         return $value->id != Auth::user()->id;
+     });
+
+      Notification::send($filtered->all(), new NewMessage($channel));
+
       $data = Message::where('channel_id',$request->channel )
       ->orderBy('id', 'DESC')
       ->limit($request->count)

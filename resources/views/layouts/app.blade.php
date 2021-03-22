@@ -10,6 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
+    <script src="https://kit.fontawesome.com/cecf7fd386.js" crossorigin="anonymous"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
@@ -53,6 +54,15 @@
                                 </li>
                             @endif
                         @else
+                        <li class="dropdown nav-item">
+                           <a class="btn" href="#" role="button" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="true" v-pre>
+                               <i class="fas fa-bell"></i>
+                               <span class="badge rounded-pill bg-danger" style="font-size: 10px;">
+                                {{ count(Auth::user()->notifications) }}
+                               </span>
+                           </a>
+                        </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}

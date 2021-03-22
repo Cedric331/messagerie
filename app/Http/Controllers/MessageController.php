@@ -65,7 +65,7 @@ class MessageController extends Controller
       $message->message = $request->message;
       $message->save();
 
-      broadcast(new MessageSent(Auth::user(), $message, $channel))->toOthers();
+      broadcast(new MessageSent($channel))->toOthers();
 
       $members = collect([]);
       foreach ($request->members as $value)

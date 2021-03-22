@@ -22,3 +22,4 @@ Broadcast::channel('chat.{channel}', function ($user, Channel $channel) {
       return ['id' => $user->id, 'name' => $user->name];
     };
  });
+

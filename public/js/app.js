@@ -2034,10 +2034,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
@@ -2054,8 +2050,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      users: this.channel.user,
-      connection: this.members
+      users: this.channel.user
     };
   },
   components: {
@@ -2079,6 +2074,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _PostMessage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PostMessage */ "./resources/js/components/PostMessage.vue");
 /* harmony import */ var _MemberChat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MemberChat */ "./resources/js/components/MemberChat.vue");
+//
 //
 //
 //
@@ -2177,7 +2173,7 @@ __webpack_require__.r(__webpack_exports__);
       setTimeout(function () {
         this.container = document.querySelector(".chat-messages");
         container.scrollTop = container.scrollHeight;
-      }, 500);
+      }, 1000);
     }
   },
   created: function created() {
@@ -44641,7 +44637,7 @@ var render = function() {
     [
       _c("search", { on: { adduser: _vm.addMember } }),
       _vm._v(" "),
-      _c("h3", { staticClass: "text-center" }, [_vm._v("Membres connecté")]),
+      _c("h3", { staticClass: "text-center" }, [_vm._v("Membres en ligne")]),
       _vm._v(" "),
       _c("hr"),
       _vm._v(" "),
@@ -44654,10 +44650,6 @@ var render = function() {
               attrs: { href: "#" }
             },
             [
-              _c("div", { staticClass: "badge bg-success float-right" }, [
-                _vm._v("5")
-              ]),
-              _vm._v(" "),
               _c("div", { staticClass: "d-flex align-items-start" }, [
                 _c("img", {
                   staticClass: "rounded-circle mr-1",
@@ -44673,9 +44665,8 @@ var render = function() {
                   _vm._v(
                     "\n                    " +
                       _vm._s(user.name) +
-                      "\n                    "
-                  ),
-                  _vm._m(0, true)
+                      "\n                "
+                  )
                 ])
               ])
             ]
@@ -44698,10 +44689,6 @@ var render = function() {
               attrs: { href: "#" }
             },
             [
-              _c("div", { staticClass: "badge bg-success float-right" }, [
-                _vm._v("5")
-              ]),
-              _vm._v(" "),
               _c("div", { staticClass: "d-flex align-items-start" }, [
                 _c("img", {
                   staticClass: "rounded-circle mr-1",
@@ -44721,9 +44708,7 @@ var render = function() {
                   ),
                   _vm.channel.user_id == user.id
                     ? _c("em", [_vm._v(" - admin")])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm._m(1, true)
+                    : _vm._e()
                 ])
               ])
             ]
@@ -44736,26 +44721,7 @@ var render = function() {
     2
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "small" }, [
-      _c("span", { staticClass: "fas fa-circle chat-online" }),
-      _vm._v(" Online")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "small" }, [
-      _c("span", { staticClass: "fas fa-circle chat-online" }),
-      _vm._v(" Online")
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -44799,34 +44765,6 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "div",
-                { staticClass: "py-2 px-4 border-bottom d-none d-lg-block" },
-                [
-                  _c("div", { staticClass: "d-flex align-items-center py-1" }, [
-                    _c(
-                      "div",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.typing,
-                            expression: "typing"
-                          }
-                        ],
-                        staticClass: "flex-grow-1 pl-3"
-                      },
-                      [
-                        _c("strong", [_vm._v(_vm._s(_vm.other))]),
-                        _vm._v(" "),
-                        _vm._m(0)
-                      ]
-                    )
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
                 { staticClass: "position-relative chat-messages" },
                 [
                   _c("div", { staticClass: "text-center mt-1" }, [
@@ -44853,12 +44791,15 @@ var render = function() {
                                 "div",
                                 {
                                   staticClass:
-                                    "flex-shrink-1 bg-light rounded py-2 px-3 mr-3"
+                                    "flex-shrink-1 text-break bg-dark text-white rounded py-2 px-3 mr-3"
                                 },
                                 [
                                   _c(
                                     "div",
-                                    { staticClass: "font-weight-bold mb-1" },
+                                    {
+                                      staticClass:
+                                        "font-weight-bold text-white mb-1"
+                                    },
                                     [_vm._v("Vous")]
                                   ),
                                   _vm._v(
@@ -44875,7 +44816,7 @@ var render = function() {
                               "div",
                               {
                                 staticClass:
-                                  "flex-shrink-1 bg-light rounded py-2 px-3 ml-3"
+                                  "flex-shrink-1 text-break bg-lightm text-dark rounded py-2 px-3 ml-3"
                               },
                               [
                                 _c(
@@ -44895,6 +44836,34 @@ var render = function() {
                   })
                 ],
                 2
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "py-2 px-4 border-bottom d-none d-lg-block" },
+                [
+                  _c("div", { staticClass: "d-flex align-items-center py-1" }, [
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.typing,
+                            expression: "typing"
+                          }
+                        ],
+                        staticClass: "flex-grow-1 pl-3"
+                      },
+                      [
+                        _c("strong", [_vm._v(_vm._s(_vm.other))]),
+                        _vm._v(" "),
+                        _vm._m(0)
+                      ]
+                    )
+                  ])
+                ]
               ),
               _vm._v(" "),
               _c("post", {

@@ -6,16 +6,6 @@
 
 				<div class="col-12 col-lg-7 col-xl-9">
                <h1 class="text-center">{{channel.name}}</h1>
-					<div class="py-2 px-4 border-bottom d-none d-lg-block">
-						<div class="d-flex align-items-center py-1">
-							<div class="flex-grow-1 pl-3" v-show="typing">
-								<strong>{{ other }}</strong>
-								<div class="text-muted small">
-                           <em>écrit un message</em>
-                        </div>
-							</div>
-						</div>
-					</div>
 
 					<div class="position-relative chat-messages">
                   <div class="text-center mt-1">
@@ -24,19 +14,30 @@
 						<div class="p-4" v-for="message in allMessages" :key="message.id">
 
 							<div v-if="message.user.id == user.id" class="chat-message-right pb-4">
-								<div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
-									<div class="font-weight-bold mb-1">Vous</div>
+								<div class="flex-shrink-1 text-break bg-dark text-white rounded py-2 px-3 mr-3">
+									<div class="font-weight-bold text-white mb-1">Vous</div>
 									{{ message.message }}
 								</div>
 							</div>
 
 							<div v-else class="chat-message-left pb-4">
-								<div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
+								<div class="flex-shrink-1 text-break bg-lightm text-dark rounded py-2 px-3 ml-3">
 									<div class="font-weight-bold mb-1">{{ message.user.name }}</div>
                            {{ message.message }}
 								</div>
 							</div>
 
+						</div>
+					</div>
+
+					<div class="py-2 px-4 border-bottom d-none d-lg-block">
+						<div class="d-flex align-items-center py-1">
+							<div class="flex-grow-1 pl-3" v-show="typing">
+								<strong>{{ other }}</strong>
+								<div class="text-muted small">
+                           <em>écrit un message</em>
+                        </div>
+							</div>
 						</div>
 					</div>
 
@@ -95,7 +96,7 @@ import member from './MemberChat'
          setTimeout(function() {
             this.container = document.querySelector(".chat-messages");
             container.scrollTop = container.scrollHeight;
-            }, 500);
+            }, 1000);
       }
   },
     created() {

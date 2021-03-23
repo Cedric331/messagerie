@@ -33,3 +33,4 @@ Route::post('/member/remove', [ChannelController::class, 'removeMember']);
 
 Route::get('/create', [ChannelController::class, 'create'])->name('chat-create');
 Route::post('/create', [ChannelController::class, 'store']);
+Route::post('/channel/remove', [ChannelController::class, 'delete']);

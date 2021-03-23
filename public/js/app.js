@@ -1978,6 +1978,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
@@ -2005,6 +2006,13 @@ __webpack_require__.r(__webpack_exports__);
           window.location = '/';
         }
       })["catch"](function (err) {});
+    },
+    removeChannel: function removeChannel() {
+      axios.post('/channel/remove', {
+        channel: this.channel.id
+      }).then(function (res) {
+        window.location = '/';
+      });
     }
   },
   data: function data() {
@@ -45273,13 +45281,14 @@ var render = function() {
                                       }
                                     }
                                   },
-                                  [_vm._v("Bannir")]
+                                  [_vm._v("Supprimer cet utilisateur")]
                                 )
                               : _vm._e()
                           ]),
                           _vm._v(" "),
                           _c("li", [
-                            _vm.userAuth.id == user.id
+                            _vm.userAuth.id == user.id &&
+                            _vm.channel.user_id != _vm.userAuth.id
                               ? _c(
                                   "button",
                                   {
@@ -45291,6 +45300,24 @@ var render = function() {
                                     }
                                   },
                                   [_vm._v("Quitter le chat")]
+                                )
+                              : _vm._e()
+                          ]),
+                          _vm._v(" "),
+                          _c("li", [
+                            _vm.userAuth.id == user.id &&
+                            _vm.channel.user_id == _vm.userAuth.id
+                              ? _c(
+                                  "button",
+                                  {
+                                    staticClass: "dropdown-item",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.removeChannel()
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Supprimer le chat")]
                                 )
                               : _vm._e()
                           ])

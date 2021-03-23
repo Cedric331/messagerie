@@ -34,8 +34,9 @@
                         <div class="btn-group dropend ml-5" v-if="userAuth.id == user.id || channel.user_id == userAuth.id">
                              <i class="fas fa-bars" data-bs-toggle="dropdown" aria-expanded="false"></i>
                            <ul class="dropdown-menu">
-                             <li><button class="dropdown-item" v-if="channel.user_id == userAuth.id && userAuth.id != user.id" @click="removeMember(user)">Bannir</button></li>
-                             <li><button class="dropdown-item" v-if="userAuth.id == user.id" @click="removeMember(user, true)">Quitter le chat</button></li>
+                             <li><button class="dropdown-item" v-if="channel.user_id == userAuth.id && userAuth.id != user.id" @click="removeMember(user)">Supprimer cet utilisateur</button></li>
+                             <li><button class="dropdown-item" v-if="userAuth.id == user.id && channel.user_id != userAuth.id" @click="removeMember(user, true)">Quitter le chat</button></li>
+                             <li><button class="dropdown-item" v-if="userAuth.id == user.id && channel.user_id == userAuth.id" @click="removeChannel()">Supprimer le chat</button></li>
                            </ul>
                         </div>
                     </div>
@@ -74,6 +75,13 @@
                 }).catch(err => {
 
                 })
+            },
+            removeChannel(){
+               axios.post('/channel/remove',{
+                  channel: this.channel.id
+               }).then(res => {
+                  window.location = '/'
+               })
             }
         },
         data() {

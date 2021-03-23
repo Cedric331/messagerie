@@ -72,4 +72,13 @@ class ChannelController extends Controller
          
      return response()->json($channel->user, 200);
    }
+
+   public function delete(Request $request)
+   {
+      $channel = Channel::find($request->channel);
+
+      $channel->delete();
+
+      return response()->json(null, 200);
+   }
 }

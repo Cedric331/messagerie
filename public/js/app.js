@@ -2095,10 +2095,6 @@ __webpack_require__.r(__webpack_exports__);
         if (refresh) {
           window.location = '/';
         }
-
-        Echo["private"]('chat.' + _this2.channel.id).whisper('leave', {
-          user: _this2.user
-        });
       })["catch"](function (err) {});
     },
     removeChannel: function removeChannel() {
@@ -2257,8 +2253,6 @@ __webpack_require__.r(__webpack_exports__);
       setTimeout(function () {
         _this.typing = false;
       }, 1200);
-    }).listenForWhisper('leave', function (e) {
-      window.location = '/';
     });
     Echo.join('chat.' + this.channel.id).here(function (users) {
       _this4.members = users;

@@ -72,10 +72,6 @@
                     if (refresh) {
                        window.location = '/'
                     }
-                 Echo.private('chat.'+this.channel.id)
-                 .whisper('leave', {
-                     user: this.user
-                 });
                 }).catch(err => {
 
                 })

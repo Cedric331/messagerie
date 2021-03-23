@@ -119,9 +119,6 @@ import member from './MemberChat'
          setTimeout(function() {
             _this.typing = false
             }, 1200);
-      })
-         .listenForWhisper('leave', (e) => {
-        window.location = '/'
       });
 
       Echo.join('chat.'+this.channel.id)

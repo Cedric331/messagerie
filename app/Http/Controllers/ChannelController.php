@@ -57,4 +57,19 @@ class ChannelController extends Controller
 
       return response()->json(null, 200);
    }
+
+   public function removeMember(Request $request)
+   {
+      $channel = Channel::find($request->channel);
+
+     $channel_user = ChannelUser::where([
+        ['user_id', $request->user['id']], 
+        ['channel_id', $channel->id]
+        ]);
+      $channel_user->delete();
+
+      $channel->refresh();
+         
+     return response()->json($channel->user, 200);
+   }
 }

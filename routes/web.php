@@ -29,6 +29,7 @@ Route::post('/fetch/message', [MessageController::class, 'messages']);
 
 Route::post('/member/search', [ChannelController::class, 'member']);
 Route::post('/member/add', [ChannelController::class, 'addMember']);
+Route::post('/member/remove', [ChannelController::class, 'removeMember']);
 
 Route::get('/create', [ChannelController::class, 'create'])->name('chat-create');
 Route::post('/create', [ChannelController::class, 'store']);

@@ -6,7 +6,7 @@
         <h3 class="text-center">Membres en ligne</h3>
         <hr>
         <div v-for="user in members" :key="user.id">
-            <a href="#" class="list-group-item list-group-item-action border-0">
+            <div href="#" class="list-group-item list-group-item-action border-0">
                 <div class="d-flex align-items-start">
                     <img src="https://bootdey.com/img/Content/avatar/avatar5.png" class="rounded-circle mr-1"
                         alt="Vanessa Tucker" width="40" height="40">
@@ -14,22 +14,33 @@
                         {{ user.name }}
                     </div>
                 </div>
-            </a>
+            </div>
         </div>
 
         <h3 class="text-center">Membres de {{channel.name}}</h3>
         <hr>
         <div v-for="user in users" :key="user.name">
-            <a href="#" class="list-group-item list-group-item-action border-0">
+            <div class="list-group-item list-group-item-action border-0">
                 <div class="d-flex align-items-start">
                     <img src="https://bootdey.com/img/Content/avatar/avatar5.png" class="rounded-circle mr-1"
                         alt="Vanessa Tucker" width="40" height="40">
                     <div class="flex-grow-1 ml-3">
                         {{ user.name }}
-                        <em v-if="channel.user_id == user.id"> - admin</em>
+                        <em v-if="channel.user_id == user.id"> - 
+                           <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="Administrateur">
+                              <em><i class="fas fa-star text-warning"></i></em>
+                           </span>
+                        </em>
+                        <div class="btn-group dropend ml-5">
+                             <i class="fas fa-bars" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                           <ul class="dropdown-menu">
+                             <li><button class="dropdown-item" v-if="channel.user_id == userAuth.id && userAuth.id != user.id" @click="removeMember(user)">Bannir</button></li>
+                             <li><button class="dropdown-item" v-if="userAuth.id == user.id" @click="removeMember(user, true)">Quitter le chat</button></li>
+                           </ul>
+                        </div>
                     </div>
                 </div>
-            </a>
+            </div>
         </div>
 
         <hr class="d-block d-lg-none mt-1 mb-0">
@@ -50,11 +61,25 @@
                 }).catch(err => {
 
                 })
+            },
+            removeMember(user, refresh = false) {
+                axios.post('/member/remove', {
+                    user: user,
+                    channel: this.channel.id
+                }).then(res => {
+                    this.users = res.data
+                    if (refresh) {
+                       window.location = '/'
+                    }
+                }).catch(err => {
+
+                })
             }
         },
         data() {
             return {
-                users: this.channel.user
+                users: this.channel.user,
+                userAuth: this.$store.state.userAuth
             }
         },
         components: {

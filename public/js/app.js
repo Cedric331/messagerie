@@ -1967,6 +1967,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
@@ -1979,11 +1990,27 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         _this.users = res.data;
       })["catch"](function (err) {});
+    },
+    removeMember: function removeMember(user) {
+      var _this2 = this;
+
+      var refresh = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      axios.post('/member/remove', {
+        user: user,
+        channel: this.channel.id
+      }).then(function (res) {
+        _this2.users = res.data;
+
+        if (refresh) {
+          window.location = '/';
+        }
+      })["catch"](function (err) {});
     }
   },
   data: function data() {
     return {
-      users: this.channel.user
+      users: this.channel.user,
+      userAuth: this.$store.state.userAuth
     };
   },
   components: {
@@ -2351,10 +2378,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -2364,7 +2391,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_1__.default.use(vuex__WEBPACK_IMPORTED_MODULE_3__.default);
+vue__WEBPACK_IMPORTED_MODULE_2__.default.use(vuex__WEBPACK_IMPORTED_MODULE_3__.default);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuex__WEBPACK_IMPORTED_MODULE_3__.default.Store({
   state: {
     userAuth: {}
@@ -2383,7 +2410,7 @@ vue__WEBPACK_IMPORTED_MODULE_1__.default.use(vuex__WEBPACK_IMPORTED_MODULE_3__.d
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_2___default().get('/user/auth');
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/user/auth');
 
               case 2:
                 data = _context.sent.data;
@@ -45090,19 +45117,7 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("div", { staticClass: "card bg-light" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c("h4", { staticClass: "card-title text-center" }, [
-              _vm._v("Menu " + _vm._s(this.$store.state.userAuth.name))
-            ]),
-            _vm._v(" "),
-            _c("hr"),
-            _vm._v(" "),
-            _vm._m(0)
-          ])
-        ])
-      ])
+      _vm._m(0)
     ])
   ])
 }
@@ -45111,13 +45126,23 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "cart-content" }, [
-      _c("li", [
-        _c(
-          "a",
-          { staticClass: "btn btn-primary", attrs: { href: "/create" } },
-          [_vm._v("Créer un groupe de discussion")]
-        )
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c("div", { staticClass: "card bg-light" }, [
+        _c("div", { staticClass: "card-body" }, [
+          _c("h4", { staticClass: "card-title text-center" }, [_vm._v("Menu")]),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _c("ul", { staticClass: "cart-content" }, [
+            _c("li", [
+              _c(
+                "a",
+                { staticClass: "btn btn-primary", attrs: { href: "/create" } },
+                [_vm._v("Créer un groupe de discussion")]
+              )
+            ])
+          ])
+        ])
       ])
     ])
   }
@@ -45157,7 +45182,7 @@ var render = function() {
       _vm._l(_vm.members, function(user) {
         return _c("div", { key: user.id }, [
           _c(
-            "a",
+            "div",
             {
               staticClass: "list-group-item list-group-item-action border-0",
               attrs: { href: "#" }
@@ -45196,11 +45221,8 @@ var render = function() {
       _vm._l(_vm.users, function(user) {
         return _c("div", { key: user.name }, [
           _c(
-            "a",
-            {
-              staticClass: "list-group-item list-group-item-action border-0",
-              attrs: { href: "#" }
-            },
+            "div",
+            { staticClass: "list-group-item list-group-item-action border-0" },
             [
               _c("div", { staticClass: "d-flex align-items-start" }, [
                 _c("img", {
@@ -45220,8 +45242,58 @@ var render = function() {
                       "\n                    "
                   ),
                   _vm.channel.user_id == user.id
-                    ? _c("em", [_vm._v(" - admin")])
-                    : _vm._e()
+                    ? _c("em", [
+                        _vm._v(" - \n                       "),
+                        _vm._m(0, true)
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "btn-group dropend ml-5" }, [
+                    _c("i", {
+                      staticClass: "fas fa-bars",
+                      attrs: {
+                        "data-bs-toggle": "dropdown",
+                        "aria-expanded": "false"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("ul", { staticClass: "dropdown-menu" }, [
+                      _c("li", [
+                        _vm.channel.user_id == _vm.userAuth.id &&
+                        _vm.userAuth.id != user.id
+                          ? _c(
+                              "button",
+                              {
+                                staticClass: "dropdown-item",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.removeMember(user)
+                                  }
+                                }
+                              },
+                              [_vm._v("Bannir")]
+                            )
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c("li", [
+                        _vm.userAuth.id == user.id
+                          ? _c(
+                              "button",
+                              {
+                                staticClass: "dropdown-item",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.removeMember(user, true)
+                                  }
+                                }
+                              },
+                              [_vm._v("Quitter le chat")]
+                            )
+                          : _vm._e()
+                      ])
+                    ])
+                  ])
                 ])
               ])
             ]
@@ -45234,7 +45306,25 @@ var render = function() {
     2
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "span",
+      {
+        staticClass: "d-inline-block",
+        attrs: {
+          tabindex: "0",
+          "data-bs-toggle": "tooltip",
+          title: "Administrateur"
+        }
+      },
+      [_c("em", [_c("i", { staticClass: "fas fa-star text-warning" })])]
+    )
+  }
+]
 render._withStripped = true
 
 

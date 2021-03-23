@@ -22,7 +22,7 @@
             <div class="col-md-6">
             <div class="card bg-light">
                <div class="card-body">
-                 <h4 class="card-title text-center">Menu {{this.$store.state.userAuth.name}}</h4>
+                 <h4 class="card-title text-center">Menu</h4>
                   <hr>
                    <ul class="cart-content">
                       <li>

@@ -28,7 +28,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('channel-member', function (User $user, Channel $channel) {
+        Gate::define('channel-member', function (User $user, Channel $channel = null) {
+           if ($channel == null) {
+              return false;
+           }
          return $channel->user->contains($user->id);
       });
     }

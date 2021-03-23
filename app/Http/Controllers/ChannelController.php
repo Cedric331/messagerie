@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Channel;
 use App\Models\ChannelUser;
 use Illuminate\Http\Request;
+use App\Events\RemoveUserChat;
 use Illuminate\Support\Facades\Auth;
 
 class ChannelController extends Controller
@@ -76,6 +77,7 @@ class ChannelController extends Controller
    public function delete(Request $request)
    {
       $channel = Channel::find($request->channel);
+      broadcast(new RemoveUserChat($channel));
 
       $channel->delete();
 

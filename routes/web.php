@@ -21,6 +21,8 @@ Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::get('/user/auth', [HomeController::class, 'user'])->name('user');
+
 Route::get('/chat/{channel}', [MessageController::class, 'index'])->name('chat');
 Route::post('/message/post', [MessageController::class, 'store']);
 Route::post('/fetch/message', [MessageController::class, 'messages']);

@@ -21,4 +21,13 @@ class HomeController extends Controller
       }
       return view('welcome');
     }
+
+    public function user()
+    {
+       if (Auth::check()) {
+          return response()->json(Auth::user(), 200);
+       } else {
+         return response()->json(null, 200);
+       }
+    }
 }

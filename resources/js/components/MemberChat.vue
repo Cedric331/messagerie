@@ -31,7 +31,7 @@
                               <em><i class="fas fa-star text-warning"></i></em>
                            </span>
                         </em>
-                        <div class="btn-group dropend ml-5">
+                        <div class="btn-group dropend ml-5" v-if="userAuth.id == user.id || channel.user_id == userAuth.id">
                              <i class="fas fa-bars" data-bs-toggle="dropdown" aria-expanded="false"></i>
                            <ul class="dropdown-menu">
                              <li><button class="dropdown-item" v-if="channel.user_id == userAuth.id && userAuth.id != user.id" @click="removeMember(user)">Bannir</button></li>

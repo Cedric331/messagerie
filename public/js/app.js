@@ -45248,52 +45248,55 @@ var render = function() {
                       ])
                     : _vm._e(),
                   _vm._v(" "),
-                  _c("div", { staticClass: "btn-group dropend ml-5" }, [
-                    _c("i", {
-                      staticClass: "fas fa-bars",
-                      attrs: {
-                        "data-bs-toggle": "dropdown",
-                        "aria-expanded": "false"
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("ul", { staticClass: "dropdown-menu" }, [
-                      _c("li", [
-                        _vm.channel.user_id == _vm.userAuth.id &&
-                        _vm.userAuth.id != user.id
-                          ? _c(
-                              "button",
-                              {
-                                staticClass: "dropdown-item",
-                                on: {
-                                  click: function($event) {
-                                    return _vm.removeMember(user)
-                                  }
-                                }
-                              },
-                              [_vm._v("Bannir")]
-                            )
-                          : _vm._e()
-                      ]),
-                      _vm._v(" "),
-                      _c("li", [
-                        _vm.userAuth.id == user.id
-                          ? _c(
-                              "button",
-                              {
-                                staticClass: "dropdown-item",
-                                on: {
-                                  click: function($event) {
-                                    return _vm.removeMember(user, true)
-                                  }
-                                }
-                              },
-                              [_vm._v("Quitter le chat")]
-                            )
-                          : _vm._e()
+                  _vm.userAuth.id == user.id ||
+                  _vm.channel.user_id == _vm.userAuth.id
+                    ? _c("div", { staticClass: "btn-group dropend ml-5" }, [
+                        _c("i", {
+                          staticClass: "fas fa-bars",
+                          attrs: {
+                            "data-bs-toggle": "dropdown",
+                            "aria-expanded": "false"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("ul", { staticClass: "dropdown-menu" }, [
+                          _c("li", [
+                            _vm.channel.user_id == _vm.userAuth.id &&
+                            _vm.userAuth.id != user.id
+                              ? _c(
+                                  "button",
+                                  {
+                                    staticClass: "dropdown-item",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.removeMember(user)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Bannir")]
+                                )
+                              : _vm._e()
+                          ]),
+                          _vm._v(" "),
+                          _c("li", [
+                            _vm.userAuth.id == user.id
+                              ? _c(
+                                  "button",
+                                  {
+                                    staticClass: "dropdown-item",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.removeMember(user, true)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Quitter le chat")]
+                                )
+                              : _vm._e()
+                          ])
+                        ])
                       ])
-                    ])
-                  ])
+                    : _vm._e()
                 ])
               ])
             ]

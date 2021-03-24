@@ -24,6 +24,10 @@ class ChannelController extends Controller
 
    public function member(Request $request)
    {
+      $request->validate([
+         'search' => 'required', 'string', 'min:1', 'max:15'
+      ]);
+
       $members = User::where('name', 'like', $request->search.'%')
       ->limit(5)
       ->get();
@@ -33,10 +37,14 @@ class ChannelController extends Controller
 
    public function addMember(Request $request)
    {
+      $request->validate([
+         'channel' => ['required'],
+         'user' => ['required']
+      ]);
       $channel = Channel::find($request->channel);
       
       if (!Gate::check('admin-channel', $channel)) {
-         return response()->json('Action non autorisé', 401);
+         return response()->json('Action non autorisée', 401);
       }
 
       if($channel->user->contains($request->user)){
@@ -71,20 +79,29 @@ class ChannelController extends Controller
 
    public function removeMember(Request $request)
    {
-      $channel = Channel::find($request->channel);
+      $request->validate([
+         'channel' => ['required'],
+         'user' => ['required']
+      ]);
 
-      if (Auth::user()->id != $request->user['id']) {
+      $channel = Channel::findOrFail($request->channel);
+
+      $user = User::findOrFail($request->user['id']);
+
+      if (Auth::user()->id != $user->id) {
          if (!Gate::check('admin-channel', $channel)) {
             return response()->json('Action non autorisée', 401);
          }
       }
 
      $channel_user = ChannelUser::where([
-        ['user_id', $request->user['id']], 
+        ['user_id', $user->id], 
         ['channel_id', $channel->id]
         ]);
 
-      $channel_user->delete();
+        if ($channel_user != null) {
+            $channel_user->delete();
+        }
 
       $channel->refresh();
          
@@ -93,7 +110,7 @@ class ChannelController extends Controller
 
    public function delete(Request $request)
    {
-      $channel = Channel::find($request->channel);
+      $channel = Channel::findOrFail($request->channel);
 
       if (!Gate::check('admin-channel', $channel)) {
          return response()->json('Action non autorisée', 401);

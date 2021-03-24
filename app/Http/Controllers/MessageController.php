@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\Notification;
 class MessageController extends Controller
 {
 
+   public function __construct()
+   {
+      $this->middleware('auth');
+   }
+
    public function index($name)
    {
       $channel = Channel::where('name', $name)->with(['user','messages'])->first();
@@ -56,8 +61,12 @@ class MessageController extends Controller
       $channel = Channel::find($request->channel);
 
       if (!Gate::check('channel-member', $channel)) {
-         return response()->json('Action non autorisé', 401);
+         return redirect()->route('home');
       }
+
+      $request->validate([
+         'message' => ['required', 'string', 'max:255']
+      ]);
 
       $message = new Message;
       $message->user_id = Auth::user()->id;

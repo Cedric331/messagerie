@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\MessageController;
 
@@ -34,3 +35,7 @@ Route::post('/member/remove', [ChannelController::class, 'removeMember']);
 Route::get('/create', [ChannelController::class, 'create'])->name('chat-create');
 Route::post('/create', [ChannelController::class, 'store']);
 Route::post('/channel/remove', [ChannelController::class, 'delete']);
+
+Route::get('/account', [UserController::class, 'index'])->name('account')->middleware('auth');
+Route::post('/account', [UserController::class, 'update'])->middleware('auth');
+Route::post('/account/delete', [UserController::class,'delete'])->middleware('auth');

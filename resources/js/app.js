@@ -9,6 +9,7 @@ Vue.component('post-message', require('./components/PostMessage.vue').default);
 Vue.component('member-chat', require('./components/MemberChat.vue').default);
 Vue.component('search-member', require('./components/SearchMember.vue').default);
 Vue.component('create-chat', require('./components/CreateChat.vue').default);
+Vue.component('account', require('./components/Account.vue').default);
 
 
 

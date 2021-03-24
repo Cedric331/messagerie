@@ -94,7 +94,6 @@
             search
         },
         props: ['channel', 'members'],
-
     }
 
 </script>

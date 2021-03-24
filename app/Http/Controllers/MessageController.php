@@ -57,7 +57,7 @@ class MessageController extends Controller
 
       if (!Gate::check('channel-member', $channel)) {
          return response()->json('Action non autorisé', 401);
-     }
+      }
 
       $message = new Message;
       $message->user_id = Auth::user()->id;

@@ -8,9 +8,15 @@ use App\Models\ChannelUser;
 use Illuminate\Http\Request;
 use App\Events\RemoveUserChat;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class ChannelController extends Controller
 {
+   public function __construct()
+   {
+      $this->middleware('auth');
+   }
+
    public function create()
    {
       return view('create-chat');
@@ -29,6 +35,10 @@ class ChannelController extends Controller
    {
       $channel = Channel::find($request->channel);
       
+      if (!Gate::check('admin-channel', $channel)) {
+         return response()->json('Action non autorisé', 401);
+      }
+
       if($channel->user->contains($request->user)){
          return response()->json('utilisateur déjà présent', 403);
       };
@@ -63,10 +73,17 @@ class ChannelController extends Controller
    {
       $channel = Channel::find($request->channel);
 
+      if (Auth::user()->id != $request->user['id']) {
+         if (!Gate::check('admin-channel', $channel)) {
+            return response()->json('Action non autorisée', 401);
+         }
+      }
+
      $channel_user = ChannelUser::where([
         ['user_id', $request->user['id']], 
         ['channel_id', $channel->id]
         ]);
+
       $channel_user->delete();
 
       $channel->refresh();
@@ -77,6 +94,11 @@ class ChannelController extends Controller
    public function delete(Request $request)
    {
       $channel = Channel::find($request->channel);
+
+      if (!Gate::check('admin-channel', $channel)) {
+         return response()->json('Action non autorisée', 401);
+      }
+
       broadcast(new RemoveUserChat($channel));
 
       $channel->delete();

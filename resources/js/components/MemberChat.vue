@@ -31,12 +31,12 @@
                               <em><i class="fas fa-star text-warning"></i></em>
                            </span>
                         </em>
-                        <div class="btn-group dropend ml-5" v-if="userAuth.id == user.id || channel.user_id == userAuth.id">
+                        <div class="btn-group dropend ml-5" v-if="auth.id == user.id || channel.user_id == auth.id">
                              <i class="fas fa-bars" data-bs-toggle="dropdown" aria-expanded="false"></i>
                            <ul class="dropdown-menu">
-                             <li><button class="dropdown-item" v-if="channel.user_id == userAuth.id && userAuth.id != user.id" @click="removeMember(user)">Supprimer cet utilisateur</button></li>
-                             <li><button class="dropdown-item" v-if="userAuth.id == user.id && channel.user_id != userAuth.id" @click="removeMember(user, true)">Quitter le chat</button></li>
-                             <li><button class="dropdown-item" v-if="userAuth.id == user.id && channel.user_id == userAuth.id" @click="removeChannel()">Supprimer le chat</button></li>
+                             <li><button class="dropdown-item" v-if="channel.user_id == auth.id && auth.id != user.id" @click="removeMember(user)">Supprimer cet utilisateur</button></li>
+                             <li><button class="dropdown-item" v-if="auth.id == user.id && channel.user_id != auth.id" @click="removeMember(user, true)">Quitter le chat</button></li>
+                             <li><button class="dropdown-item" v-if="auth.id == user.id && channel.user_id == auth.id" @click="removeChannel()">Supprimer le chat</button></li>
                            </ul>
                         </div>
                     </div>
@@ -87,7 +87,7 @@
         data() {
             return {
                 users: this.channel.user,
-                userAuth: this.$store.state.userAuth
+                auth: this.$store.state.auth
             }
         },
         components: {

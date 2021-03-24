@@ -7,11 +7,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
    state: {
-      userAuth: {}
+      auth: {}
    },
    mutations: {
       setData(state, data) {
-         state.userAuth = data;
+         state.auth = data;
       }
    },
    actions: {

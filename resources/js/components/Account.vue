@@ -3,7 +3,7 @@
 <div class="container my-5 p-5 z-depth-1 bg-light">
   <section class="text-center">
     <h2 class="font-weight-bold mb-4 pb-2 text-uppercase">Mes Informations</h2>
-<!-- <notifications group="success" position="bottom right" /> -->
+<notifications group="success" position="bottom right" />
     <div class="row d-flex justify-content-around ">
 
    <div class="col-12 col-md-8 mb-4 p-3 bg-color-custom">
@@ -84,27 +84,29 @@ export default {
             email: this.emailUpdate,
          })
          .then(response => {
-            // if (response.status == 200) {
-            //   this.$notify({
-            //       group: 'success',
-            //       type: 'success',
-            //       title: 'Modification',
-            //       speed: 1000,
-            //       text: 'Modification effectuée!',
-            //    });
-            // }
-            // if (response.status == 201) {
-            //   this.$notify({
-            //       group: 'success',
-            //       type: 'info',
-            //       title: 'Modification',
-            //       speed: 1000,
-            //       text: 'Aucune modification nécessaire!',
-            //    });
-            // }
+            this.$store.state.auth.name = this.nameUpdate
+            this.$store.state.auth.email = this.emailUpdate
+            if (response.status == 200) {
+              this.$notify({
+                  group: 'success',
+                  type: 'success',
+                  title: 'Modification',
+                  speed: 1000,
+                  text: 'Modification effectuée!',
+               });
+            }
+            if (response.status == 201) {
+              this.$notify({
+                  group: 'success',
+                  type: 'info',
+                  title: 'Modification',
+                  speed: 1000,
+                  text: 'Aucune modification nécessaire!',
+               });
+            }
          })
          .catch(error => {
-            console.log(error.response.data )
+            // console.log(error.response.data )
          });
      }
   },

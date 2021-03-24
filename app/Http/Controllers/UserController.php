@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+
+   public function __construct()
+   {
+      $this->middleware('auth');
+   }
+
    public function index()
    {
       return view('auth.account',[
@@ -32,8 +38,10 @@ class UserController extends Controller
          $user->name = $request->name;
          $user->email = $request->email;
          $user->save();
+         
       return response()->json(null ,200);
-      } else{
+      } 
+      else {
          return response()->json(null ,201);
       }
    }

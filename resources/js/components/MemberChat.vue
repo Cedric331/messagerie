@@ -1,7 +1,7 @@
 <template>
 
-    <div class="col-12 col-lg-5 col-xl-3 border-right">
-        <search v-on:adduser="addMember"></search>
+    <div class="col-12 col-lg-5 col-xl-4 border-right mt-2">
+        <search v-if="channel.user_id == auth.id" v-on:adduser="addMember"></search>
 
         <h3 class="text-center">Membres en ligne</h3>
         <hr>
@@ -17,7 +17,7 @@
             </div>
         </div>
 
-        <h3 class="text-center">Membres de {{channel.name}}</h3>
+        <h3 class="text-center">Membres du Chat</h3>
         <hr>
         <div v-for="user in users" :key="user.name">
             <div class="list-group-item list-group-item-action border-0">

@@ -1912,16 +1912,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['user'],
   data: function data() {
     return {
       nameUpdate: this.user.name,
-      emailUpdate: this.user.email
+      emailUpdate: this.user.email,
+      errors: []
     };
   },
   methods: {
     deleteUser: function deleteUser() {
+      var _this = this;
+
       axios.post('/account/delete', {
         id: this.user.id
       }).then(function (response) {
@@ -1929,21 +1936,28 @@ __webpack_require__.r(__webpack_exports__);
           window.location = "/";
         }
       })["catch"](function (error) {
-        console.log(error);
+        _this.$notify({
+          group: 'success',
+          type: 'warn',
+          title: 'Erreur',
+          speed: 1000,
+          text: 'Désolé nous ne pouvons pas supprimer votre compte!'
+        });
       });
     },
     update: function update() {
-      var _this = this;
+      var _this2 = this;
 
+      this.errors = [];
       axios.post('/account', {
         name: this.nameUpdate,
         email: this.emailUpdate
       }).then(function (response) {
-        _this.$store.state.auth.name = _this.nameUpdate;
-        _this.$store.state.auth.email = _this.emailUpdate;
+        _this2.$store.state.auth.name = _this2.nameUpdate;
+        _this2.$store.state.auth.email = _this2.emailUpdate;
 
         if (response.status == 200) {
-          _this.$notify({
+          _this2.$notify({
             group: 'success',
             type: 'success',
             title: 'Modification',
@@ -1953,7 +1967,7 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         if (response.status == 201) {
-          _this.$notify({
+          _this2.$notify({
             group: 'success',
             type: 'info',
             title: 'Modification',
@@ -1961,7 +1975,10 @@ __webpack_require__.r(__webpack_exports__);
             text: 'Aucune modification nécessaire!'
           });
         }
-      })["catch"](function (error) {// console.log(error.response.data )
+      })["catch"](function (err) {
+        if (err.response.status == 422) {
+          _this2.errors = err.response.data.errors;
+        }
       });
     }
   }
@@ -2029,11 +2046,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
     create: function create() {
       var _this = this;
 
+      this.errors = [];
       axios.post('/create', {
         name: this.name,
         checked: this.checked
@@ -2041,7 +2064,11 @@ __webpack_require__.r(__webpack_exports__);
         if (res.status == 200) {
           _this.save = true;
         }
-      })["catch"](function (err) {});
+      })["catch"](function (err) {
+        if (err.response.status == 422) {
+          _this.errors = err.response.data.errors;
+        }
+      });
     },
     newChat: function newChat() {
       this.save = false;
@@ -2052,7 +2079,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       checked: true,
       name: '',
-      save: false
+      save: false,
+      errors: []
     };
   }
 });
@@ -2305,6 +2333,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2319,20 +2351,26 @@ __webpack_require__.r(__webpack_exports__);
       count: 10,
       members: [],
       typing: false,
-      other: ''
+      other: '',
+      errors: []
     };
   },
   methods: {
     addMessage: function addMessage(message) {
       var _this2 = this;
 
+      this.errors = [];
       axios.post('/message/post', {
         message: message.message,
         channel: this.channel.id,
         members: this.members
       }).then(function (res) {
         _this2.fetchMessages();
-      })["catch"](function (err) {});
+      })["catch"](function (err) {
+        if (err.response.status == 422) {
+          _this2.errors = err.response.data.errors;
+        }
+      });
     },
     fetchMessages: function fetchMessages() {
       var _this3 = this;
@@ -45550,6 +45588,20 @@ var render = function() {
         }),
         _vm._v(" "),
         _c("div", { staticClass: "row d-flex justify-content-around " }, [
+          _vm.errors != []
+            ? _c(
+                "div",
+                _vm._l(_vm.errors, function(error, index) {
+                  return _c("p", { key: index, staticClass: "text-danger" }, [
+                    _vm._v(
+                      "\r\n              " + _vm._s(error[0]) + "\r\n          "
+                    )
+                  ])
+                }),
+                0
+              )
+            : _vm._e(),
+          _vm._v(" "),
           _c(
             "div",
             { staticClass: "col-12 col-md-8 mb-4 p-3 bg-color-custom" },
@@ -45773,6 +45825,26 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
+              _vm.errors != []
+                ? _c(
+                    "div",
+                    _vm._l(_vm.errors, function(error, index) {
+                      return _c(
+                        "p",
+                        { key: index, staticClass: "text-danger" },
+                        [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(error[0]) +
+                              "\n                    "
+                          )
+                        ]
+                      )
+                    }),
+                    0
+                  )
+                : _vm._e(),
+              _vm._v(" "),
               _c("div", { staticClass: "md-form" }, [
                 _c(
                   "label",
@@ -45882,7 +45954,7 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\r\n                             Créer\r\n                         "
+                      "\n                        Créer\n                    "
                     )
                   ]
                 )
@@ -45903,7 +45975,7 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\r\n                     Groupe de discussion crée\r\n                  "
+                    "\n                    Groupe de discussion crée\n                "
                   )
                 ]
               ),
@@ -46068,9 +46140,11 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "col-12 col-lg-5 col-xl-3 border-right" },
+    { staticClass: "col-12 col-lg-5 col-xl-4 border-right mt-2" },
     [
-      _c("search", { on: { adduser: _vm.addMember } }),
+      _vm.channel.user_id == _vm.auth.id
+        ? _c("search", { on: { adduser: _vm.addMember } })
+        : _vm._e(),
       _vm._v(" "),
       _c("h3", { staticClass: "text-center" }, [_vm._v("Membres en ligne")]),
       _vm._v(" "),
@@ -46109,9 +46183,7 @@ var render = function() {
         ])
       }),
       _vm._v(" "),
-      _c("h3", { staticClass: "text-center" }, [
-        _vm._v("Membres de " + _vm._s(_vm.channel.name))
-      ]),
+      _c("h3", { staticClass: "text-center" }, [_vm._v("Membres du Chat")]),
       _vm._v(" "),
       _c("hr"),
       _vm._v(" "),
@@ -46278,11 +46350,13 @@ var render = function() {
           _vm._v(" "),
           _c(
             "div",
-            { staticClass: "col-12 col-lg-7 col-xl-9" },
+            { staticClass: "col-12 col-lg-7 col-xl-8" },
             [
-              _c("h1", { staticClass: "text-center" }, [
+              _c("h1", { staticClass: "text-center mt-2" }, [
                 _vm._v(_vm._s(_vm.channel.name))
               ]),
+              _vm._v(" "),
+              _c("hr"),
               _vm._v(" "),
               _c(
                 "div",
@@ -46386,6 +46460,26 @@ var render = function() {
                   ])
                 ]
               ),
+              _vm._v(" "),
+              _vm.errors != []
+                ? _c(
+                    "div",
+                    _vm._l(_vm.errors, function(error, index) {
+                      return _c(
+                        "p",
+                        { key: index, staticClass: "text-danger" },
+                        [
+                          _vm._v(
+                            "\n                  " +
+                              _vm._s(error[0]) +
+                              "\n               "
+                          )
+                        ]
+                      )
+                    }),
+                    0
+                  )
+                : _vm._e(),
               _vm._v(" "),
               _c("post", {
                 attrs: { channel: _vm.channel, user: _vm.user },

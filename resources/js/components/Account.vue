@@ -5,7 +5,11 @@
     <h2 class="font-weight-bold mb-4 pb-2 text-uppercase">Mes Informations</h2>
 <notifications group="success" position="bottom right" />
     <div class="row d-flex justify-content-around ">
-
+      <div v-if="errors != []">
+          <p class="text-danger" v-for="(error, index) in errors" :key="index">
+              {{ error[0] }}
+          </p>
+      </div>
    <div class="col-12 col-md-8 mb-4 p-3 bg-color-custom">
       <div class="mb-3">
         <label for="pseudo" class="form-label">Nom</label>
@@ -60,7 +64,8 @@ export default {
   data () {
     return {
        nameUpdate: this.user.name,
-       emailUpdate: this.user.email    
+       emailUpdate: this.user.email,
+       errors: []
        }
   },
   methods: {
@@ -74,11 +79,18 @@ export default {
             }
          })
          .catch(error => {
-            console.log(error)
+               this.$notify({
+                  group: 'success',
+                  type: 'warn',
+                  title: 'Erreur',
+                  speed: 1000,
+                  text: 'Désolé nous ne pouvons pas supprimer votre compte!',
+               });
          });
      },
 
      update(){
+        this.errors = []
          axios.post('/account', {
             name: this.nameUpdate,
             email: this.emailUpdate,
@@ -105,8 +117,10 @@ export default {
                });
             }
          })
-         .catch(error => {
-            // console.log(error.response.data )
+         .catch(err => {
+            if (err.response.status == 422) {
+               this.errors = err.response.data.errors;
+            }
          });
      }
   },

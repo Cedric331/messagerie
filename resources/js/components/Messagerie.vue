@@ -4,9 +4,9 @@
 			<div class="row g-0">
          <member :members="members" :channel="channel" :key="members.length"></member>
 
-				<div class="col-12 col-lg-7 col-xl-9">
-               <h1 class="text-center">{{channel.name}}</h1>
-
+				<div class="col-12 col-lg-7 col-xl-8">
+               <h1 class="text-center mt-2">{{channel.name}}</h1>
+            <hr>
 					<div class="position-relative chat-messages">
                   <div class="text-center mt-1">
                      <button v-if="channel.messages.length > count" @click="moreMessage" class="btn btn-outline-dark m-auto">Afficher plus de message</button> 
@@ -40,7 +40,11 @@
 							</div>
 						</div>
 					</div>
-
+            <div v-if="errors != []">
+               <p class="text-danger" v-for="(error, index) in errors" :key="index">
+                  {{ error[0] }}
+               </p>
+            </div>
             <post :channel="channel" :user="user" v-on:messagesent="addMessage"></post>
 
 				</div>
@@ -65,11 +69,13 @@ import member from './MemberChat'
        count: 10,
        members: [],
        typing: false,
-       other: ''
+       other: '',
+       errors: []
     }
   },
   methods: {
          addMessage(message) {
+            this.errors = []
           axios.post('/message/post',{
             message: message.message,
             channel: this.channel.id,
@@ -77,7 +83,9 @@ import member from './MemberChat'
          }).then(res => {
             this.fetchMessages()
          }).catch(err => {
- 
+            if (err.response.status == 422){
+               this.errors = err.response.data.errors;
+            }
          })
    },
          fetchMessages(scroll = true) {

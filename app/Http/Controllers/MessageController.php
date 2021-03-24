@@ -64,9 +64,14 @@ class MessageController extends Controller
          return redirect()->route('home');
       }
 
-      $request->validate([
-         'message' => ['required', 'string', 'max:255']
-      ]);
+
+      $this->validate($request, 
+         ['message' => 'required|string|max:255'],
+         [
+            'message.max' => 'Le message est trop long, maximum 255 caractères',
+            'message.required' => 'Le message est requis']
+     );
+      
 
       $message = new Message;
       $message->user_id = Auth::user()->id;

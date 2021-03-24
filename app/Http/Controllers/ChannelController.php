@@ -63,6 +63,22 @@ class ChannelController extends Controller
 
    public function store(Request $request)
    {
+      $this->validate($request, 
+      ['name' => 'required|string|max:30|unique:channels'],
+      [
+         'name.unique' => 'Le nom du groupe existe déjà',
+         'name.required' => 'Le nom est requis',
+         'name.string' => 'Le nom est incorrect'],
+      );
+
+      $this->validate($request, 
+         ['checked' => 'required']
+      );
+
+      if ($request->channel != true && $request->channel != false ) {
+         $request->channel = false;
+      }
+
       $channel = new Channel;
       $channel->name = $request->name;
       $channel->private = $request->checked;

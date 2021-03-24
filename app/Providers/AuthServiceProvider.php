@@ -34,5 +34,12 @@ class AuthServiceProvider extends ServiceProvider
            }
          return $channel->user->contains($user->id);
       });
+
+      Gate::define('admin-channel', function (User $user, Channel $channel = null) {
+         if ($channel == null) {
+            return false;
+         }
+       return $channel->user_id == $user->id;
+    });
     }
 }

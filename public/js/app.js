@@ -2545,7 +2545,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['channel'],
   data: function data() {
     return {
       search: '',
@@ -2560,7 +2570,8 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.search != '') {
         axios.post('/member/search', {
-          search: this.search
+          search: this.search,
+          channel: this.channel.id
         }).then(function (res) {
           _this.users = res.data;
         })["catch"](function (err) {});
@@ -2570,6 +2581,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit('adduser', {
         user: user
       });
+      this.searchMember();
     }
   }
 });
@@ -46143,7 +46155,10 @@ var render = function() {
     { staticClass: "col-12 col-lg-5 col-xl-4 border-right mt-2" },
     [
       _vm.channel.user_id == _vm.auth.id
-        ? _c("search", { on: { adduser: _vm.addMember } })
+        ? _c("search", {
+            attrs: { channel: _vm.channel },
+            on: { adduser: _vm.addMember }
+          })
         : _vm._e(),
       _vm._v(" "),
       _c("h3", { staticClass: "text-center" }, [_vm._v("Membres en ligne")]),
@@ -46611,46 +46626,63 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "px-4 d-none d-md-block" }, [
+  return _c("div", { staticClass: "px-4 d-none d-block my-3" }, [
     _c("div", { staticClass: "d-flex align-items-center" }, [
       _c("div", { staticClass: "flex-grow-1" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.search,
-              expression: "search"
-            }
-          ],
-          staticClass: "dropdown-input form-control my-3",
-          attrs: { placeholder: "Inviter des utilisateurs..." },
-          domProps: { value: _vm.search },
-          on: {
-            keyup: _vm.searchMember,
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+        _c("div", { staticClass: "d-flex dropdown" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.search,
+                expression: "search"
               }
-              _vm.search = $event.target.value
+            ],
+            staticClass: "form-control form-control",
+            attrs: {
+              type: "text",
+              placeholder: "Inviter des utilisateurs...",
+              id: "menu1",
+              "data-toggle": "dropdown"
+            },
+            domProps: { value: _vm.search },
+            on: {
+              keyup: _vm.searchMember,
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.search = $event.target.value
+              }
             }
-          }
-        }),
-        _vm._v(" "),
-        _vm.search != "" && _vm.users.length > 0
-          ? _c(
-              "div",
-              { staticClass: "dropdown-list" },
+          }),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.search != "",
+                  expression: "search != ''"
+                }
+              ],
+              staticClass: "dropdown-menu w-100",
+              attrs: { role: "menu", "aria-labelledby": "menu1" }
+            },
+            [
               _vm._l(_vm.users, function(user) {
-                return _c(
-                  "div",
-                  { key: user.id, staticClass: "dropdown-item" },
-                  [
+                return _c("ul", { key: user.id }, [
+                  _c("li", [
                     _vm._v(
-                      "\n                    " + _vm._s(user.name) + " - "
+                      "\n                            " +
+                        _vm._s(user.name) +
+                        " - "
                     ),
                     _c(
-                      "button",
+                      "a",
                       {
                         staticClass: "btn btn-primary btn-sm",
                         attrs: { type: "button" },
@@ -46662,34 +46694,55 @@ var render = function() {
                       },
                       [_vm._v("Inviter")]
                     )
-                  ]
-                )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.search != "" && _vm.users.length == 0,
+                          expression: "search != '' && users.length == 0"
+                        }
+                      ]
+                    },
+                    [
+                      _vm._v(
+                        "\n                             Aucun utilisateur trouvé\n                        "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "dropdown-divider" })
+                ])
               }),
-              0
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.search != "" && _vm.users.length == 0,
-                expression: "search != '' && users.length == 0"
-              }
-            ],
-            staticClass: "dropdown-list"
-          },
-          [
-            _c("div", { staticClass: "dropdown-item" }, [
-              _vm._v(
-                "\n                    Aucun utilisateur trouvé\n                "
+              _vm._v(" "),
+              _c(
+                "ul",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.search != "" && _vm.users.length == 0,
+                      expression: "search != '' && users.length == 0"
+                    }
+                  ]
+                },
+                [
+                  _c("li", [
+                    _vm._v(
+                      "\n                             Aucun utilisateur trouvé ou déjà présent dans la discussion\n                        "
+                    )
+                  ])
+                ]
               )
-            ])
-          ]
-        )
+            ],
+            2
+          )
+        ])
       ])
     ])
   ])

@@ -1,7 +1,7 @@
 <template>
 
     <div class="col-12 col-lg-5 col-xl-4 border-right mt-2">
-        <search v-if="channel.user_id == auth.id" v-on:adduser="addMember"></search>
+        <search v-if="channel.user_id == auth.id" :channel="channel" v-on:adduser="addMember"></search>
 
         <h3 class="text-center">Membres en ligne</h3>
         <hr>

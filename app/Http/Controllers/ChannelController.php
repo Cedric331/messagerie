@@ -25,14 +25,34 @@ class ChannelController extends Controller
    public function member(Request $request)
    {
       $request->validate([
-         'search' => 'required', 'string', 'min:1', 'max:15'
+         'search' => ['required', 'string', 'min:1', 'max:15'],
+         'channel' => ['required'],
       ]);
 
-      $members = User::where('name', 'like', $request->search.'%')
-      ->limit(5)
-      ->get();
+      $channel = Channel::findOrFail($request->channel);
 
-      return response()->json($members, 200);
+      if (!Gate::check('admin-channel', $channel)) {
+         return response()->json('Action non autorisée', 401);
+      }
+
+      $users = User::where('name', 'like', $request->search.'%')->get();
+
+      $members = collect([]);
+      foreach ($users as $user)
+      {
+          $members->push($user->id);
+      }
+
+      $collection = collect([]);
+      foreach ($channel->user as $user)
+      {
+          $collection->push($user->id);
+      }
+
+      $diff = $members->diff($collection);
+      $users = User::find($diff->all());
+
+      return response()->json($users, 200);
    }
 
    public function addMember(Request $request)

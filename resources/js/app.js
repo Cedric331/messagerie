@@ -13,6 +13,7 @@ Vue.component('search-member', require('./components/SearchMember.vue').default)
 Vue.component('create-chat', require('./components/CreateChat.vue').default);
 Vue.component('account', require('./components/Account.vue').default);
 Vue.component('name', require('./components/Name.vue').default);
+Vue.component('search-channel', require('./components/SearchChannel.vue').default);
 
 Vue.use(Notifications)
 

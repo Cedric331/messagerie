@@ -22,7 +22,46 @@ class ChannelController extends Controller
       return view('create-chat');
    }
 
-   public function member(Request $request)
+   public function searchChannel(Request $request)
+   {
+      $request->validate([
+         'search' => ['required', 'string', 'min:1', 'max:30'],
+      ]);
+
+      $channels = Channel::where([
+         ['name', 'like', $request->search.'%'],
+         ['private', false]
+      ])->get();
+
+      $array = collect([]);
+      foreach ($channels as $channel) {
+         if(!$channel->user->contains(Auth::user())){
+            $array->push($channel);
+         };
+      }
+
+      $array = $array->take(5);
+
+      return response()->json($array, 200);
+   }
+
+   public function joinChannel(Request $request)
+   {
+      $channel = Channel::findOrFail($request->id);
+
+      if($channel->user->contains(Auth::user())){
+         return response()->json('utilisateur déjà présent', 403);
+      };
+
+      ChannelUser::create([
+         'user_id' => Auth::user()->id,
+         'channel_id' => $channel->id,
+     ]);
+
+     return response()->json($channel->name, 200);
+   }
+
+   public function searchMember(Request $request)
    {
       $request->validate([
          'search' => ['required', 'string', 'min:1', 'max:15'],
@@ -51,6 +90,7 @@ class ChannelController extends Controller
 
       $diff = $members->diff($collection);
       $users = User::find($diff->all());
+      $users = $users->take(5);
 
       return response()->json($users, 200);
    }
@@ -110,7 +150,7 @@ class ChannelController extends Controller
          'channel_id' => $channel->id,
      ]);
 
-      return response()->json(null, 200);
+      return response()->json($channel->name, 200);
    }
 
    public function removeMember(Request $request)

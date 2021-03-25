@@ -1,7 +1,7 @@
 <template>
     <div class="mt-5">
         <div class="col-md-8 col-sm-12 m-auto">
-            <div v-if="!save" class="card">
+            <div class="card">
                 <h1 class="card-header text-center">Création Discussion</h1>
                 <div class="card-body">
                     <div v-if="errors != []">
@@ -36,17 +36,6 @@
                     </div>
                 </div>
             </div>
-
-            <div v-else class="card">
-                <h1 class="card-header text-center">Création Discussion</h1>
-                <div class="card-body">
-                    <div class="alert alert-success" role="alert">
-                        Groupe de discussion crée
-                    </div>
-                    <button class="btn btn-info" @click="newChat">Créer un nouveau groupe</button>
-                </div>
-            </div>
-
         </div>
     </div>
 </template>
@@ -62,7 +51,7 @@
                     checked: this.checked,
                 }).then(res => {
                     if (res.status == 200) {
-                        this.save = true
+                       window.location = '/chat/'+res.data
                     }
                 }).catch(err => {
                     if (err.response.status == 422) {
@@ -71,7 +60,6 @@
                 })
             },
             newChat() {
-                this.save = false
                 this.name = '',
                     this.checked = true
             }
@@ -80,7 +68,6 @@
             return {
                 checked: true,
                 name: '',
-                save: false,
                 errors: []
             }
         },

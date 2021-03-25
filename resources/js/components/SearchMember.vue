@@ -13,9 +13,6 @@
                                 {{ user.name }} - <a @click="addMember(user.id)" type="button"
                                     class="btn btn-primary btn-sm">Ajouter à la discussion</a>
                             </li>
-                           <li v-show="search != '' && users.length == 0">
-                                 Aucun utilisateur trouvé
-                            </li>
                             <div class="dropdown-divider"></div>
                         </ul>
                         <ul v-show="search != '' && users.length == 0">

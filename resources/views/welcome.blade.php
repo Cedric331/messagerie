@@ -41,10 +41,10 @@
                                     @csrf
 
                                     <div class="form-group row">
-                                        <label for="email"
+                                        <label for="email1"
                                             class="col-md-6 col-form-label text-md-left">{{ __('E-Mail Address') }}</label>
                                         <div class="col-12">
-                                            <input id="email" type="email"
+                                            <input id="email1" type="email"
                                                 class="form-control @error('email') is-invalid @enderror" name="email"
                                                 value="{{ old('email') }}" required autocomplete="email" autofocus>
                                             @error('email')
@@ -56,11 +56,11 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="password"
+                                        <label for="password1"
                                             class="col-md-6 col-form-label text-md-left">{{ __('Password') }}</label>
 
                                         <div class="col-12">
-                                            <input id="password" type="password"
+                                            <input id="password1" type="password"
                                                 class="form-control @error('password') is-invalid @enderror"
                                                 name="password" required autocomplete="current-password">
 

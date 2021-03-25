@@ -22,16 +22,24 @@
             <div class="col-md-6">
             <div class="card bg-light">
                <div class="card-body">
-                 <h4 class="card-title text-center">Menu</h4>
+                 <h4 class="card-title text-center">Création</h4>
                   <hr>
                    <ul class="cart-content">
-                      <li>
+                      <li class="text-center">
                          <a href="/create" class="btn btn-primary">Créer un groupe de discussion</a>
                       </li>
                    </ul>
 
                </div>
             </div>
+      </div>
+
+      <div class="col-md-6 m-auto">
+         <div class="bg-light p-2 mt-5">
+            <h3 class="text-center mb-4">Rechercher un Channel public</h3>
+            <hr class="w-75 m-auto">
+            <search-channel></search-channel>
+         </div>
       </div>
 
    </div>

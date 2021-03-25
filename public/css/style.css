@@ -1,8 +1,8 @@
 body{
-   background-image: url('http://mdbootstrap.com/img/Photos/Others/images/91.jpg'); 
-   background-repeat: no-repeat; 
-   background-size: cover; 
-   background-position: center center;
+   background-image: url("../storage/image/site/background.jpg"); 
+   background-size: cover;
+   background-position: center;
+   background-attachment: fixed;
 }
 
 ::-webkit-scrollbar-track

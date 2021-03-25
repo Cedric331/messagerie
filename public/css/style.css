@@ -74,3 +74,7 @@ body{
 .bg-lightm{
    background-color: rgb(186, 215, 228);
 }
+
+li{
+   list-style-type: none; 
+}

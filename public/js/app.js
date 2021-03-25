@@ -46675,7 +46675,7 @@ var render = function() {
             [
               _vm._l(_vm.users, function(user) {
                 return _c("ul", { key: user.id }, [
-                  _c("li", [
+                  _c("li", { staticClass: "text-center" }, [
                     _vm._v(
                       "\n                            " +
                         _vm._s(user.name) +
@@ -46692,7 +46692,7 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v("Inviter")]
+                      [_vm._v("Ajouter à la discussion")]
                     )
                   ]),
                   _vm._v(" "),

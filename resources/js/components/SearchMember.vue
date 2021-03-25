@@ -9,9 +9,9 @@
                         placeholder="Inviter des utilisateurs..." id="menu1" data-toggle="dropdown">
                     <div class="dropdown-menu w-100" v-show="search != ''" role="menu" aria-labelledby="menu1">
                         <ul v-for="user in users" :key="user.id">
-                            <li>
+                            <li class="text-center">
                                 {{ user.name }} - <a @click="addMember(user.id)" type="button"
-                                    class="btn btn-primary btn-sm">Inviter</a>
+                                    class="btn btn-primary btn-sm">Ajouter à la discussion</a>
                             </li>
                            <li v-show="search != '' && users.length == 0">
                                  Aucun utilisateur trouvé

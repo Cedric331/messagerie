@@ -1,17 +1,20 @@
 <template>
-<div class="container mt-5">
+<div class="container my-5">
    <div class="row">
       <div class="col-md-6">
             <div class="card bg-light">
                <div class="card-body">
                  <h4 class="card-title text-center">Mes groupes de discussion</h4>
                   <hr>
-                   <ul class="cart-content">
-                      <li v-for="channel in channels" :key="channel.id">
-                         <button class="btn btn-primary btn-sm my-2" @click="linkChannel(channel.name)">{{ channel.name }}</button>
-                        <span v-if="count(channel.id) != 0" class="badge rounded-pill bg-danger" style="font-size: 10px;">
+                   <ul class="cart-content" v-for="channel in channels" :key="channel.id">
+                      <li class="text-center bg-dark p-2 text-white d-md-flex justify-content-between">
+                         <h5 class="font-weight-bold mb-md-0 mt-2 pt-1">
+                            {{ channel.name }}
+                        <span v-if="count(channel.id) != 0" class="badge rounded-pill bg-info" style="font-size: 10px;">
                          {{ count(channel.id) }} message(s)
                         </span>
+                         </h5>
+                         <button class="btn btn-primary my-2" @click="linkChannel(channel.name)">Rejoindre</button>
                       </li>
                    </ul>
 

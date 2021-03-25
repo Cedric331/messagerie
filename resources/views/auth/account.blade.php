@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-<account :user="{{ $user }}"></account>
+<account :avatars="{{ $avatars }}" :user="{{ $user }}"></account>
 @endsection

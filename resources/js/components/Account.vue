@@ -2,15 +2,34 @@
 
 <div class="container my-5 p-5 z-depth-1 bg-light">
   <section class="text-center">
-    <h2 class="font-weight-bold mb-4 pb-2 text-uppercase">Mes Informations</h2>
+    <h2 class="font-weight-bold pb-2 text-uppercase">Mes Informations</h2>
+
+    <hr class="my-4">
+
 <notifications group="success" position="bottom right" />
+
+   <div class="col-12 col-md-8 m-auto p-3">
+          <h3 class="font-weight-bold mb-2 pb-2 text-uppercase">Mon Avatar</h3>
+          <div class="row">
+            <div class="col-3 mt-2" v-for="avatar in avatars" :key="avatar">
+               <a type="button" @click="updateAvatar(avatar)">
+                  <img :src="'/storage/image/avatars/'+avatar" class="rounded-circle"
+                  v-bind:class="(avatar == userAvatar)?'bg-success p-1':'bg-danger p-1'"
+                   width="50" height="50">
+               </a>
+            </div>
+          </div>
+   </div>
+
+   <hr>
+
     <div class="row d-flex justify-content-around ">
       <div v-if="errors != []">
           <p class="text-danger" v-for="(error, index) in errors" :key="index">
               {{ error[0] }}
           </p>
       </div>
-   <div class="col-12 col-md-8 mb-4 p-3 bg-color-custom">
+   <div class="col-12 col-md-8 my-4 p-3">
       <div class="mb-3">
         <label for="pseudo" class="form-label">Nom</label>
         <input type="text" class="form-control" v-model="nameUpdate">
@@ -60,11 +79,12 @@
 
 <script>
 export default {
-  props: ['user'],
+  props: ['user', 'avatars'],
   data () {
     return {
        nameUpdate: this.user.name,
        emailUpdate: this.user.email,
+       userAvatar: this.user.avatar,
        errors: []
        }
   },
@@ -121,6 +141,30 @@ export default {
             if (err.response.status == 422) {
                this.errors = err.response.data.errors;
             }
+         });
+     },
+     updateAvatar(avatar){
+        axios.post('/user/avatar',{
+           avatar: avatar
+        }).then(res => {
+            if (res.status == 200) {
+               this.userAvatar = avatar
+              this.$notify({
+                  group: 'success',
+                  type: 'success',
+                  title: 'Modification',
+                  speed: 1000,
+                  text: 'Modification effectuée!',
+               });
+            }
+        }).catch(err => {
+               this.$notify({
+                  group: 'success',
+                  type: 'warn',
+                  title: 'Erreur',
+                  speed: 1000,
+                  text: 'Désolé il y a une erreur!',
+               });
          });
      }
   },

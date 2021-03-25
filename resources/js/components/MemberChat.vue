@@ -8,8 +8,8 @@
         <div v-for="user in members" :key="user.id">
             <div href="#" class="list-group-item list-group-item-action border-0">
                 <div class="d-flex align-items-start">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar5.png" class="rounded-circle mr-1"
-                        alt="Vanessa Tucker" width="40" height="40">
+                    <img :src="'/storage/image/avatars/'+user.avatar" class="rounded-circle mr-1"
+                        :alt="user.name" width="40" height="40">
                     <div class="flex-grow-1 ml-3">
                         {{ user.name }}
                     </div>
@@ -22,8 +22,8 @@
         <div v-for="user in users" :key="user.name">
             <div class="list-group-item list-group-item-action border-0">
                 <div class="d-flex align-items-start">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar5.png" class="rounded-circle mr-1"
-                        alt="Vanessa Tucker" width="40" height="40">
+                    <img :src="'/storage/image/avatars/'+user.avatar" class="rounded-circle mr-1"
+                        :alt="user.name" width="40" height="40">
                     <div class="flex-grow-1 ml-3">
                         {{ user.name }}
                         <em v-if="channel.user_id == user.id"> - 

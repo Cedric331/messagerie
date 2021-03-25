@@ -1916,12 +1916,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['user'],
+  props: ['user', 'avatars'],
   data: function data() {
     return {
       nameUpdate: this.user.name,
       emailUpdate: this.user.email,
+      userAvatar: this.user.avatar,
       errors: []
     };
   },
@@ -1979,6 +1999,33 @@ __webpack_require__.r(__webpack_exports__);
         if (err.response.status == 422) {
           _this2.errors = err.response.data.errors;
         }
+      });
+    },
+    updateAvatar: function updateAvatar(avatar) {
+      var _this3 = this;
+
+      axios.post('/user/avatar', {
+        avatar: avatar
+      }).then(function (res) {
+        if (res.status == 200) {
+          _this3.userAvatar = avatar;
+
+          _this3.$notify({
+            group: 'success',
+            type: 'success',
+            title: 'Modification',
+            speed: 1000,
+            text: 'Modification effectuée!'
+          });
+        }
+      })["catch"](function (err) {
+        _this3.$notify({
+          group: 'success',
+          type: 'warn',
+          title: 'Erreur',
+          speed: 1000,
+          text: 'Désolé il y a une erreur!'
+        });
       });
     }
   }
@@ -2085,6 +2132,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
 //
 //
 //
@@ -2277,6 +2327,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _PostMessage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PostMessage */ "./resources/js/components/PostMessage.vue");
 /* harmony import */ var _MemberChat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MemberChat */ "./resources/js/components/MemberChat.vue");
+//
+//
+//
+//
 //
 //
 //
@@ -45725,13 +45779,60 @@ var render = function() {
       "section",
       { staticClass: "text-center" },
       [
-        _c("h2", { staticClass: "font-weight-bold mb-4 pb-2 text-uppercase" }, [
+        _c("h2", { staticClass: "font-weight-bold pb-2 text-uppercase" }, [
           _vm._v("Mes Informations")
         ]),
+        _vm._v(" "),
+        _c("hr", { staticClass: "my-4" }),
         _vm._v(" "),
         _c("notifications", {
           attrs: { group: "success", position: "bottom right" }
         }),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-12 col-md-8 m-auto p-3" }, [
+          _c(
+            "h3",
+            { staticClass: "font-weight-bold mb-2 pb-2 text-uppercase" },
+            [_vm._v("Mon Avatar")]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "row" },
+            _vm._l(_vm.avatars, function(avatar) {
+              return _c("div", { key: avatar, staticClass: "col-3 mt-2" }, [
+                _c(
+                  "a",
+                  {
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.updateAvatar(avatar)
+                      }
+                    }
+                  },
+                  [
+                    _c("img", {
+                      staticClass: "rounded-circle",
+                      class:
+                        avatar == _vm.userAvatar
+                          ? "bg-success p-1"
+                          : "bg-danger p-1",
+                      attrs: {
+                        src: "/storage/image/avatars/" + avatar,
+                        width: "50",
+                        height: "50"
+                      }
+                    })
+                  ]
+                )
+              ])
+            }),
+            0
+          )
+        ]),
+        _vm._v(" "),
+        _c("hr"),
         _vm._v(" "),
         _c("div", { staticClass: "row d-flex justify-content-around " }, [
           _vm.errors != []
@@ -45748,88 +45849,84 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "col-12 col-md-8 mb-4 p-3 bg-color-custom" },
-            [
-              _c("div", { staticClass: "mb-3" }, [
-                _c(
-                  "label",
-                  { staticClass: "form-label", attrs: { for: "pseudo" } },
-                  [_vm._v("Nom")]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.nameUpdate,
-                      expression: "nameUpdate"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text" },
-                  domProps: { value: _vm.nameUpdate },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.nameUpdate = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "mb-3" }, [
-                _c(
-                  "label",
-                  { staticClass: "form-label", attrs: { for: "email" } },
-                  [_vm._v("Adresse email")]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.emailUpdate,
-                      expression: "emailUpdate"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "email", "aria-describedby": "adresse email" },
-                  domProps: { value: _vm.emailUpdate },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.emailUpdate = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
+          _c("div", { staticClass: "col-12 col-md-8 my-4 p-3" }, [
+            _c("div", { staticClass: "mb-3" }, [
               _c(
-                "button",
-                {
-                  staticClass: "btn btn-outline-success",
-                  on: {
-                    click: function($event) {
-                      return _vm.update()
-                    }
-                  }
-                },
-                [_vm._v("Modifier")]
+                "label",
+                { staticClass: "form-label", attrs: { for: "pseudo" } },
+                [_vm._v("Nom")]
               ),
               _vm._v(" "),
-              _c("hr", { staticClass: "w-50 mx-auto mt-5" }),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.nameUpdate,
+                    expression: "nameUpdate"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text" },
+                domProps: { value: _vm.nameUpdate },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.nameUpdate = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "mb-3" }, [
+              _c(
+                "label",
+                { staticClass: "form-label", attrs: { for: "email" } },
+                [_vm._v("Adresse email")]
+              ),
               _vm._v(" "),
-              _vm._m(0)
-            ]
-          )
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.emailUpdate,
+                    expression: "emailUpdate"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "email", "aria-describedby": "adresse email" },
+                domProps: { value: _vm.emailUpdate },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.emailUpdate = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-outline-success",
+                on: {
+                  click: function($event) {
+                    return _vm.update()
+                  }
+                }
+              },
+              [_vm._v("Modifier")]
+            ),
+            _vm._v(" "),
+            _c("hr", { staticClass: "w-50 mx-auto mt-5" }),
+            _vm._v(" "),
+            _vm._m(0)
+          ])
         ])
       ],
       1
@@ -46139,56 +46236,80 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container mt-5" }, [
+  return _c("div", { staticClass: "container my-5" }, [
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-6" }, [
         _c("div", { staticClass: "card bg-light" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c("h4", { staticClass: "card-title text-center" }, [
-              _vm._v("Mes groupes de discussion")
-            ]),
-            _vm._v(" "),
-            _c("hr"),
-            _vm._v(" "),
-            _c(
-              "ul",
-              { staticClass: "cart-content" },
+          _c(
+            "div",
+            { staticClass: "card-body" },
+            [
+              _c("h4", { staticClass: "card-title text-center" }, [
+                _vm._v("Mes groupes de discussion")
+              ]),
+              _vm._v(" "),
+              _c("hr"),
+              _vm._v(" "),
               _vm._l(_vm.channels, function(channel) {
-                return _c("li", { key: channel.id }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary btn-sm my-2",
-                      on: {
-                        click: function($event) {
-                          return _vm.linkChannel(channel.name)
-                        }
-                      }
-                    },
-                    [_vm._v(_vm._s(channel.name))]
-                  ),
-                  _vm._v(" "),
-                  _vm.count(channel.id) != 0
-                    ? _c(
-                        "span",
-                        {
-                          staticClass: "badge rounded-pill bg-danger",
-                          staticStyle: { "font-size": "10px" }
-                        },
-                        [
-                          _vm._v(
-                            "\r\n                         " +
-                              _vm._s(_vm.count(channel.id)) +
-                              " message(s)\r\n                        "
-                          )
-                        ]
-                      )
-                    : _vm._e()
-                ])
-              }),
-              0
-            )
-          ])
+                return _c(
+                  "ul",
+                  { key: channel.id, staticClass: "cart-content" },
+                  [
+                    _c(
+                      "li",
+                      {
+                        staticClass:
+                          "text-center bg-dark p-2 text-white d-md-flex justify-content-between"
+                      },
+                      [
+                        _c(
+                          "h5",
+                          { staticClass: "font-weight-bold mb-md-0 mt-2 pt-1" },
+                          [
+                            _vm._v(
+                              "\r\n                            " +
+                                _vm._s(channel.name) +
+                                "\r\n                        "
+                            ),
+                            _vm.count(channel.id) != 0
+                              ? _c(
+                                  "span",
+                                  {
+                                    staticClass: "badge rounded-pill bg-info",
+                                    staticStyle: { "font-size": "10px" }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\r\n                         " +
+                                        _vm._s(_vm.count(channel.id)) +
+                                        " message(s)\r\n                        "
+                                    )
+                                  ]
+                                )
+                              : _vm._e()
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary my-2",
+                            on: {
+                              click: function($event) {
+                                return _vm.linkChannel(channel.name)
+                              }
+                            }
+                          },
+                          [_vm._v("Rejoindre")]
+                        )
+                      ]
+                    )
+                  ]
+                )
+              })
+            ],
+            2
+          )
         ])
       ]),
       _vm._v(" "),
@@ -46291,8 +46412,8 @@ var render = function() {
                 _c("img", {
                   staticClass: "rounded-circle mr-1",
                   attrs: {
-                    src: "https://bootdey.com/img/Content/avatar/avatar5.png",
-                    alt: "Vanessa Tucker",
+                    src: "/storage/image/avatars/" + user.avatar,
+                    alt: user.name,
                     width: "40",
                     height: "40"
                   }
@@ -46325,8 +46446,8 @@ var render = function() {
                 _c("img", {
                   staticClass: "rounded-circle mr-1",
                   attrs: {
-                    src: "https://bootdey.com/img/Content/avatar/avatar5.png",
-                    alt: "Vanessa Tucker",
+                    src: "/storage/image/avatars/" + user.avatar,
+                    alt: user.name,
                     width: "40",
                     height: "40"
                   }
@@ -46510,6 +46631,18 @@ var render = function() {
                             "div",
                             { staticClass: "chat-message-right pb-4" },
                             [
+                              _c("img", {
+                                staticClass: "rounded-circle mr-1",
+                                attrs: {
+                                  src:
+                                    "/storage/image/avatars/" +
+                                    message.user.avatar,
+                                  alt: message.user.avatar,
+                                  width: "40",
+                                  height: "40"
+                                }
+                              }),
+                              _vm._v(" "),
                               _c(
                                 "div",
                                 {
@@ -46535,6 +46668,18 @@ var render = function() {
                             ]
                           )
                         : _c("div", { staticClass: "chat-message-left pb-4" }, [
+                            _c("img", {
+                              staticClass: "rounded-circle mr-1",
+                              attrs: {
+                                src:
+                                  "/storage/image/avatars/" +
+                                  message.user.avatar,
+                                alt: message.user.avatar,
+                                width: "40",
+                                height: "40"
+                              }
+                            }),
+                            _vm._v(" "),
                             _c(
                               "div",
                               {

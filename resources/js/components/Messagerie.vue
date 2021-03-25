@@ -14,6 +14,8 @@
 						<div class="p-4" v-for="message in allMessages" :key="message.id">
 
 							<div v-if="message.user.id == user.id" class="chat-message-right pb-4">
+                     <img :src="'/storage/image/avatars/'+message.user.avatar" class="rounded-circle mr-1"
+                           :alt="message.user.avatar" width="40" height="40">
 								<div class="flex-shrink-1 text-break bg-dark text-white rounded py-2 px-3 mr-3">
 									<div class="font-weight-bold text-white mb-1">Vous</div>
 									{{ message.message }}
@@ -21,6 +23,8 @@
 							</div>
 
 							<div v-else class="chat-message-left pb-4">
+                     <img :src="'/storage/image/avatars/'+message.user.avatar" class="rounded-circle mr-1"
+                        :alt="message.user.avatar" width="40" height="40">
 								<div class="flex-shrink-1 text-break bg-lightm text-dark rounded py-2 px-3 ml-3">
 									<div class="font-weight-bold mb-1">{{ message.user.name }}</div>
                            {{ message.message }}

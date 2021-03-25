@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -16,9 +17,31 @@ class UserController extends Controller
 
    public function index()
    {
+      $files = Storage::files('/public/image/avatars');
+
+      $array = collect([]);
+      foreach ($files as $value) {
+         $file = explode("public/image/avatars/", $value);
+         $array->push($file[1]);
+      }
+
       return view('auth.account',[
-         'user' => Auth::user()
+         'user' => Auth::user(),
+         'avatars' => $array
       ]);
+   }
+
+   public function avatar(Request $request)
+   {
+      $request->validate([
+         'avatar' => ['required'],
+      ]);
+
+      $user = User::findOrFail(Auth::user()->id);
+      $user->avatar = $request->avatar;
+      $user->save();
+
+      return response()->json(null, 200);
    }
 
    public function update(Request $request)

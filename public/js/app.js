@@ -46259,7 +46259,7 @@ var render = function() {
                       "li",
                       {
                         staticClass:
-                          "text-center bg-dark p-2 text-white d-md-flex justify-content-between"
+                          "text-center bg-light p-2 d-md-flex justify-content-between border border-dark shadow p-3 mb-5 rounded"
                       },
                       [
                         _c(

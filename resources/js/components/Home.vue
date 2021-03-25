@@ -7,7 +7,7 @@
                  <h4 class="card-title text-center">Mes groupes de discussion</h4>
                   <hr>
                    <ul class="cart-content" v-for="channel in channels" :key="channel.id">
-                      <li class="text-center bg-dark p-2 text-white d-md-flex justify-content-between">
+                      <li class="text-center bg-light p-2 d-md-flex justify-content-between border border-dark shadow p-3 mb-5 rounded">
                          <h5 class="font-weight-bold mb-md-0 mt-2 pt-1">
                             {{ channel.name }}
                         <span v-if="count(channel.id) != 0" class="badge rounded-pill bg-info" style="font-size: 10px;">

@@ -21,9 +21,81 @@
                 </div>
                 <div class="col-md-6 col-xl-5 mb-4">
                     <div class="card">
-                        <h1 class="card-header text-center">{{ __('Register') }}</h1>
-                        <div class="card-body">
-                            <form method="POST" action="{{ route('register') }}">
+                        <ul class="card-header nav nav-tabs nav-justified">
+                            <li class="nav-item active">
+                                <a class="text-primary" data-toggle="tab" href="#register">
+                                    <h3>{{ __('Register') }}</h3>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="text-primary" data-toggle="tab" href="#login">
+                                    <h3>{{ __('Login') }}</h3>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="card-body tab-content">
+
+                            <div id="login" class="tab-pane fade">
+                                <form method="POST" action="{{ route('login') }}">
+                                    @csrf
+
+                                    <div class="form-group row">
+                                        <label for="email"
+                                            class="col-md-6 col-form-label text-md-left">{{ __('E-Mail Address') }}</label>
+                                        <div class="col-12">
+                                            <input id="email" type="email"
+                                                class="form-control @error('email') is-invalid @enderror" name="email"
+                                                value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                            @error('email')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="password"
+                                            class="col-md-6 col-form-label text-md-left">{{ __('Password') }}</label>
+
+                                        <div class="col-12">
+                                            <input id="password" type="password"
+                                                class="form-control @error('password') is-invalid @enderror"
+                                                name="password" required autocomplete="current-password">
+
+                                            @error('password')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row mb-0">
+                                        <div class="col-md-12 text-center">
+                                            <button type="submit" class="btn btn-primary">
+                                                {{ __('Login') }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                @if (Route::has('password.request'))
+                                <hr class="hr-light mb-3 mt-4">
+                                <div class="inline-ul text-center d-flex justify-content-center">
+
+                                    <a class="p-2">
+                                        <a class="btn btn-link" href="{{ route('password.request') }}">
+                                            {{ __('Mot de passe oublié ?') }}
+                                        </a>
+
+                                    </a>
+                                </div>
+                                @endif
+                            </div>
+
+                            <form id="register" class="tab-pane fade active show" method="POST"
+                                action="{{ route('register') }}">
                                 @csrf
                                 <div class="md-form">
                                     <label for="name"
@@ -66,7 +138,7 @@
 
                                 <div class="md-form">
                                     <label for="password-confirm"
-                                        class="col-md-5 col-form-label text-md-left">{{ __('Confirm Password') }}</label>
+                                        class="col-md-8 col-form-label text-md-left">{{ __('Confirm Password') }}</label>
                                     <input id="password-confirm" type="password" class="form-control"
                                         name="password_confirmation" required autocomplete="new-password">
                                 </div>
@@ -78,13 +150,6 @@
                                     </button>
                                 </div>
                             </form>
-                            <hr class="hr-light mb-3 mt-4">
-
-                            <div class="inline-ul text-center d-flex justify-content-center">
-                                <a class="p-2 m-2">
-                                    <p>Déjà inscrit ?</p>
-                                </a>
-                            </div>
                         </div>
 
                     </div>

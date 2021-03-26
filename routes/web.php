@@ -30,6 +30,7 @@ Route::get('/chat/{channel}', [MessageController::class, 'index'])->name('chat')
 Route::post('/message/post', [MessageController::class, 'store']);
 Route::post('/fetch/message', [MessageController::class, 'messages']);
 Route::post('/notification/channel', [MessageController::class, 'notification']);
+Route::post('/delete/image', [MessageController::class, 'deleteUpload']);
 
 Route::post('/member/search', [ChannelController::class, 'searchMember']);
 Route::post('/member/add', [ChannelController::class, 'addMember']);

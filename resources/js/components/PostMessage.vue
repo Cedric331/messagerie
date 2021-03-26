@@ -1,5 +1,5 @@
 <template>
-   <div class="flex-grow-0 py-3 px-4 border-top">
+   <div class="flex-grow-0 py-3 px-4 ">
 <form @submit.prevent="sendMessage" enctype="multipart/form-data">
  <div class="file-field">
     <div class="btn btn-dark btn-rounded mb-2 btn-sm float-left">
@@ -31,12 +31,14 @@ export default {
             }
         },
         methods: {
-            sendMessage() {
+            sendMessage(e) {
                 this.$emit('messagesent', {
                     message: this.newMessage,
                     file: this.fileUpload
                 });
                 this.newMessage = ''
+                this.fileUpload = ''
+                 e.target.reset();
             },
             isTyping() {
                  setTimeout(() => {

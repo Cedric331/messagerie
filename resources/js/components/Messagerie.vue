@@ -17,30 +17,41 @@
                             <div v-if="message.user.id == user.id">
                                 <div class="chat-message-right pb-2">
                                     <img :src="'/storage/image/avatars/'+message.user.avatar"
-                                        class="rounded-circle mr-1" :alt="message.user.avatar" width="40" height="40">
+                                        class="rounded-circle mr-1" width="40" height="40">
                                     <div class="flex-shrink-1 text-break bg-dark text-white rounded py-2 px-3 mr-3">
                                         <div class="font-weight-bold text-white mb-1">Vous</div>
                                         {{ message.message }}
                                     </div>
                                 </div>
-                                <div class="chat-message-right">
-                                    <img :src="'/storage/image/images/'+channel.id+'/'+message.image" class="mr-1"
-                                        :alt="message.user.avatar" width="150" height="150">
+                                <div class="chat-message-right" v-if="message.image != null && message.image != 'Image supprimée'">
+                                    <img :src="'/storage/image/images/'+channel.id+'/'+message.image"
+                                        class="mr-1" width="200">
+                                </div>
+                                 <div class="chat-message-right" v-if="message.image == 'Image supprimée'">
+                                    <strong class="border p-1">{{message.image}}</strong>
+                                </div>
+                                <div class="chat-message-right" v-if="message.image != null">
+                                   <span v-if="message.user.id == user.id && message.image != null && message.image != 'Image supprimée'">
+                                      <button class="btn btn-outline-danger btn-sm mt-1 p-2" @click="deleteUpload(message)">Supprimer cette image</button>
+                                   </span>
                                 </div>
                             </div>
 
                             <div v-else>
                                 <div class="chat-message-left pb-2">
                                     <img :src="'/storage/image/avatars/'+message.user.avatar"
-                                        class="rounded-circle mr-1" :alt="message.user.avatar" width="40" height="40">
+                                        class="rounded-circle mr-1" width="40" height="40">
                                     <div class="flex-shrink-1 text-break bg-lightm text-dark rounded py-2 px-3 ml-3">
                                         <div class="font-weight-bold mb-1">{{ message.user.name }}</div>
                                         {{ message.message }}
                                     </div>
                                 </div>
-                                <div class="chat-message-left">
-                                    <img :src="'/storage/image/images/'+channel.id+'/'+message.image" class="ml-1"
-                                        :alt="message.user.avatar" width="150" height="150">
+                                 <div class="chat-message-left" v-if="message.image != null && message.image != 'Image supprimée'">
+                                    <img :src="'/storage/image/images/'+channel.id+'/'+message.image"
+                                        class="ml-1" width="200">
+                                </div>
+                                 <div class="chat-message-left" v-if="message.image == 'Image supprimée'">
+                                    <strong class="border p-1">{{message.image}}</strong>
                                 </div>
                             </div>
 
@@ -57,9 +68,12 @@
                             </div>
                         </div>
                     </div>
-                    <div v-if="errors != []">
+                    <div v-if="errors != [] || error != ''">
                         <p class="text-danger" v-for="(error, index) in errors" :key="index">
                             {{ error[0] }}
+                        </p>
+                        <p class="text-danger">
+                            {{ error }}
                         </p>
                     </div>
                     <post :channel="channel" :user="user" v-on:messagesent="addMessage"></post>
@@ -87,12 +101,25 @@
                 members: [],
                 typing: false,
                 other: '',
-                errors: []
+                errors: [],
+                error: ''
             }
         },
         methods: {
+           deleteUpload(message){
+              axios.post('/delete/image',{
+                 message: message.id,
+                 channel: this.channel.id
+              }).then(res => {
+                 console.log(res)
+                 this.fetchMessages(false)
+              }).catch(err =>{
+
+              })
+           },
             addMessage(message) {
                 this.errors = []
+                this.error = ''
                 let formData = new FormData();
                 formData.append('file', message.file);
                 formData.append('message', message.message);
@@ -105,6 +132,9 @@
                     }).catch(err => {
                         if (err.response.status == 422) {
                             this.errors = err.response.data.errors;
+                        }
+                        if (err.response.status == 409) {
+                            this.error = err.response.data;
                         }
                     })
             },

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Notifications\NewMessage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Notification;
 
 class MessageController extends Controller
@@ -64,19 +65,29 @@ class MessageController extends Controller
          return redirect()->route('home');
       }
 
-      $request->validate([
-         'message' => 'required_without:file|max:255',
-         'file' => 'required_without:message|mimes:jpg,jpeg,png,pdf|max:2048'
-      ]);
+      if (empty($request->message) && empty($request->file)) {
+         return response()->json('Vous devez renseigner au moins un champs', 409);
+      };
 
-      $file_name = time().$request->file->getClientOriginalName();
-     $request->file('file')->storeAs(
-      '/image/images/'.$channel->id, $file_name,'public'
-      );
+      if (!empty($request->message)) {
+         $request->validate([
+            'message' => 'max:255|string',
+         ]);
+      };
+
+      if (!empty($request->file)) {
+         $request->validate([
+            'file' => 'mimes:jpg,jpeg,png,pdf|max:2048'
+         ]);
+         $file_name = time().$request->file->getClientOriginalName();
+         $request->file('file')->storeAs(
+          '/image/images/'.$channel->id, $file_name,'public'
+          );
+      };
      
       $message = new Message;
       $message->user_id = Auth::user()->id;
-      $message->image = $file_name;
+      $message->image = empty($file_name)?null:$file_name;
       $message->channel_id = $channel->id;
       $message->message = $request->message;
       $message->save();
@@ -111,6 +122,20 @@ class MessageController extends Controller
       $users = User::find($diff->all());
 
       Notification::send($users, new NewMessage($channel));
+
+      return response()->json(null, 200);
+   }
+
+   public function deleteUpload(Request $request)
+   {
+      $channel = Channel::find($request->channel);
+      $message = Message::find($request->message);
+
+      Storage::disk('public')->delete('/image/images/'.$channel->id.'/'.$message->image);
+      $message->image = "Image supprimée";
+      $message->save();
+      
+      broadcast(new MessageSent($channel))->toOthers();
 
       return response()->json(null, 200);
    }

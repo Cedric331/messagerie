@@ -2399,6 +2399,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2414,25 +2428,43 @@ __webpack_require__.r(__webpack_exports__);
       members: [],
       typing: false,
       other: '',
-      errors: []
+      errors: [],
+      error: ''
     };
   },
   methods: {
-    addMessage: function addMessage(message) {
+    deleteUpload: function deleteUpload(message) {
       var _this2 = this;
 
+      axios.post('/delete/image', {
+        message: message.id,
+        channel: this.channel.id
+      }).then(function (res) {
+        console.log(res);
+
+        _this2.fetchMessages(false);
+      })["catch"](function (err) {});
+    },
+    addMessage: function addMessage(message) {
+      var _this3 = this;
+
       this.errors = [];
+      this.error = '';
       var formData = new FormData();
       formData.append('file', message.file);
       formData.append('message', message.message);
       formData.append('channel', this.channel.id);
       axios.post('/message/post', formData).then(function (res) {
-        _this2.fetchMessages();
+        _this3.fetchMessages();
 
-        _this2.notification();
+        _this3.notification();
       })["catch"](function (err) {
         if (err.response.status == 422) {
-          _this2.errors = err.response.data.errors;
+          _this3.errors = err.response.data.errors;
+        }
+
+        if (err.response.status == 409) {
+          _this3.error = err.response.data;
         }
       });
     },
@@ -2443,17 +2475,17 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {})["catch"](function (err) {});
     },
     fetchMessages: function fetchMessages() {
-      var _this3 = this;
+      var _this4 = this;
 
       var scroll = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
       axios.post('/fetch/message', {
         count: this.count,
         channel: this.channel.id
       }).then(function (response) {
-        _this3.allMessages = response.data.reverse();
+        _this4.allMessages = response.data.reverse();
 
         if (scroll) {
-          _this3.scroll();
+          _this4.scroll();
         }
       });
     },
@@ -2469,29 +2501,29 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    var _this4 = this;
+    var _this5 = this;
 
     this.fetchMessages();
 
     var _this = this;
 
     Echo["private"]('chat.' + this.channel.id).listen('MessageSent', function (e) {
-      _this4.fetchMessages();
+      _this5.fetchMessages();
     }).listen('RemoveUserChat', function (e) {
       window.location = '/';
     }).listenForWhisper('typing', function (e) {
-      _this4.typing = e.typing;
-      _this4.other = e.name;
+      _this5.typing = e.typing;
+      _this5.other = e.name;
       setTimeout(function () {
         _this.typing = false;
       }, 1200);
     });
     Echo.join('chat.' + this.channel.id).here(function (users) {
-      _this4.members = users;
+      _this5.members = users;
     }).joining(function (user) {
-      _this4.members.push(user);
+      _this5.members.push(user);
     }).leaving(function (user) {
-      _this4.members = _this4.members.filter(function (item) {
+      _this5.members = _this5.members.filter(function (item) {
         return item !== user;
       });
     });
@@ -2570,12 +2602,14 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    sendMessage: function sendMessage() {
+    sendMessage: function sendMessage(e) {
       this.$emit('messagesent', {
         message: this.newMessage,
         file: this.fileUpload
       });
       this.newMessage = '';
+      this.fileUpload = '';
+      e.target.reset();
     },
     isTyping: function isTyping() {
       var _this = this;
@@ -46675,7 +46709,6 @@ var render = function() {
                                     src:
                                       "/storage/image/avatars/" +
                                       message.user.avatar,
-                                    alt: message.user.avatar,
                                     width: "40",
                                     height: "40"
                                   }
@@ -46706,21 +46739,70 @@ var render = function() {
                               ]
                             ),
                             _vm._v(" "),
-                            _c("div", { staticClass: "chat-message-right" }, [
-                              _c("img", {
-                                staticClass: "mr-1",
-                                attrs: {
-                                  src:
-                                    "/storage/image/images/" +
-                                    _vm.channel.id +
-                                    "/" +
-                                    message.image,
-                                  alt: message.user.avatar,
-                                  width: "150",
-                                  height: "150"
-                                }
-                              })
-                            ])
+                            message.image != null &&
+                            message.image != "Image supprimée"
+                              ? _c(
+                                  "div",
+                                  { staticClass: "chat-message-right" },
+                                  [
+                                    _c("img", {
+                                      staticClass: "mr-1",
+                                      attrs: {
+                                        src:
+                                          "/storage/image/images/" +
+                                          _vm.channel.id +
+                                          "/" +
+                                          message.image,
+                                        width: "200"
+                                      }
+                                    })
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            message.image == "Image supprimée"
+                              ? _c(
+                                  "div",
+                                  { staticClass: "chat-message-right" },
+                                  [
+                                    _c(
+                                      "strong",
+                                      { staticClass: "border p-1" },
+                                      [_vm._v(_vm._s(message.image))]
+                                    )
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            message.image != null
+                              ? _c(
+                                  "div",
+                                  { staticClass: "chat-message-right" },
+                                  [
+                                    message.user.id == _vm.user.id &&
+                                    message.image != null &&
+                                    message.image != "Image supprimée"
+                                      ? _c("span", [
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "btn btn-outline-danger btn-sm mt-1 p-2",
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.deleteUpload(
+                                                    message
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("Supprimer cette image")]
+                                          )
+                                        ])
+                                      : _vm._e()
+                                  ]
+                                )
+                              : _vm._e()
                           ])
                         : _c("div", [
                             _c(
@@ -46733,7 +46815,6 @@ var render = function() {
                                     src:
                                       "/storage/image/avatars/" +
                                       message.user.avatar,
-                                    alt: message.user.avatar,
                                     width: "40",
                                     height: "40"
                                   }
@@ -46761,21 +46842,40 @@ var render = function() {
                               ]
                             ),
                             _vm._v(" "),
-                            _c("div", { staticClass: "chat-message-left" }, [
-                              _c("img", {
-                                staticClass: "ml-1",
-                                attrs: {
-                                  src:
-                                    "/storage/image/images/" +
-                                    _vm.channel.id +
-                                    "/" +
-                                    message.image,
-                                  alt: message.user.avatar,
-                                  width: "150",
-                                  height: "150"
-                                }
-                              })
-                            ])
+                            message.image != null &&
+                            message.image != "Image supprimée"
+                              ? _c(
+                                  "div",
+                                  { staticClass: "chat-message-left" },
+                                  [
+                                    _c("img", {
+                                      staticClass: "ml-1",
+                                      attrs: {
+                                        src:
+                                          "/storage/image/images/" +
+                                          _vm.channel.id +
+                                          "/" +
+                                          message.image,
+                                        width: "200"
+                                      }
+                                    })
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            message.image == "Image supprimée"
+                              ? _c(
+                                  "div",
+                                  { staticClass: "chat-message-left" },
+                                  [
+                                    _c(
+                                      "strong",
+                                      { staticClass: "border p-1" },
+                                      [_vm._v(_vm._s(message.image))]
+                                    )
+                                  ]
+                                )
+                              : _vm._e()
                           ])
                     ])
                   })
@@ -46811,23 +46911,33 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _vm.errors != []
+              _vm.errors != [] || _vm.error != ""
                 ? _c(
                     "div",
-                    _vm._l(_vm.errors, function(error, index) {
-                      return _c(
-                        "p",
-                        { key: index, staticClass: "text-danger" },
-                        [
-                          _vm._v(
-                            "\n                        " +
-                              _vm._s(error[0]) +
-                              "\n                    "
-                          )
-                        ]
-                      )
-                    }),
-                    0
+                    [
+                      _vm._l(_vm.errors, function(error, index) {
+                        return _c(
+                          "p",
+                          { key: index, staticClass: "text-danger" },
+                          [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(error[0]) +
+                                "\n                    "
+                            )
+                          ]
+                        )
+                      }),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "text-danger" }, [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(_vm.error) +
+                            "\n                    "
+                        )
+                      ])
+                    ],
+                    2
                   )
                 : _vm._e(),
               _vm._v(" "),
@@ -46901,7 +47011,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "flex-grow-0 py-3 px-4 border-top" }, [
+  return _c("div", { staticClass: "flex-grow-0 py-3 px-4 " }, [
     _c(
       "form",
       {

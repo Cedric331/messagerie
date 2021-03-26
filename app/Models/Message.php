@@ -19,6 +19,7 @@ class Message extends Model
     protected $fillable = [
       'message',
       'read_at',
+      'image',
       'user_id',
       'channel_id'
   ];

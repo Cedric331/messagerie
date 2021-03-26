@@ -1,11 +1,22 @@
 <template>
    <div class="flex-grow-0 py-3 px-4 border-top">
-		<div class="input-group">
-			<input type="text" class="form-control" @keydown="isTyping" v-model="newMessage" placeholder="Votre message...">
-			   <button class="btn btn-primary" id="btn-chat" @click="sendMessage">
+<form @submit.prevent="sendMessage" enctype="multipart/form-data">
+ <div class="file-field">
+    <div class="btn btn-dark btn-rounded mb-2 btn-sm float-left">
+      <span>
+         <i class="fas fa-paperclip" aria-hidden="true"></i>
+      </span>
+      <input type="file" nmae="file" @change="previewFiles">
+    </div>
+  </div>
+
+  	   <div class="input-group">
+			<input type="text" class="form-control" aria-label="Message" @keydown="isTyping" v-model="newMessage" placeholder="Votre message...">
+			   <button class="btn btn-primary" id="btn-chat" type="submit">
                 Poster
             </button>
 		</div>
+</form>
 	</div>
 </template>
 
@@ -16,12 +27,14 @@ export default {
       data() {
             return {
                 newMessage: '',
+                fileUpload: ''
             }
         },
         methods: {
             sendMessage() {
                 this.$emit('messagesent', {
-                    message: this.newMessage
+                    message: this.newMessage,
+                    file: this.fileUpload
                 });
                 this.newMessage = ''
             },
@@ -33,7 +46,10 @@ export default {
                      name: this.user.name
                  });
                  }, 600);
-               }
+               },
+               previewFiles(e) {
+                  this.fileUpload = e.target.files[0];
+            }
         },
 }
 </script>

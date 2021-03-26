@@ -2386,6 +2386,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2409,17 +2422,25 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       this.errors = [];
-      axios.post('/message/post', {
-        message: message.message,
-        channel: this.channel.id,
-        members: this.members
-      }).then(function (res) {
+      var formData = new FormData();
+      formData.append('file', message.file);
+      formData.append('message', message.message);
+      formData.append('channel', this.channel.id);
+      axios.post('/message/post', formData).then(function (res) {
         _this2.fetchMessages();
+
+        _this2.notification();
       })["catch"](function (err) {
         if (err.response.status == 422) {
           _this2.errors = err.response.data.errors;
         }
       });
+    },
+    notification: function notification() {
+      axios.post('/notification/channel', {
+        members: this.members,
+        channel: this.channel.id
+      }).then(function (res) {})["catch"](function (err) {});
     },
     fetchMessages: function fetchMessages() {
       var _this3 = this;
@@ -2529,17 +2550,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['channel', 'user'],
   data: function data() {
     return {
-      newMessage: ''
+      newMessage: '',
+      fileUpload: ''
     };
   },
   methods: {
     sendMessage: function sendMessage() {
       this.$emit('messagesent', {
-        message: this.newMessage
+        message: this.newMessage,
+        file: this.fileUpload
       });
       this.newMessage = '';
     },
@@ -2552,6 +2586,9 @@ __webpack_require__.r(__webpack_exports__);
           name: _this.user.name
         });
       }, 600);
+    },
+    previewFiles: function previewFiles(e) {
+      this.fileUpload = e.target.files[0];
     }
   }
 });
@@ -46627,78 +46664,118 @@ var render = function() {
                   _vm._l(_vm.allMessages, function(message) {
                     return _c("div", { key: message.id, staticClass: "p-4" }, [
                       message.user.id == _vm.user.id
-                        ? _c(
-                            "div",
-                            { staticClass: "chat-message-right pb-4" },
-                            [
-                              _c("img", {
-                                staticClass: "rounded-circle mr-1",
-                                attrs: {
-                                  src:
-                                    "/storage/image/avatars/" +
-                                    message.user.avatar,
-                                  alt: message.user.avatar,
-                                  width: "40",
-                                  height: "40"
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "flex-shrink-1 text-break bg-dark text-white rounded py-2 px-3 mr-3"
-                                },
-                                [
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "font-weight-bold text-white mb-1"
-                                    },
-                                    [_vm._v("Vous")]
-                                  ),
-                                  _vm._v(
-                                    "\n\t\t\t\t\t\t\t\t\t" +
-                                      _vm._s(message.message) +
-                                      "\n\t\t\t\t\t\t\t\t"
-                                  )
-                                ]
-                              )
-                            ]
-                          )
-                        : _c("div", { staticClass: "chat-message-left pb-4" }, [
-                            _c("img", {
-                              staticClass: "rounded-circle mr-1",
-                              attrs: {
-                                src:
-                                  "/storage/image/avatars/" +
-                                  message.user.avatar,
-                                alt: message.user.avatar,
-                                width: "40",
-                                height: "40"
-                              }
-                            }),
-                            _vm._v(" "),
+                        ? _c("div", [
                             _c(
                               "div",
-                              {
-                                staticClass:
-                                  "flex-shrink-1 text-break bg-lightm text-dark rounded py-2 px-3 ml-3"
-                              },
+                              { staticClass: "chat-message-right pb-2" },
                               [
+                                _c("img", {
+                                  staticClass: "rounded-circle mr-1",
+                                  attrs: {
+                                    src:
+                                      "/storage/image/avatars/" +
+                                      message.user.avatar,
+                                    alt: message.user.avatar,
+                                    width: "40",
+                                    height: "40"
+                                  }
+                                }),
+                                _vm._v(" "),
                                 _c(
                                   "div",
-                                  { staticClass: "font-weight-bold mb-1" },
-                                  [_vm._v(_vm._s(message.user.name))]
-                                ),
-                                _vm._v(
-                                  "\n                           " +
-                                    _vm._s(message.message) +
-                                    "\n\t\t\t\t\t\t\t\t"
+                                  {
+                                    staticClass:
+                                      "flex-shrink-1 text-break bg-dark text-white rounded py-2 px-3 mr-3"
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "font-weight-bold text-white mb-1"
+                                      },
+                                      [_vm._v("Vous")]
+                                    ),
+                                    _vm._v(
+                                      "\n                                    " +
+                                        _vm._s(message.message) +
+                                        "\n                                "
+                                    )
+                                  ]
                                 )
                               ]
-                            )
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "chat-message-right" }, [
+                              _c("img", {
+                                staticClass: "mr-1",
+                                attrs: {
+                                  src:
+                                    "/storage/image/images/" +
+                                    _vm.channel.id +
+                                    "/" +
+                                    message.image,
+                                  alt: message.user.avatar,
+                                  width: "150",
+                                  height: "150"
+                                }
+                              })
+                            ])
+                          ])
+                        : _c("div", [
+                            _c(
+                              "div",
+                              { staticClass: "chat-message-left pb-2" },
+                              [
+                                _c("img", {
+                                  staticClass: "rounded-circle mr-1",
+                                  attrs: {
+                                    src:
+                                      "/storage/image/avatars/" +
+                                      message.user.avatar,
+                                    alt: message.user.avatar,
+                                    width: "40",
+                                    height: "40"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "flex-shrink-1 text-break bg-lightm text-dark rounded py-2 px-3 ml-3"
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      { staticClass: "font-weight-bold mb-1" },
+                                      [_vm._v(_vm._s(message.user.name))]
+                                    ),
+                                    _vm._v(
+                                      "\n                                    " +
+                                        _vm._s(message.message) +
+                                        "\n                                "
+                                    )
+                                  ]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "chat-message-left" }, [
+                              _c("img", {
+                                staticClass: "ml-1",
+                                attrs: {
+                                  src:
+                                    "/storage/image/images/" +
+                                    _vm.channel.id +
+                                    "/" +
+                                    message.image,
+                                  alt: message.user.avatar,
+                                  width: "150",
+                                  height: "150"
+                                }
+                              })
+                            ])
                           ])
                     ])
                   })
@@ -46743,9 +46820,9 @@ var render = function() {
                         { key: index, staticClass: "text-danger" },
                         [
                           _vm._v(
-                            "\n                  " +
+                            "\n                        " +
                               _vm._s(error[0]) +
-                              "\n               "
+                              "\n                    "
                           )
                         ]
                       )
@@ -46825,43 +46902,87 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "flex-grow-0 py-3 px-4 border-top" }, [
-    _c("div", { staticClass: "input-group" }, [
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.newMessage,
-            expression: "newMessage"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: { type: "text", placeholder: "Votre message..." },
-        domProps: { value: _vm.newMessage },
+    _c(
+      "form",
+      {
+        attrs: { enctype: "multipart/form-data" },
         on: {
-          keydown: _vm.isTyping,
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.newMessage = $event.target.value
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.sendMessage($event)
           }
         }
-      }),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary",
-          attrs: { id: "btn-chat" },
-          on: { click: _vm.sendMessage }
-        },
-        [_vm._v("\n                Poster\n            ")]
-      )
-    ])
+      },
+      [
+        _c("div", { staticClass: "file-field" }, [
+          _c(
+            "div",
+            { staticClass: "btn btn-dark btn-rounded mb-2 btn-sm float-left" },
+            [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("input", {
+                attrs: { type: "file", nmae: "file" },
+                on: { change: _vm.previewFiles }
+              })
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "input-group" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.newMessage,
+                expression: "newMessage"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: {
+              type: "text",
+              "aria-label": "Message",
+              placeholder: "Votre message..."
+            },
+            domProps: { value: _vm.newMessage },
+            on: {
+              keydown: _vm.isTyping,
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.newMessage = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary",
+              attrs: { id: "btn-chat", type: "submit" }
+            },
+            [_vm._v("\n                Poster\n            ")]
+          )
+        ])
+      ]
+    )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", [
+      _c("i", {
+        staticClass: "fas fa-paperclip",
+        attrs: { "aria-hidden": "true" }
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Events\RemoveUserChat;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class ChannelController extends Controller
 {
@@ -193,6 +194,8 @@ class ChannelController extends Controller
       }
 
       broadcast(new RemoveUserChat($channel));
+
+      Storage::disk('public')->deleteDirectory('image/images/'.$channel->id);
 
       $channel->delete();
 

@@ -100,7 +100,7 @@
                                 <div class="md-form">
                                     <label for="name"
                                         class="col-md-4 col-form-label text-md-left">{{ __('Name') }}</label>
-                                    <input id="name" type="text"
+                                    <input dusk='name' id="name" type="text"
                                         class="form-control @error('name') is-invalid @enderror" name="name"
                                         value="{{ old('name') }}" required autocomplete="name" autofocus>
                                     @error('name')
@@ -145,7 +145,7 @@
 
 
                                 <div class="text-center mt-4">
-                                    <button type="submit" class="btn btn-rounded btn-primary">
+                                    <button type="submit" id="register" class="btn btn-rounded btn-primary">
                                         S'inscrire
                                     </button>
                                 </div>

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\MessageController;
 
@@ -31,6 +32,7 @@ Route::post('/message/post', [MessageController::class, 'store']);
 Route::post('/fetch/message', [MessageController::class, 'messages']);
 Route::post('/notification/channel', [MessageController::class, 'notification']);
 Route::post('/delete/image', [MessageController::class, 'deleteUpload']);
+Route::post('/upload/image', [ImageController::class, 'upload']);
 
 Route::post('/member/search', [ChannelController::class, 'searchMember']);
 Route::post('/member/add', [ChannelController::class, 'addMember']);

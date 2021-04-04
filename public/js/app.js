@@ -2203,6 +2203,86 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ImageModal.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ImageModal.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  methods: {
+    upload: function upload() {
+      var _this = this;
+
+      axios.post('/upload/image', {
+        image: this.image,
+        channel: this.channel
+      }).then(function (res) {
+        _this.forceFileDownload(res);
+      })["catch"](function (err) {});
+    },
+    forceFileDownload: function forceFileDownload(file) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var blob, link;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                blob = new Blob([file.data], {
+                  type: 'application/*'
+                });
+                link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = _this2.image;
+                link._target = 'blank';
+                link.click();
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
+  },
+  props: ['channel', 'image']
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/MemberChat.vue?vue&type=script&lang=js&":
 /*!*****************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/MemberChat.vue?vue&type=script&lang=js& ***!
@@ -2327,6 +2407,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _PostMessage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PostMessage */ "./resources/js/components/PostMessage.vue");
 /* harmony import */ var _MemberChat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MemberChat */ "./resources/js/components/MemberChat.vue");
+/* harmony import */ var _ImageModal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ImageModal */ "./resources/js/components/ImageModal.vue");
 //
 //
 //
@@ -2413,13 +2494,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['channel', 'user'],
   components: {
     post: _PostMessage__WEBPACK_IMPORTED_MODULE_0__.default,
-    member: _MemberChat__WEBPACK_IMPORTED_MODULE_1__.default
+    member: _MemberChat__WEBPACK_IMPORTED_MODULE_1__.default,
+    modal: _ImageModal__WEBPACK_IMPORTED_MODULE_2__.default
   },
   data: function data() {
     return {
@@ -2429,7 +2516,9 @@ __webpack_require__.r(__webpack_exports__);
       typing: false,
       other: '',
       errors: [],
-      error: ''
+      error: '',
+      channelModal: '',
+      imageModal: ''
     };
   },
   methods: {
@@ -2498,6 +2587,10 @@ __webpack_require__.r(__webpack_exports__);
       this.$nextTick(function () {
         bodyChat.scrollTop = bodyChat.scrollHeight;
       });
+    },
+    modal: function modal(channel, image) {
+      this.channelModal = channel;
+      this.imageModal = image;
     }
   },
   created: function created() {
@@ -2799,6 +2892,7 @@ Vue.component('create-chat', __webpack_require__(/*! ./components/CreateChat.vue
 Vue.component('account', __webpack_require__(/*! ./components/Account.vue */ "./resources/js/components/Account.vue").default);
 Vue.component('name', __webpack_require__(/*! ./components/Name.vue */ "./resources/js/components/Name.vue").default);
 Vue.component('search-channel', __webpack_require__(/*! ./components/SearchChannel.vue */ "./resources/js/components/SearchChannel.vue").default);
+Vue.component('image-modal', __webpack_require__(/*! ./components/ImageModal.vue */ "./resources/js/components/ImageModal.vue").default);
 Vue.use((vue_notification__WEBPACK_IMPORTED_MODULE_0___default()));
 var app = new Vue({
   el: '#app',
@@ -45298,6 +45392,45 @@ component.options.__file = "resources/js/components/Home.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/ImageModal.vue":
+/*!************************************************!*\
+  !*** ./resources/js/components/ImageModal.vue ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _ImageModal_vue_vue_type_template_id_2d115486___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ImageModal.vue?vue&type=template&id=2d115486& */ "./resources/js/components/ImageModal.vue?vue&type=template&id=2d115486&");
+/* harmony import */ var _ImageModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ImageModal.vue?vue&type=script&lang=js& */ "./resources/js/components/ImageModal.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _ImageModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _ImageModal_vue_vue_type_template_id_2d115486___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ImageModal_vue_vue_type_template_id_2d115486___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/ImageModal.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/MemberChat.vue":
 /*!************************************************!*\
   !*** ./resources/js/components/MemberChat.vue ***!
@@ -45580,6 +45713,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/ImageModal.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/components/ImageModal.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ImageModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ImageModal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ImageModal.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ImageModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/components/MemberChat.vue?vue&type=script&lang=js&":
 /*!*************************************************************************!*\
   !*** ./resources/js/components/MemberChat.vue?vue&type=script&lang=js& ***!
@@ -45723,6 +45872,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_template_id_f2b6376c___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_template_id_f2b6376c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Home.vue?vue&type=template&id=f2b6376c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Home.vue?vue&type=template&id=f2b6376c&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/ImageModal.vue?vue&type=template&id=2d115486&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/ImageModal.vue?vue&type=template&id=2d115486& ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ImageModal_vue_vue_type_template_id_2d115486___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ImageModal_vue_vue_type_template_id_2d115486___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ImageModal_vue_vue_type_template_id_2d115486___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ImageModal.vue?vue&type=template&id=2d115486& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ImageModal.vue?vue&type=template&id=2d115486&");
 
 
 /***/ }),
@@ -46439,6 +46605,77 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ImageModal.vue?vue&type=template&id=2d115486&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ImageModal.vue?vue&type=template&id=2d115486& ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "modal fade",
+      attrs: {
+        id: "modalYT",
+        tabindex: "-1",
+        role: "dialog",
+        "aria-labelledby": "myModalLabel",
+        "aria-hidden": "true"
+      }
+    },
+    [
+      _c(
+        "div",
+        { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
+        [
+          _c("div", { staticClass: "modal-content" }, [
+            _c("div", { staticClass: "modal-body mb-0 p-0" }, [
+              _c(
+                "div",
+                { staticClass: "embed-responsive embed-responsive-16by9" },
+                [
+                  _c("img", {
+                    staticClass: "embed-responsive-item",
+                    attrs: {
+                      src:
+                        "/storage/image/images/" + _vm.channel + "/" + _vm.image
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-dark btn-block",
+                  on: { click: _vm.upload }
+                },
+                [_vm._v("Télécharger")]
+              )
+            ])
+          ])
+        ]
+      )
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/MemberChat.vue?vue&type=template&id=5026ee86&":
 /*!**********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/MemberChat.vue?vue&type=template&id=5026ee86& ***!
@@ -46657,302 +46894,367 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container p-0 my-5" }, [
-    _c("div", { staticClass: "card" }, [
-      _c(
-        "div",
-        { staticClass: "row g-0" },
-        [
-          _c("member", {
-            key: _vm.members.length,
-            attrs: { members: _vm.members, channel: _vm.channel }
-          }),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "col-12 col-lg-7 col-xl-8" },
-            [
-              _c("h1", { staticClass: "text-center mt-2" }, [
-                _vm._v(_vm._s(_vm.channel.name))
-              ]),
-              _vm._v(" "),
-              _c("hr"),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "position-relative chat-messages" },
-                [
-                  _c("div", { staticClass: "text-center mt-1" }, [
-                    _vm.channel.messages.length > _vm.count
-                      ? _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-outline-dark m-auto",
-                            on: { click: _vm.moreMessage }
-                          },
-                          [_vm._v("Afficher plus de message")]
-                        )
-                      : _vm._e()
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.allMessages, function(message) {
-                    return _c("div", { key: message.id, staticClass: "p-4" }, [
-                      message.user.id == _vm.user.id
-                        ? _c("div", [
-                            _c(
-                              "div",
-                              { staticClass: "chat-message-right pb-2" },
-                              [
-                                _c("img", {
-                                  staticClass: "rounded-circle mr-1",
-                                  attrs: {
-                                    src:
-                                      "/storage/image/avatars/" +
-                                      message.user.avatar,
-                                    width: "40",
-                                    height: "40"
-                                  }
-                                }),
-                                _vm._v(" "),
+  return _c(
+    "div",
+    { staticClass: "container p-0 my-5" },
+    [
+      _c("div", { staticClass: "card" }, [
+        _c(
+          "div",
+          { staticClass: "row g-0" },
+          [
+            _c("member", {
+              key: _vm.members.length,
+              attrs: { members: _vm.members, channel: _vm.channel }
+            }),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "col-12 col-lg-7 col-xl-8" },
+              [
+                _c("h1", { staticClass: "text-center mt-2" }, [
+                  _vm._v(_vm._s(_vm.channel.name))
+                ]),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "position-relative chat-messages" },
+                  [
+                    _c("div", { staticClass: "text-center mt-1" }, [
+                      _vm.channel.messages.length > _vm.count
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-outline-dark m-auto",
+                              on: { click: _vm.moreMessage }
+                            },
+                            [_vm._v("Afficher plus de message")]
+                          )
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.allMessages, function(message) {
+                      return _c(
+                        "div",
+                        { key: message.id, staticClass: "p-4" },
+                        [
+                          message.user.id == _vm.user.id
+                            ? _c("div", [
                                 _c(
                                   "div",
-                                  {
-                                    staticClass:
-                                      "flex-shrink-1 text-break bg-dark text-white rounded py-2 px-3 mr-3"
-                                  },
+                                  { staticClass: "chat-message-right pb-2" },
                                   [
+                                    _c("img", {
+                                      staticClass: "rounded-circle mr-1",
+                                      attrs: {
+                                        src:
+                                          "/storage/image/avatars/" +
+                                          message.user.avatar,
+                                        width: "40",
+                                        height: "40"
+                                      }
+                                    }),
+                                    _vm._v(" "),
                                     _c(
                                       "div",
                                       {
                                         staticClass:
-                                          "font-weight-bold text-white mb-1"
+                                          "flex-shrink-1 text-break bg-dark text-white rounded py-2 px-3 mr-3"
                                       },
-                                      [_vm._v("Vous")]
-                                    ),
-                                    _vm._v(
-                                      "\n                                    " +
-                                        _vm._s(message.message) +
-                                        "\n                                "
+                                      [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "font-weight-bold text-white mb-1"
+                                          },
+                                          [_vm._v("Vous")]
+                                        ),
+                                        _vm._v(
+                                          "\n                                    " +
+                                            _vm._s(message.message) +
+                                            "\n                                "
+                                        )
+                                      ]
                                     )
                                   ]
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            message.image != null &&
-                            message.image != "Image supprimée"
-                              ? _c(
-                                  "div",
-                                  { staticClass: "chat-message-right" },
-                                  [
-                                    _c("img", {
-                                      staticClass: "mr-1",
-                                      attrs: {
-                                        src:
-                                          "/storage/image/images/" +
-                                          _vm.channel.id +
-                                          "/" +
-                                          message.image,
-                                        width: "200"
-                                      }
-                                    })
-                                  ]
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            message.image == "Image supprimée"
-                              ? _c(
-                                  "div",
-                                  { staticClass: "chat-message-right" },
-                                  [
-                                    _c(
-                                      "strong",
-                                      { staticClass: "border p-1" },
-                                      [_vm._v(_vm._s(message.image))]
-                                    )
-                                  ]
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            message.image != null
-                              ? _c(
-                                  "div",
-                                  { staticClass: "chat-message-right" },
-                                  [
-                                    message.user.id == _vm.user.id &&
-                                    message.image != null &&
-                                    message.image != "Image supprimée"
-                                      ? _c("span", [
-                                          _c(
-                                            "button",
-                                            {
-                                              staticClass:
-                                                "btn btn-outline-danger btn-sm mt-1 p-2",
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.deleteUpload(
-                                                    message
-                                                  )
-                                                }
-                                              }
-                                            },
-                                            [_vm._v("Supprimer cette image")]
-                                          )
-                                        ])
-                                      : _vm._e()
-                                  ]
-                                )
-                              : _vm._e()
-                          ])
-                        : _c("div", [
-                            _c(
-                              "div",
-                              { staticClass: "chat-message-left pb-2" },
-                              [
-                                _c("img", {
-                                  staticClass: "rounded-circle mr-1",
-                                  attrs: {
-                                    src:
-                                      "/storage/image/avatars/" +
-                                      message.user.avatar,
-                                    width: "40",
-                                    height: "40"
-                                  }
-                                }),
+                                ),
                                 _vm._v(" "),
+                                message.image != null &&
+                                message.image != "Image supprimée"
+                                  ? _c(
+                                      "div",
+                                      { staticClass: "chat-message-right" },
+                                      [
+                                        _c(
+                                          "a",
+                                          {
+                                            attrs: {
+                                              type: "button",
+                                              "data-toggle": "modal",
+                                              "data-target": "#modalYT"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.modal(
+                                                  _vm.channel.id,
+                                                  message.image
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("img", {
+                                              staticClass: "mr-1",
+                                              attrs: {
+                                                src:
+                                                  "/storage/image/images/" +
+                                                  _vm.channel.id +
+                                                  "/" +
+                                                  message.image,
+                                                width: "200"
+                                              }
+                                            })
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                message.image == "Image supprimée"
+                                  ? _c(
+                                      "div",
+                                      { staticClass: "chat-message-right" },
+                                      [
+                                        _c(
+                                          "strong",
+                                          { staticClass: "border p-1" },
+                                          [_vm._v(_vm._s(message.image))]
+                                        )
+                                      ]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                message.image != null
+                                  ? _c(
+                                      "div",
+                                      { staticClass: "chat-message-right" },
+                                      [
+                                        message.user.id == _vm.user.id &&
+                                        message.image != null &&
+                                        message.image != "Image supprimée"
+                                          ? _c("span", [
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "btn btn-outline-danger btn-sm mt-1 p-2",
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.deleteUpload(
+                                                        message
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "Supprimer cette image"
+                                                  )
+                                                ]
+                                              )
+                                            ])
+                                          : _vm._e()
+                                      ]
+                                    )
+                                  : _vm._e()
+                              ])
+                            : _c("div", [
                                 _c(
                                   "div",
-                                  {
-                                    staticClass:
-                                      "flex-shrink-1 text-break bg-lightm text-dark rounded py-2 px-3 ml-3"
-                                  },
-                                  [
-                                    _c(
-                                      "div",
-                                      { staticClass: "font-weight-bold mb-1" },
-                                      [_vm._v(_vm._s(message.user.name))]
-                                    ),
-                                    _vm._v(
-                                      "\n                                    " +
-                                        _vm._s(message.message) +
-                                        "\n                                "
-                                    )
-                                  ]
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            message.image != null &&
-                            message.image != "Image supprimée"
-                              ? _c(
-                                  "div",
-                                  { staticClass: "chat-message-left" },
+                                  { staticClass: "chat-message-left pb-2" },
                                   [
                                     _c("img", {
-                                      staticClass: "ml-1",
+                                      staticClass: "rounded-circle mr-1",
                                       attrs: {
                                         src:
-                                          "/storage/image/images/" +
-                                          _vm.channel.id +
-                                          "/" +
-                                          message.image,
-                                        width: "200"
+                                          "/storage/image/avatars/" +
+                                          message.user.avatar,
+                                        width: "40",
+                                        height: "40"
                                       }
-                                    })
-                                  ]
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            message.image == "Image supprimée"
-                              ? _c(
-                                  "div",
-                                  { staticClass: "chat-message-left" },
-                                  [
+                                    }),
+                                    _vm._v(" "),
                                     _c(
-                                      "strong",
-                                      { staticClass: "border p-1" },
-                                      [_vm._v(_vm._s(message.image))]
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "flex-shrink-1 text-break bg-lightm text-dark rounded py-2 px-3 ml-3"
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass: "font-weight-bold mb-1"
+                                          },
+                                          [_vm._v(_vm._s(message.user.name))]
+                                        ),
+                                        _vm._v(
+                                          "\n                                    " +
+                                            _vm._s(message.message) +
+                                            "\n                                "
+                                        )
+                                      ]
                                     )
                                   ]
-                                )
-                              : _vm._e()
-                          ])
-                    ])
-                  })
-                ],
-                2
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "py-2 px-4 border-bottom d-none d-lg-block" },
-                [
-                  _c("div", { staticClass: "d-flex align-items-center py-1" }, [
+                                ),
+                                _vm._v(" "),
+                                message.image != null &&
+                                message.image != "Image supprimée"
+                                  ? _c(
+                                      "div",
+                                      { staticClass: "chat-message-left" },
+                                      [
+                                        _c(
+                                          "a",
+                                          {
+                                            attrs: {
+                                              type: "button",
+                                              "data-toggle": "modal",
+                                              "data-target": "#modalYT"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.modal(
+                                                  _vm.channel.id,
+                                                  message.image
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("img", {
+                                              staticClass: "ml-1",
+                                              attrs: {
+                                                src:
+                                                  "/storage/image/images/" +
+                                                  _vm.channel.id +
+                                                  "/" +
+                                                  message.image,
+                                                width: "200"
+                                              }
+                                            })
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                message.image == "Image supprimée"
+                                  ? _c(
+                                      "div",
+                                      { staticClass: "chat-message-left" },
+                                      [
+                                        _c(
+                                          "strong",
+                                          { staticClass: "border p-1" },
+                                          [_vm._v(_vm._s(message.image))]
+                                        )
+                                      ]
+                                    )
+                                  : _vm._e()
+                              ])
+                        ]
+                      )
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "py-2 px-4 border-bottom d-none d-lg-block" },
+                  [
                     _c(
                       "div",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.typing,
-                            expression: "typing"
-                          }
-                        ],
-                        staticClass: "flex-grow-1 pl-3"
-                      },
+                      { staticClass: "d-flex align-items-center py-1" },
                       [
-                        _c("strong", [_vm._v(_vm._s(_vm.other))]),
-                        _vm._v(" "),
-                        _vm._m(0)
-                      ]
-                    )
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _vm.errors != [] || _vm.error != ""
-                ? _c(
-                    "div",
-                    [
-                      _vm._l(_vm.errors, function(error, index) {
-                        return _c(
-                          "p",
-                          { key: index, staticClass: "text-danger" },
+                        _c(
+                          "div",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.typing,
+                                expression: "typing"
+                              }
+                            ],
+                            staticClass: "flex-grow-1 pl-3"
+                          },
                           [
-                            _vm._v(
-                              "\n                        " +
-                                _vm._s(error[0]) +
-                                "\n                    "
-                            )
+                            _c("strong", [_vm._v(_vm._s(_vm.other))]),
+                            _vm._v(" "),
+                            _vm._m(0)
                           ]
                         )
-                      }),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "text-danger" }, [
-                        _vm._v(
-                          "\n                        " +
-                            _vm._s(_vm.error) +
-                            "\n                    "
-                        )
-                      ])
-                    ],
-                    2
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _c("post", {
-                attrs: { channel: _vm.channel, user: _vm.user },
-                on: { messagesent: _vm.addMessage }
-              })
-            ],
-            1
-          )
-        ],
-        1
-      )
-    ])
-  ])
+                      ]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _vm.errors != [] || _vm.error != ""
+                  ? _c(
+                      "div",
+                      [
+                        _vm._l(_vm.errors, function(error, index) {
+                          return _c(
+                            "p",
+                            { key: index, staticClass: "text-danger" },
+                            [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(error[0]) +
+                                  "\n                    "
+                              )
+                            ]
+                          )
+                        }),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "text-danger" }, [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(_vm.error) +
+                              "\n                    "
+                          )
+                        ])
+                      ],
+                      2
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("post", {
+                  attrs: { channel: _vm.channel, user: _vm.user },
+                  on: { messagesent: _vm.addMessage }
+                })
+              ],
+              1
+            )
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _vm.channelModal != "" && _vm.imageModal != ""
+        ? _c("modal", {
+            attrs: { channel: _vm.channelModal, image: _vm.imageModal }
+          })
+        : _vm._e()
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {

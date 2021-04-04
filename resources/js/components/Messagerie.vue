@@ -24,8 +24,10 @@
                                     </div>
                                 </div>
                                 <div class="chat-message-right" v-if="message.image != null && message.image != 'Image supprimée'">
-                                    <img :src="'/storage/image/images/'+channel.id+'/'+message.image"
+                                    <a @click="modal(channel.id, message.image)" type="button" data-toggle="modal" data-target="#modalYT">
+                                       <img :src="'/storage/image/images/'+channel.id+'/'+message.image"
                                         class="mr-1" width="200">
+                                    </a>
                                 </div>
                                  <div class="chat-message-right" v-if="message.image == 'Image supprimée'">
                                     <strong class="border p-1">{{message.image}}</strong>
@@ -47,8 +49,10 @@
                                     </div>
                                 </div>
                                  <div class="chat-message-left" v-if="message.image != null && message.image != 'Image supprimée'">
+                                 <a @click="modal(channel.id, message.image)" type="button" data-toggle="modal" data-target="#modalYT">
                                     <img :src="'/storage/image/images/'+channel.id+'/'+message.image"
                                         class="ml-1" width="200">
+                                 </a>
                                 </div>
                                  <div class="chat-message-left" v-if="message.image == 'Image supprimée'">
                                     <strong class="border p-1">{{message.image}}</strong>
@@ -77,22 +81,24 @@
                         </p>
                     </div>
                     <post :channel="channel" :user="user" v-on:messagesent="addMessage"></post>
-
                 </div>
             </div>
         </div>
+        <modal v-if="channelModal != '' && imageModal != ''" :channel="channelModal" :image="imageModal"></modal>
     </div>
 </template>
 
 <script>
     import post from './PostMessage'
     import member from './MemberChat'
+    import modal from './ImageModal'
     export default {
         props: ['channel', 'user'],
 
         components: {
             post,
-            member
+            member,
+            modal
         },
         data() {
             return {
@@ -102,7 +108,9 @@
                 typing: false,
                 other: '',
                 errors: [],
-                error: ''
+                error: '',
+                channelModal: '',
+                imageModal: ''
             }
         },
         methods: {
@@ -168,6 +176,10 @@
                 this.$nextTick(() => {
                     bodyChat.scrollTop = bodyChat.scrollHeight;
                 })
+            },
+            modal(channel, image){
+               this.channelModal = channel
+               this.imageModal = image
             }
         },
         created() {

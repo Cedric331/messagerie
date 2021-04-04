@@ -79,7 +79,7 @@ class MessageController extends Controller
          $request->validate([
             'file' => 'mimes:jpg,jpeg,png,pdf|max:2048'
          ]);
-         $file_name = time().$request->file->getClientOriginalName();
+         $file_name = time().rand(1,9999).'.'.$request->file->getClientOriginalExtension();
          $request->file('file')->storeAs(
           '/image/images/'.$channel->id, $file_name,'public'
           );
